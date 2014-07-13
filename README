@@ -7,15 +7,17 @@
 |	Credits
 |--------------------------------------------------------------------|
 
-		All Credit goes to the original code creators, especially to any author for the mods i selected for U-232.
+		All Credit goes to the original code creators, and especially to any author for the modifications I selected for U-232.
 
 		The original coders of torrentbits and especially to CoLdFuSiOn for carrying on the legacy with Tbdev.
 
+                XBT High-performance BitTorrent Tracker By Olaf van der Spek - http://code.google.com/p/xbt/
+
+                PimpMyLog - http://pimpmylog.com/
+
 		The coders of gazelle for the class.cache, sctbdev for various replacement code.
-               
-                XBT - http://code.google.com/p/xbt/ -  olafvdspek
-		
-		All other mods and snippets for this version from CoLdFuSiOn, putyn, pdq, djGrrr, Retro, elephant, ezero, Alex2005, system, sir_Snugglebunny, laffin, Wilba, Traffic, dokty, djlee, neptune, scars, Raw, soft, jaits, Melvinmeow, RogueSurfer, stoner, Stillapunk, swizzles, autotron, to many to list. 
+	
+		All other snippets, mods and contributions for this version from CoLdFuSiOn, putyn, pdq, djGrrr, Retro, elephant, ezero, Alex2005, system, sir_Snugglebunny, laffin, Wilba, Traffic, dokty, djlee, neptune, scars, Raw, soft, jaits, Melvinmeow, RogueSurfer, stoner, Stillapunk, swizzles, autotron. 
 		
 		U-232 wants to thank everyone who helped make it what it is today; shaping and directing our project, all through the thick and thin. It wouldn't have been possible without you. This includes our users and especially Beta Testers - thanks for installing and using u-232 source code as well as providing valuable feedback, bug reports, and opinions.
 
@@ -24,22 +26,24 @@
 |--------------------------------------------------------------------|
 
 		Lead Coders
-			Mindless, putyn
+			Mindless, autotron, Stoner
 			
 		Coders
-			Stillapunk, autotron, stoner, mistero, swizzles
+			Stillapunk, rich, Tundracanine, whocares
 
 		Support Specialists
-			Credit's to pdq/putyn for improvements in key areas on the code. Your input has been first class.
+			Credit's to pdq/putyn/elephant for improvements in key areas on the code. Your input has been first class.
 		
 		Lead Designer
 			RogueSurfer
 			
 		Designers
+			RogueSurfer, Swizzles, mistero
+		
+		Designers Support
 			Credit's to Kidvision & others for designs used in the v0+v1+v2 Installer projects.
 			Credit's to Roguesurfer for all v3&v4 design - Your a credit to this team.
-			Credit's to swizzles for his work on framework intergration and design layout for v4.
-
+			Credit's to swizzles and mistero for their work on framework intergration and design layout for v4.
 |--------------------------------------------------------------------|
 |	Special Thanks
 |--------------------------------------------------------------------|
@@ -51,8 +55,9 @@
 			The invaluable few who tirelessly find bugs, provide feedback, and drive the developers crazier. 
 			
 		Language Translators
+			iseeyoucopy, whocares, Tundrcanine
+
 			Thank you for your efforts which make it possible for people all around the world to use U-232. 
-                         whocares, iseeyoucopy, chevyman, 
 
 		Founding Father
 			Bigjoos 
