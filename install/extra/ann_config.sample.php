@@ -30,6 +30,7 @@ define('XBT_TRACKER', true);
 $INSTALLER09['cache'] = ROOT_DIR . 'cache';
 require_once (CLASS_DIR . 'class_cache.php');
 require_once (CLASS_DIR . 'class_bt_options.php');
+$INSTALLER09['pic_base_url'] = "./pic/";
 require_once (CACHE_DIR . 'class_config.php');
 require_once (CACHE_DIR . 'hit_and_run_settings.php');
 if (version_compare(PHP_VERSION, "5.1.0RC1", ">=")) date_default_timezone_set('Europe/London');
@@ -42,7 +43,7 @@ define('ANN_IP_LOGGING', 1);
 $INSTALLER09['announce_interval'] = 60 * 30;
 $INSTALLER09['min_interval'] = 60 * 15;
 $INSTALLER09['connectable_check'] = 1;
-$INSTALLER09['pic_base_url'] = "./pic/";
+
 $INSTALLER09['ann_sql_error_log'] = 'sqlerr_logs/ann_sql_err_' . date('M_D_Y') . '.log';
 $INSTALLER09['ann_sql_log'] = 'sqlerr_logs/ann_sql_query_' . date('M_D_Y') . '.log';
 $INSTALLER09['crazy_hour'] = false; //== Off for XBT
