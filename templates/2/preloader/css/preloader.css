@@ -1,0 +1,4 @@
+@charset "utf-8";
+/* CSS Document */
+.preloader { background:url(../images/preloader-gallery.gif) center center no-repeat #ffffff;  }
+#gallery .pic a {display: block;}

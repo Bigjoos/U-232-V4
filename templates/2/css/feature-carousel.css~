@@ -1,0 +1,217 @@
+/* dCodes Framework */
+
+
+
+.dc_clear { clear: both; padding: 0; margin: 0; width: 100%; font-size: 0px; line-height: 0px; }
+
+section#slide { margin: 0px auto 0; position: relative; width: 890px; z-index: 95; }
+
+header, nav, section, article, aside, footer { display: block; }
+
+#carousel-container { position: relative; width: 890px; padding: 20px 0 0; }
+
+#carousel { height: 367px; width: 890px; position: relative; }
+
+#carousel .carousel-image { border: 0; display: block; }
+
+#carousel .carousel-feature { position: absolute; top: -1000px; left: -1000px; cursor: pointer; }
+
+#carousel .carousel-feature a img { position: relative; z-index: 29; margin: 5px 0 0 5px; }
+
+#carousel .mask1 { background: none; height: 100% !important; left: 0 !important; top: 0 !important; width: 100% !important; overflow: hidden; }
+
+.mask1 { height: 457px; left: 0; position: absolute; top: -6px; width: 964px; z-index: 9; }
+
+.mask1 img { height: 100%; width: 100%; }
+
+#carousel .carousel-feature .carousel-caption { position: absolute; bottom: 38px; left: 21px; width: 91%; z-index: 9999; }
+
+#carousel .carousel-feature .carousel-caption p { margin: 0; text-shadow: none; color: #333333; }
+
+#carousel .tracker-summation-container { position: absolute; right: 48px; top: 230px; padding: 3px; margin: 3px; display: none !important; }
+
+#carousel .tracker-individual-container { position: absolute; right: 48px; top: 210px; padding: 0; margin: 0; display: none !important; }
+
+#carousel .tracker-individual-container li { list-style: none; }
+
+#carousel .tracker-individual-container .tracker-individual-blip { margin: 0 3px; padding: 0 3px; color: white; text-align: center; }
+
+#carousel .tracker-individual-container .tracker-individual-blip-selected { color: white; font-weight: bold; }
+
+.caption-head { background-color: rgba(0, 0, 0, 0.7); border-radius: 3px 3px 3px 3px; color: #FFFFFF; float: left; font-size: 18px; margin: 0 0 0; padding: 10px 15px; position: relative; }
+
+.text-capt { border-radius: 3px 3px 3px 3px; display: block; float: left; margin: 10px 0 0; padding: 10px 20px 10px 15px; text-shadow: none; }
+
+.text-capt { background-color: rgba(252, 252, 252, 0.7); color: #333333; text-shadow: none; }
+
+.navig-carousel:after { clear: both; content: ""; display: block; height: 0; }
+
+.navig-carousel { max-width: 940px; top: 160px; height: 0; margin: 0 auto; min-width: 950px; position: relative; z-index: 1099; }
+
+#scarousel-left { -moz-transition: margin-left 0.3s ease 0s; background: url("../images/carousel/arrow-l.png") no-repeat scroll 0 0 transparent; cursor: pointer; float: left; height: 41px; margin-left: -8px; width: 30px; }
+
+#scarousel-right { -moz-transition: margin-right 0.3s ease 0s; background: url("../images/carousel/arrow-r.png") no-repeat scroll right 0 transparent; cursor: pointer; float: right; margin-right: 18px; height: 41px; width: 30px; }
+
+#scarousel-left:hover { background-position: 0 -41px; padding-right: 5px; }
+
+#scarousel-right:hover { background-position: right -41px; padding-left: 5px; }
+
+
+
+
+
+/* Smaller than standard 960 (devices and browsers) */
+
+@media only screen and (max-width: 959px) {
+
+	
+
+.carousel-feature { width: 524px!important; height: 347px!important; }
+
+.carousel-feature.current { position: absolute!important; top: 4px!important; left: 215px!important; }
+
+	
+
+	}
+
+
+
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+
+
+section#slide { margin: 20px auto 0; position: relative; width: 700px; z-index: 95; }
+
+header, nav, section, article, aside, footer { display: block; }
+
+#carousel-container { position: relative; width: 700px; padding: 20px 0 0; }
+
+#carousel { height: 300px; width: 700px; position: relative; margin: -11px 0 0 -8px; }
+
+.navig-carousel { max-width: 700px; min-width: 700px; top: 130px; }
+
+
+
+.carousel-feature.right img { height: 89%!important; }
+
+#carousel .carousel-feature.right a img { height: 81%!important; }
+
+.carousel-feature.left img { height: 89%!important; }
+
+#carousel .carousel-feature.left a img { height: 81%!important; }
+
+#scarousel-right { margin-right: -54px!important; }
+
+#carousel .carousel-feature a img { width: 96.6%!important; height: 91%!important; }
+
+.carousel-feature { width: 348px!important; height: 290px!important; }
+
+.carousel-feature.current { position: absolute!important; top: 4px!important; left: 184px!important; }
+
+.carousel-feature.right { position: absolute; top: 20px!important; left: 375px!important; }
+
+#scarousel-right { margin-right: -10px!important; }
+
+}
+
+
+
+/* All Mobile Sizes (devices and browser) */
+
+@media only screen and (max-width: 767px) {
+
+
+
+#carousel .carousel-feature .carousel-caption { display: none!important; }
+
+
+
+}
+
+
+
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+
+
+section#slide { margin: 20px auto 0; position: relative; width: 400px; z-index: 95; margin-bottom: 30px; }
+
+header, nav, section, article, aside, footer { display: block; }
+
+#carousel-container { position: relative; width: 400px; padding: 20px 0 0; }
+
+#carousel { height: 164px; width: 400px; position: relative; margin: -11px 0 0 -8px; }
+
+.navig-carousel { max-width: 420px; min-width: 420px; top: 74px; }
+
+.carousel-feature { width: 199px!important; height: 165px!important; }
+
+.carousel-feature.current { position: absolute!important; top: 4px!important; left: 100px!important; }
+
+.carousel-feature.right { position: absolute; top: 20px!important; left: 218.9px!important; }
+
+.carousel-feature.right img { height: 83%!important; }
+
+#carousel .carousel-feature.right a img { height: 73%!important; }
+
+.carousel-feature.left img { height: 83%!important; }
+
+#carousel .carousel-feature.left a img { height: 73%!important; }
+
+#scarousel-right { margin-right: 13px!important; }
+
+#carousel .carousel-feature a img { width: 95%!important; height: 89%!important; }
+
+
+
+}
+
+
+
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+
+@media only screen and (max-width: 479px) {
+
+
+
+section#slide { margin: 20px auto 0; position: relative; width: 280px; z-index: 95; margin-bottom: 30px; }
+
+header, nav, section, article, aside, footer { display: block; }
+
+#carousel-container { position: relative; width: 280px; padding: 20px 0 0; }
+
+#carousel { height: 117px; width: 280px; position: relative; margin: -11px 0 0 -8px; }
+
+.navig-carousel { max-width: 280px; min-width: 280px; top: 55px; }
+
+
+
+.carousel-feature { width: 135px!important; height: 121px!important; }
+
+.carousel-feature.current { position: absolute!important; top: 4px!important; left: 75px!important; }
+
+.carousel-feature.right { position: absolute; top: 20px!important; left: 162.5px!important; }
+
+.carousel-feature.right img { height: 80%!important; }
+
+#carousel .carousel-feature.right a img { height: 68%!important; }
+
+.carousel-feature.left img { height: 80%!important; }
+
+#carousel .carousel-feature.left a img { height: 68%!important; }
+
+#scarousel-right { margin-right: -54px!important; }
+
+#carousel .carousel-feature a img { width: 92.8%!important; height: 86%!important; }
+
+#scarousel-right { margin-right: -10px!important; }
+
+
+
+
+
+}

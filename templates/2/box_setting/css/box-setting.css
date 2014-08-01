@@ -1,0 +1,65 @@
+/* dCodes Framework */
+/* panel-side-setting */
+/* 
+To show Design ToolBox, remove css-proprety: display: none;
+*/
+#panel_setting_side {position:fixed; top:3px; left:0; min-height:200px; font-family:Tahoma, Geneva, sans-serif; z-index:80000000; }
+#panel_setting_side.right { left:auto; right:0; }
+#panel_setting_side .panel_box_title { font: 18px Tahoma, Geneva, sans-serif; margin:0 0 10px; color:#000; }
+#panel_setting_side hr { border:0; border-top: 1px solid #C8C8C8; margin: 6px 0 5px; }
+#panel_setting_side .h1,
+#panel_setting_side .h2,
+#panel_setting_side .h3,
+#panel_setting_side .h4 { padding:0; margin:0; border:0; float:none; }
+#panel_setting_side .stBlock hr { border-style:dotted; }
+#panel_setting_side img { border:0; overflow:hidden;}
+
+.panel_button a { display:block; position:absolute; left:132px; top:30px; width:30px; height:33px; text-align:center; line-height:29px; font-size:16px; font-weight:bold; background-color:#FFF; border:1px solid #999; border-left:0; border-radius:0 10px 10px 0; color:#999; font-family:Verdana, Geneva, sans-serif; -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); text-shadow: black 1px 1px 1px, 0 0 1em; }
+.right .panel_button a { left:auto; right:132px; border:1px solid #999; border-right:0; border-radius:10px 0 0 10px;  }
+
+.panel_button img { padding:9px 0 0; }
+
+.panel_box { position:relative; background-color:#FFF; border:1px solid #999; border-radius:0 10px 10px 0; min-height:200px; width:120px; padding:5px; -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
+.right .panel_box { border-radius:10px 0 0 10px; width:120px; right:0; left:28px; }
+
+.panel_box .stBgs { clear:both; }
+.panel_box span.panel_title { display:block; font-size:12px; padding:4px 0; color:#333; line-height:14px; }
+.panel_box span.panel_title_link { display:block; font-size:14px; line-height:20px; color:#222; cursor:pointer; }
+.panel_box span.open_palette,
+.panel_box span.close_palette { float:right; cursor:pointer;}
+.panel_box .stColor span,
+.panel_box .stBgs a { display:block; float:left; width:15px; height:10px; border:1px solid #666; margin:1px; overflow: hidden; }
+.panel_box .stColorNow { color:#666; font-size:11px; line-height:12px; cursor:pointer;}
+.panel_box .stColorNow span { display:inline-block; width:15px; height:10px; border:1px solid #666; margin:1px;}
+.panel_box .stColorNow span:hover,
+.panel_box .stColor span:hover { border:1px solid #666; cursor:pointer; -moz-box-shadow:inset 0 0 5px rgba(0, 0, 0, 0.5); -webkit-box-shadow:inset 0 0 5px rgba(0, 0, 0, 0.5); box-shadow:inset 0 0 5px rgba(0, 0, 0, 0.5); color:#666; }
+.panel_box .stChangeBgList { font-size:9px;}
+.panel_box .stChangeBgList span { padding:3px 1px; cursor:pointer; }
+.panel_box .stChangeBgList span.active { background:#CCC; color:#666; }
+.panel_box span.remove_background { color:#666; font-size:11px; cursor:pointer; }
+
+.spinn_block { display:block; height:25px; }
+.spinn_block span { display:block; width:18px; height:25px; float:left; text-align:center; line-height:23px; font-size:12px; color:#000; cursor:pointer;}
+.spinn_block input { display:block; width:37px; height:25px; float:left; margin:0; padding:0; text-align:center; line-height:18px; border:1px solid #999; border-left:0; border-right:0; color:#000; }
+.spinn_block span.spin_l { border-radius:10px 0 0 10px; border:1px solid #999; }
+.spinn_block span.spin_r { border-radius:0 10px 10px 0; border:1px solid #999; }
+.body_fonts select,
+.header_fonts select { width:115px; border-radius:5px; }
+.stBlock { clear:both; }
+.stBlock button { border:1px solid #999; background:#FFF; margin:2px; -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); border-radius:3px; }
+.message_debug_options { position:absolute; top:100px; left:200px; width:200px; background:#FFF; z-index:1010; padding:5px; }
+.message_debug_defoptions { position:absolute; top:100px; left:420px; width:200px; background:#FFF; z-index:1010; padding:5px; }
+.message_debug_cookies { position:absolute; top:100px; left:640px; width:200px; background:#FFF; z-index:1010; padding:5px; }
+
+/* open data info */
+.popup_fly { display:none; position:fixed; top:100px; left:200px; min-width:300px; padding:5px; z-index:1010; border:1px solid #999; background:#FFF; -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); border-radius:5px; font:normal 14px/20px "Lucida Sans Unicode", "Lucida Grande", sans-serif; color: rgb(114, 114, 114); }
+.popup_fly .close_popup { float:right; }
+.popup_fly .style_demo_title { padding:15px 15px 0; font-size:16px; font-weight:bold; color:#000; }
+.popup_fly .style_demo_text { padding:15px; }
+
+/* Save setting */
+#overlaySave { display:block; background-color:rgba(0,0,0,0.5); position:fixed; top:0; left:0; right:0; bottom:0; z-index:2000000;}
+.SaveSettingSubject { background-color:rgba(230,230,230,1); position:fixed; top:50%; bottom:50%; left:50%; right:50%; width:200px; height:50px; margin:-25px -100px; text-align:center; border:1px solid #999; border-radius:5px; -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); font:bold 24px/50px Tahoma, Geneva, sans-serif; color:#333;}
+	@media only screen and (max-width: 767px) {
+#panel_setting_side { position:absolute; top:50%; }
+	}

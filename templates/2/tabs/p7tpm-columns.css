@@ -1,0 +1,121 @@
+/*Turn off Padding in existing TPM content pabnels*/
+.p7TPMcontent {
+	padding: 0px !important;
+}
+
+/*Conditionally add padding to default content panels*/
+.p7tpm-col-wrapper.no-columns {
+	padding: 20px 28px;
+}
+
+/*Conditionally remove padding to default content panels that contain multi-column structures*/
+.no-columns, .multi-columns {font-size: inherit;}
+.p7tpm-col-wrapper.multi-columns {
+	padding: 0px;
+}
+/*Default content padding*/
+.p7tpm-column-content {
+	padding: 20px 28px;
+	display: block;
+}
+
+.p7tpm-col-wrapper {
+	zoom: 1;
+}
+
+/*Clear Floats for Column Structures inside content panels*/
+.p7tpm-col-wrapper:before, .p7tpm-col-wrapper:after {
+	content: ".";
+	display: block;
+	height: 0;
+	overflow: hidden;
+}
+.p7tpm-col-wrapper:after {
+	clear: both;
+}
+
+/*Various column widths*/
+.width-50 {
+	width: 50%;
+	float: left;
+}
+.width-25 {
+	float: left;
+	width: 25%;
+}
+.sidebar-left.width-main-75 {
+	width: 75%;
+	float: right;
+}
+.sidebar-left.width-25 {
+	width: 25%;
+	float: right;
+	font-size: .9em;
+}
+.sidebar-right.width-main-75 {
+	width: 75%;
+	float: left;
+}
+.sidebar-right.width-25 {
+	width: 25%;
+	float: left;
+	font-size: .9em;
+}
+.width-33 {
+	width: 33.333%;
+	float: left;
+}
+.width-22 {
+	width: 22%;
+	float: left;
+	font-size: .85em;
+}
+.push-left-56 {
+	position: relative;
+	left: -56%;
+}
+.width-56 {
+	width: 56%;
+	float: left;
+}
+.push-right-22 {
+	position: relative;
+	left: 22%;
+}
+
+
+/*Column separators (vertical border)*/
+.border-left {
+	border-left: 1px solid #000;
+}
+.p7TPMcwrapper_14 .border-left {
+	border-left: 6px solid #FFF;
+}
+
+/*1 Column for Narrow Browser Windows and Smartphones in both orientations*/
+@media only screen and (min-width: 0px) and (max-width: 799px) {
+
+.p7tpm-column {
+	width: auto !important;
+	float: none !important;
+	position: static !important;
+}
+.p7tpm-column-content {
+	padding: 10px 16px 2px 16px;
+	height: auto !important;
+	max-height: 888678px !important;
+	border: none !important;
+}
+.p7tpm-column-content h2 {
+	margin: 0px;
+}
+.border-left {
+	border-left: none;
+}
+.p7TPMcwrapper_12.arrows_on, .p7TPMcwrapper_16.arrows_on, .p7TPMcwrapper_07.arrows_on {
+	border-radius: 4px 4px 4px 4px;
+}
+.p7tpm-col-wrapper:before, .p7tpm-col-wrapper:after {
+	display: none;
+}
+}

@@ -1,0 +1,33 @@
+/* Tiny Carousel */
+#slider1 { height: 610px; overflow:hidden; padding:0; margin:0;   }
+.btns { background: url(images/body_bg.png) repeat left top;}
+#slider1 h2.sl {  margin:40px 0 0 20px;}
+#slider1 .viewport { margin:0; padding:0; float: left; width:1020px; height:610px; overflow: hidden; position: relative; }
+#slider1 .buttons {  display: block;  float:right; width:21px; height: 21px; text-indent:-999em; overflow: hidden;  position: relative; bottom:21px; right:20px;   }
+#slider1 .prev { background: url(../images/left_ar.png) top no-repeat; margin-right:3px;   }
+#slider1 .next { background: url(../images/right_ar.png) top no-repeat;  }
+#slider1 .prev:hover { background: url(../images/left_ar_a.png) top no-repeat;   }
+#slider1 .next:hover { background:url(../images/right_ar_a.png) top no-repeat;   }
+#slider1 .disable { visibility: visible; }
+#slider1 .overview { list-style: none; position: absolute; padding: 0; margin: 0; width:auto; left: 0 top: 0; }
+#slider1 .overview li{ float: left; margin: 20px 2px 0 0; padding:0; height: auto; width:1020px;}
+#slider1 .overview li a { margin:2px;}
+
+/* responsive width */
+@media screen and (min-width:480px) and (max-width:800px) {
+  /* Target landscape smartphones, portrait tablets, narrow desktops  */
+#slider1 .viewport { margin:0 10px 0 0; padding:0; float: left; width:648px; height:450px; overflow: hidden; position: relative; }
+}
+
+@media screen and (max-width:479px) {
+  /* Target portrait smartphones */
+#slider1 .viewport { margin:0 10px 0 0; padding:0; float: left; width:324px;; height:450px; overflow: hidden; position: relative; }
+}
+@media all and (orientation: landscape) {
+  /* Target device in landscape mode */
+}
+
+@media all and (orientation: portrait) {
+  /* Target device in portrait mode */
+}
+/* END responsive width */
