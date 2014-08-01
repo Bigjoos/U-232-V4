@@ -1925,7 +1925,7 @@ CREATE TABLE IF NOT EXISTS `peers` (
   KEY `last_action` (`last_action`),
   KEY `connectable` (`connectable`),
   KEY `userid` (`userid`),
-  KEY `passkey` (`passkey`),
+  KEY `torrent_pass` (`torrent_pass`),
   KEY `torrent_connect` (`torrent`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
 
@@ -3011,7 +3011,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `last_access` (`last_access`),
   KEY `enabled` (`enabled`),
   KEY `warned` (`warned`),
-  KEY `pkey` (`torrent_pass`),
+  KEY `T_Pass` (`torrent_pass`),
   KEY `free_switch` (`free_switch`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
 
