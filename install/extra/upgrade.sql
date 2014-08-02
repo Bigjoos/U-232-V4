@@ -293,7 +293,8 @@ INSERT INTO `staffpanel` (`id`, `page_name`, `file_name`, `description`, `type`,
 (70, 'Class Configurations', 'staffpanel.php?tool=class_config', 'Configure site user groups', 'settings', 6, 1, 1366566489),
 (71, 'Class Promotions', 'staffpanel.php?tool=class_promo', 'Set Promotion Critera', 'settings', 6, 1, 1396513263),
 (72, 'Comment viewer', 'staffpanel.php?tool=comments', 'Comment overview page', 'user', 4, 1, 1403735418),
-(73, 'Moderated torrents', 'staffpanel.php?tool=modded_torrents', 'Manage moderated torrents here', 'other', 4, 1, 1406722110);
+(73, 'Moderated torrents', 'staffpanel.php?tool=modded_torrents', 'Manage moderated torrents here', 'other', 4, 1, 1406722110),
+(74, 'Opcode Manage', 'staffpanel.php?tool=op', 'View Opcode manager', 'other', 6, 1, 1305728681),;
 
 -- --------------------------------------------------------
 

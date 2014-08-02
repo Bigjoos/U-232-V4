@@ -125,6 +125,7 @@ U-232 V4
 		Ensure your error reporting is enabled on the server and you are logging the errors and not just displaying them.
 		A error on install is a failure to adhere to setup instructions.
 		If you experience a failure then a properly configured server will report that issue, no excuses required.
+                Install memcache and zend opcode cache before installing U-232 V4.
 
 		1. Create a directory one up from root so it resides beside it not inside it, named bucket.
 			Then inside the bucket folder make another and name it avatar.
