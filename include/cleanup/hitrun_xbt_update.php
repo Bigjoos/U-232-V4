@@ -104,7 +104,7 @@ function docleanup($data)
 	         sql_query("INSERT INTO messages (sender, receiver, added, msg, subject, poster) VALUES ".implode(',',$_pms)) or sqlerr(__FILE__, __LINE__);	
 	         if(count($_users) > 0)
 	         sql_query("INSERT INTO users(id,downloadpos,hnrwarn,can_leech,modcomment) VALUES ".implode(',',$_users)." ON DUPLICATE key UPDATE downloadpos=values(downloadpos),hnrwarn=values(hnrwarn),can_leech=values(can_leech),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
-                 sql_query('UPDATE xbt_files_users SET mark_of_cain = \'no\', hit_and_run = '0' WHERE uid='.sqlesc($arr_good_boy['id'])) or sqlerr(__FILE__, __LINE__);
+                 sql_query('UPDATE xbt_files_users SET mark_of_cain = \'no\', hit_and_run = \'0\' WHERE uid='.sqlesc($arr_good_boy['id'])) or sqlerr(__FILE__, __LINE__);
             //fid='.sqlesc($arr['fid']).' AND
 	    unset($_pms,$_users);
             $mc1->begin_transaction('user' . $arr_good_boy['id']);
