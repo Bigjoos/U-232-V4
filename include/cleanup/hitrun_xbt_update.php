@@ -36,7 +36,7 @@ function docleanup($data)
     $hnr = TIME_NOW - $secs;
     $res = sql_query('SELECT fid, uid FROM xbt_files_users WHERE seedtime = \'0\' OR seedtime < '.sqlesc($hnr).' AND completed>=\'1\' AND downloaded >\'0\' AND active=\'0\'') or sqlerr(__FILE__, __LINE__);
     while ($arr = mysqli_fetch_assoc($res)) {
-        sql_query('UPDATE xbt_files_users SET mark_of_cain = \'yes\', hit_and_run = '.TIME_NOW.' WHERE  fid='.sqlesc($arr['fid']).' AND uid='.sqlesc($arr['uid'])) or sqlerr(__FILE__, __LINE__);
+        sql_query('UPDATE xbt_files_users SET mark_of_cain = \'yes\', hit_and_run = '.TIME_NOW.' WHERE fid='.sqlesc($arr['fid']).' AND uid='.sqlesc($arr['uid'])) or sqlerr(__FILE__, __LINE__);
     }
     //=== hit and run... disable Downloading rights if they have x marks of cain
     $res_fuckers = sql_query('SELECT COUNT(*) AS poop, xbt_files_users.uid, users.username, users.modcomment, users.hit_and_run_total, users.downloadpos, users.can_leech FROM xbt_files_users LEFT JOIN users ON xbt_files_users.uid = users.id WHERE xbt_files_users.mark_of_cain = \'yes\' AND users.hnrwarn = \'no\' AND users.immunity = \'0\' GROUP BY xbt_files_users.uid') or sqlerr(__FILE__, __LINE__);
@@ -89,7 +89,7 @@ function docleanup($data)
     //=== hit and run... turn their DLs back on if they start seeding again
     $res_good_boy = sql_query('SELECT id, username, modcomment FROM users WHERE hnrwarn = \'yes\' AND downloadpos = \'0\' AND can_leech=\'0\'') or sqlerr(__FILE__, __LINE__);
     while ($arr_good_boy = mysqli_fetch_assoc($res_good_boy)) {
-        $res_count = sql_query('SELECT COUNT(*) FROM xbt_files_users WHERE uid = '.sqlesc($arr_good_boy['id']).' AND mark_of_cain = \'yes\'') or sqlerr(__FILE__, __LINE__);
+        $res_count = sql_query('SELECT COUNT(*) FROM xbt_files_users WHERE uid = '.sqlesc($arr_good_boy['id']).' AND mark_of_cain = \'yes\' AND active=\'1\'') or sqlerr(__FILE__, __LINE__);
         $arr_count = mysqli_fetch_row($res_count);
         if ($arr_count[0] < $INSTALLER09['cainallowed']) {
             //=== set them to yes DLs
