@@ -35,7 +35,8 @@ function docleanup($data)
         while ($arr = mysqli_fetch_assoc($res)) {
             /*if ($arr['tcount'] >= 5) $arr['tcount'] = 1;*/
             $Buffer_User = (XBT_TRACKER == true ? $arr['uid'] : $arr['userid']);
-            $users_buffer[] = '(' . $Buffer_User . ',0.225 * ' . $arr['tcount'] . ')';
+            $users_buffer[] = '(' . $Buffer_User . ', '.$INSTALLER09['bonus_per_duration'].' * ' . $arr['tcount'] . ')';
+            $update['seedbonus'] = ($arr['seedbonus'] + $INSTALLER09['bonus_per_duration'] * $arr['tcount']);
             $update['seedbonus'] = ($arr['seedbonus'] + 0.225 * $arr['tcount']);
             $mc1->begin_transaction('userstats_' . $Buffer_User);
             $mc1->update_row(false, array(

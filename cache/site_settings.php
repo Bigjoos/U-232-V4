@@ -1,6 +1,6 @@
 <?php
 /**
-This file created on Jun 30 2014 14:19:20.
+This file created on Aug 03 2014 01:05:35.
 Site Config mod by stoner with a little help from pdq for U-232.
 **/
 $INSTALLER09['site_online'] = 1;
@@ -16,4 +16,13 @@ $INSTALLER09['ratio_free'] = false;
 $INSTALLER09['captcha_on'] = true;
 $INSTALLER09['dupeip_check_on'] = true;
 $INSTALLER09['totalneeded'] = 60;
+$INSTALLER09['bonus_per_duration'] = 0.225;
+$INSTALLER09['bonus_per_download'] = 20;
+$INSTALLER09['bonus_per_comment'] = 3;
+$INSTALLER09['bonus_per_upload'] = 15;
+$INSTALLER09['bonus_per_rating'] = 5;
+$INSTALLER09['bonus_per_topic'] = 8;
+$INSTALLER09['bonus_per_post'] = 5;
+$INSTALLER09['bonus_per_delete'] = 15;
+$INSTALLER09['bonus_per_thanks'] = 5;
 ?>

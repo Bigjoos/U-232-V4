@@ -109,10 +109,10 @@ case 'add':
     }
     if ($INSTALLER09['seedbonus_on'] == 1) {
         // ===add karma
-        sql_query("UPDATE users SET seedbonus = seedbonus+5.0 WHERE id =" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_thanks'])." WHERE id =" . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
         $sql = sql_query('SELECT seedbonus ' . 'FROM users ' . 'WHERE id = ' . sqlesc($uid)) or sqlerr(__FILE__, __LINE__);
         $User = mysqli_fetch_assoc($sql);
-        $update['seedbonus'] = ($User['seedbonus'] + 5);
+        $update['seedbonus'] = ($User['seedbonus'] + $INSTALLER09['bonus_per_thanks']);
         $mc1->begin_transaction('userstats_' . $uid);
         $mc1->update_row(false, array(
             'seedbonus' => $update['seedbonus']

@@ -90,8 +90,8 @@ $mc1->delete_value('torrent_details_text' . $id);
 write_log("{$lang['delete_torrent']} $id ({$row['name']}){$lang['delete_deleted_by']}{$CURUSER['username']} ($reasonstr)\n");
 if ($INSTALLER09['seedbonus_on'] == 1) {
     //===remove karma
-    sql_query("UPDATE users SET seedbonus = seedbonus-15.0 WHERE id = " . sqlesc($row["owner"])) or sqlerr(__FILE__, __LINE__);
-    $update['seedbonus'] = ($CURUSER['seedbonus'] - 15);
+    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($INSTALLER09['bonus_per_delete'])." WHERE id = " . sqlesc($row["owner"])) or sqlerr(__FILE__, __LINE__);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_delete']);
     $mc1->begin_transaction('userstats_' . $row["owner"]);
     $mc1->update_row(false, array(
         'seedbonus' => $update['seedbonus']

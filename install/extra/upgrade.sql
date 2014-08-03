@@ -285,6 +285,20 @@ CREATE TABLE IF NOT EXISTS `referrers` (
 --
 
 -- --------------------------------------------------------
+
+INSERT INTO `site_config` (`name`, `value`) VALUES
+('bonus_per_duration', '0.225'),
+('bonus_per_download', '20'),
+('bonus_per_comment', '3'),
+('bonus_per_upload', '15'),
+('bonus_per_rating', '5'),
+('bonus_per_topic', '8'),
+('bonus_per_post', '5'),
+('bonus_per_delete', '15'),
+('bonus_per_thanks', '5');
+
+-- --------------------------------------------------------
+
 ALTER TABLE `staffpanel` ADD `type` enum('user','settings','stats','other') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'user' AFTER description;
 INSERT INTO `staffpanel` (`id`, `page_name`, `file_name`, `description`, `type`, `av_class`, `added_by`, `added`) VALUES
 (67, 'Hit and run manager', 'staffpanel.php?tool=hit_and_run_settings', 'Manage all hit and run settings here', 'settings', 6, 1, 1373110790),

@@ -2372,7 +2372,16 @@ INSERT INTO `site_config` (`name`, `value`) VALUES
 ('ratio_free', 'false'),
 ('captcha_on', 'true'),
 ('dupeip_check_on', 'true'),
-('totalneeded', '60');
+('totalneeded', '60'),
+('bonus_per_duration', '0.225'),
+('bonus_per_download', '20'),
+('bonus_per_comment', '3'),
+('bonus_per_upload', '15'),
+('bonus_per_rating', '5'),
+('bonus_per_topic', '8'),
+('bonus_per_post', '5'),
+('bonus_per_delete', '15'),
+('bonus_per_thanks', '5');;
 
 -- --------------------------------------------------------
 

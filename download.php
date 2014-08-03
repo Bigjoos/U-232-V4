@@ -44,7 +44,26 @@ if (happyHour('check') && happyCheck('checkid', $row['category']) && XBT_TRACKER
     sql_query('INSERT INTO happyhour (userid, torrentid, multiplier ) VALUES (' . sqlesc($CURUSER['id']) . ',' . sqlesc($id) . ',' . sqlesc($multiplier) . ')') or sqlerr(__FILE__, __LINE__);
     $mc1->delete_value($CURUSER['id'] . '_happy');
 }
-if (($CURUSER['downloadpos'] == 0 || $CURUSER['downloadpos'] > 1 || $CURUSER['suspended'] == 'yes') && !($CURUSER['id'] == $row['owner'])) stderr("Error", "Your download rights have been disabled.");
+if ($INSTALLER09['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
+    //===remove karma
+    sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($INSTALLER09['bonus_per_download'])." WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_download']);
+    $mc1->begin_transaction('userstats_' . $row["owner"]);
+    $mc1->update_row(false, array(
+        'seedbonus' => $update['seedbonus']
+    ));
+    $mc1->commit_transaction($INSTALLER09['expires']['u_stats']);
+    $mc1->begin_transaction('user_stats_' . $row["owner"]);
+    $mc1->update_row(false, array(
+        'seedbonus' => $update['seedbonus']
+    ));
+    $mc1->commit_transaction($INSTALLER09['expires']['user_stats']);
+    //===end
+    
+}
+if (($CURUSER['downloadpos'] == 0 || $CURUSER['can_leech'] == 0 || $CURUSER['downloadpos'] > 1 || $CURUSER['suspended'] == 'yes') && !($CURUSER['id'] == $row['owner'])) stderr("Error", "Your download rights have been disabled.");
+if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $INSTALLER09['bonus_per_download']))
+stderr("Error", "Your dont have have credit to download, trying seeding back some torrents =]");
 if ($row['vip'] == 1 && $CURUSER['class'] < UC_VIP) stderr('VIP Access Required', 'You must be a VIP In order to view details or download this torrent! You may become a Vip By Donating to our site. Donating ensures we stay online to provide you more Vip-Only Torrents!');
 sql_query("UPDATE torrents SET hits = hits + 1 WHERE id = " . sqlesc($id));
 /** free mod by pdq **/

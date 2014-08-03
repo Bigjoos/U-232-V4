@@ -92,19 +92,19 @@ if ($action == 'add') {
         $arr['comments'] = (isset($arr['comments']) ? $arr['comments'] : 0);
         if ($CURUSER['id'] == $owner && $arr['anonymous'] == 'yes' || (isset($_POST['anonymous']) && $_POST['anonymous'] == 'yes')) $anon = "'yes'";
         else $anon = "'no'";
-        //$scheck = ($INSTALLER09['comment_check'] == 0 ? 1 : ($INSTALLER09['comment_check'] === 1 && $CURUSER['class'] >= $INSTALLER09['comment_min_class'] ? 1 : 0));
+    
         sql_query("INSERT INTO comments (user, $locale, added, text, ori_text, anonymous) VALUES (" . sqlesc($CURUSER["id"]) . ", " . sqlesc($id) . ", " . TIME_NOW . ", " . sqlesc($body) . ", " . sqlesc($body) . ", $anon)");
         $newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
         sql_query("UPDATE $table_type SET comments = comments + 1 WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         if ($INSTALLER09['seedbonus_on'] == 1) {
-            if ($INSTALLER09['karma'] && isset($CURUSER['seedbonus'])) sql_query("UPDATE users SET seedbonus = seedbonus+3.0 WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+            if ($INSTALLER09['karma'] && isset($CURUSER['seedbonus'])) sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_comment'])." WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
             $update['comments'] = ($arr['comments'] + 1);
             $mc1->begin_transaction('torrent_details_' . $id);
             $mc1->update_row(false, array(
                 'comments' => $update['comments']
             ));
             $mc1->commit_transaction(0);
-            $update['seedbonus'] = ($CURUSER['seedbonus'] + 3);
+            $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_comment']);
             $mc1->begin_transaction('userstats_' . $CURUSER["id"]);
             $mc1->update_row(false, array(
                 'seedbonus' => $update['seedbonus']
@@ -129,9 +129,6 @@ if ($action == 'add') {
         }
         // ---end---//
         header("Refresh: 0; url=$locale_link.php?id=$id$extra_link&viewcomm=$newid#comm$newid");
-        //header("Refresh:".($INSTALLER09['comment_check'] ? 3: 0)."; url=$locale_link.php?id=$id$extra_link&viewcomm=$newid#comm$newid");
-        //if($INSTALLER09['comment_check'] && $CURUSER['class'] < $INSTALLER09['comment_min_class'])
-        //stderr($lang['capp_ss'],$lang['capp_msg']);
         die;
     }
     $id = (isset($_GET['tid']) ? (int)$_GET['tid'] : 0);
@@ -252,24 +249,6 @@ if ($action == 'add') {
     echo stdhead("{$lang['comment_original']}", true, $stdhead) . $HTMLOUT . stdfoot($stdfoot);
     die;
 }
-/*elseif($action == 'approve' || $action == 'disapprove' && $CURUSER['class'] >= UC_STAFF) {
-		$cid = isset($_GET['cid']) ? 0+$_GET['cid'] : 0;
-		$ref = isset($_GET['ref']) ? $_GET['ref'] : '/browse.php';
-		if (!is_valid_id($cid))
-			stderr($lang['comment_error'], $lang['comment_invalid_id']);
-			
-		if($action == 'approve')
-			sql_query('UPDATE comments SET scheck = 1 WHERE id = '.sqlesc($cid)) or sqlerr(__FILE__,__LINE__);
-		else {
-			$qr = sql_query('SELECT c.user,t.name,t.id FROM comments as c LEFT JOIN torrents as t ON t.id = c.torrent WHERE c.id = '.sqlesc($cid)) or sqlerr(__FILE__,__LINE__);
-			$ar = mysqli_fetch_assoc($qr);
-			sql_query('INSERT into messages(sender,receiver,subject,msg,added) VALUES(0,'.sqlesc($ar['user']).','.sqlesc($lang['cappr_msg_sub']).','.sqlesc(sprintf($lang['cappr_msg2'],$INSTALLER09['baseurl'],$ar['id'],$ar['name'],$INSTALLER09['site_name'])).','.TIME_NOW.')') or sqlerr(__FILE__,__LINE__);
-			sql_query('DELETE FROM comments where id= '.sqlesc($cid)) or sqlerr(__FILE__,__LINE__);
-		}
-		header("Refresh: 3; url=".$ref);
-		stderr($lang['capp_ss'], $action == 'approve' ? $lang['capp_msg_a'] : $lang['capp_msg_d']);
-		
-	}*/
 else stderr("{$lang['comment_error']}", "{$lang['comment_unknown']}");
 die;
 ?>

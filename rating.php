@@ -46,7 +46,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
         }
         if ($INSTALLER09['seedbonus_on'] == 1) {
             //===add karma
-            $amount = ($what == 'torrent' ? '5' : '3');
+            $amount = ($what == 'torrent' ? $INSTALLER09['bonus_per_rating'] : '3');
             sql_query("UPDATE users SET seedbonus = seedbonus+$amount WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $amount);
             $mc1->begin_transaction('userstats_' . $CURUSER["id"]);

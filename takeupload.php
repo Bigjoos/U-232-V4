@@ -260,9 +260,9 @@ chmod($dir, 0664);
 //==
 if ($INSTALLER09['seedbonus_on'] == 1) {
     //===add karma
-    sql_query("UPDATE users SET seedbonus=seedbonus+15.0, numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
+    sql_query("UPDATE users SET seedbonus=seedbonus+".sqlesc($INSTALLER09['bonus_per_upload']).", numuploads=numuploads+1 WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     //===end
-    $update['seedbonus'] = ($CURUSER['seedbonus'] + 15);
+    $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_upload']);
     $mc1->begin_transaction('userstats_' . $CURUSER["id"]);
     $mc1->update_row(false, array(
         'seedbonus' => $update['seedbonus']
