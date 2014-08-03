@@ -217,7 +217,7 @@ elseif ($action == "social") {
 elseif ($action == "location") {
     $HTMLOUT.= "<div class='offset1 pull-left'>
 	<table class='table table-bordered'>";
-    $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='personal' />Location Options</td></tr>";
+    $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='location' />Location Options</td></tr>";
     //==Time Zone
     $HTMLOUT.= tr($lang['usercp_tz'], $time_select, 1);
     $HTMLOUT.= tr($lang['usercp_checkdst'], "<input type='checkbox' name='checkdst' id='tz-checkdst' onclick='daylight_show()' value='1' $dst_correction />&nbsp;{$lang['usercp_auto_dst']}<br />

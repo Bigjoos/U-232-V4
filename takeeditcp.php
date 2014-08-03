@@ -353,11 +353,6 @@ elseif ($action == "personal") {
         $curuser_cache['title'] = $title;
         $user_cache['title'] = $title;
     }
-    if (isset($_POST['language']) && (($language = (int)$_POST['language']) != $CURUSER['language'])) {
-        $updateset[] = 'language = ' . sqlesc($language);
-        $curuser_cache['language'] = $language;
-        $user_cache['language'] = $language;
-    }
     //status update
     if (isset($_POST['status']) && ($status = $_POST['status']) && !empty($status)) {
         $status_archive = ((isset($CURUSER['archive']) && is_array(unserialize($CURUSER['archive']))) ? unserialize($CURUSER['archive']) : array());
@@ -373,9 +368,7 @@ elseif ($action == "personal") {
     if (isset($_POST['stylesheet']) && (($stylesheet = (int)$_POST['stylesheet']) != $CURUSER['stylesheet']) && is_valid_id($stylesheet)) $updateset[] = 'stylesheet = ' . sqlesc($stylesheet);
     $curuser_cache['stylesheet'] = $stylesheet;
     $user_cache['stylesheet'] = $stylesheet;
-    if (isset($_POST["country"]) && (($country = $_POST["country"]) != $CURUSER["country"]) && is_valid_id($country)) $updateset[] = "country = $country";
-    $curuser_cache['country'] = $country;
-    $user_cache['country'] = $country;
+    
     if (isset($_POST["torrentsperpage"]) && (($torrentspp = min(100, 0 + $_POST["torrentsperpage"])) != $CURUSER["torrentsperpage"])) $updateset[] = "torrentsperpage = $torrentspp";
     $curuser_cache['torrentsperpage'] = $torrentspp;
     $user_cache['torrentsperpage'] = $torrentspp;
@@ -395,16 +388,24 @@ elseif ($action == "personal") {
     $curuser_cache['shoutboxbg'] = $shoutboxbg;
     $user_cache['shoutboxbg'] = $shoutboxbg;
 	
-    if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) $updateset[] = "time_offset = " . sqlesc($_POST['user_timezone']);
-    $updateset[] = "auto_correct_dst = " . (isset($_POST['checkdst']) ? 1 : 0);
-    $updateset[] = "dst_in_use = " . (isset($_POST['manualdst']) ? 1 : 0);
-    $curuser_cache['time_offset'] = $_POST['user_timezone'];
-    $user_cache['time_offset'] = $_POST['user_timezone'];
-    $curuser_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
-    $user_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
-    $curuser_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
-    $user_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
-    if (isset($_POST["google_talk"]) && ($google_talk = $_POST["google_talk"]) != $CURUSER["google_talk"]) {
+    if ($CURUSER['birthday'] == '0000-00-00') {
+        $year = isset($_POST["year"]) ? 0 + $_POST["year"] : 0;
+        $month = isset($_POST["month"]) ? 0 + $_POST["month"] : 0;
+        $day = isset($_POST["day"]) ? 0 + $_POST["day"] : 0;
+        $birthday = date("$year.$month.$day");
+        if ($year == '0000') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_year']);
+        if ($month == '00') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_month']);
+        if ($day == '00') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_day']);
+        if (!checkdate($month, $day, $year)) stderr($lang['takeeditcp_err'], "<br /><div id='error' align='center'><font color='red' size='+1'>{$lang['takeeditcp_birth_not']}</font></div><br />");
+        $updateset[] = "birthday = " . sqlesc($birthday);
+        $curuser_cache['birthday'] = $birthday;
+        $user_cache['birthday'] = $birthday;
+        $mc1->delete_value('birthdayusers');
+    }
+    $action = "personal";
+}
+elseif ($action == "social") {
+if (isset($_POST["google_talk"]) && ($google_talk = $_POST["google_talk"]) != $CURUSER["google_talk"]) {
         $updateset[] = "google_talk= " . sqlesc($google_talk);
         $curuser_cache['google_talk'] = $google_talk;
         $user_cache['google_talk'] = $google_talk;
@@ -434,21 +435,28 @@ elseif ($action == "personal") {
         $curuser_cache['website'] = $website;
         $user_cache['website'] = $website;
     }
-    if ($CURUSER['birthday'] == '0000-00-00') {
-        $year = isset($_POST["year"]) ? 0 + $_POST["year"] : 0;
-        $month = isset($_POST["month"]) ? 0 + $_POST["month"] : 0;
-        $day = isset($_POST["day"]) ? 0 + $_POST["day"] : 0;
-        $birthday = date("$year.$month.$day");
-        if ($year == '0000') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_year']);
-        if ($month == '00') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_month']);
-        if ($day == '00') stderr($lang['takeeditcp_err'], $lang['takeeditcp_birth_day']);
-        if (!checkdate($month, $day, $year)) stderr($lang['takeeditcp_err'], "<br /><div id='error' align='center'><font color='red' size='+1'>{$lang['takeeditcp_birth_not']}</font></div><br />");
-        $updateset[] = "birthday = " . sqlesc($birthday);
-        $curuser_cache['birthday'] = $birthday;
-        $user_cache['birthday'] = $birthday;
-        $mc1->delete_value('birthdayusers');
+   $action = "social";
+}
+elseif ($action == "location") {
+    if (isset($_POST["country"]) && (($country = $_POST["country"]) != $CURUSER["country"]) && is_valid_id($country)) $updateset[] = "country = $country";
+    $curuser_cache['country'] = $country;
+    $user_cache['country'] = $country;
+    if (isset($_POST['language']) && (($language = (int)$_POST['language']) != $CURUSER['language'])) {
+        $updateset[] = 'language = ' . sqlesc($language);
+        $curuser_cache['language'] = $language;
+        $user_cache['language'] = $language;
     }
-    $action = "location";
+    if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) $updateset[] = "time_offset = " . sqlesc($_POST['user_timezone']);
+    $updateset[] = "auto_correct_dst = " . (isset($_POST['checkdst']) ? 1 : 0);
+    $updateset[] = "dst_in_use = " . (isset($_POST['manualdst']) ? 1 : 0);
+    $curuser_cache['time_offset'] = $_POST['user_timezone'];
+    $user_cache['time_offset'] = $_POST['user_timezone'];
+    $curuser_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
+    $user_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
+    $curuser_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
+    $user_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
+    
+   $action = "location";
 }
 //== Pm stuffs
 elseif ($action == "default") {
