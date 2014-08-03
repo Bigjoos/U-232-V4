@@ -353,27 +353,6 @@ elseif ($action == "personal") {
         $curuser_cache['title'] = $title;
         $user_cache['title'] = $title;
     }
-    ### REMOVE FROM IGNORE LIST BASED ON SELECTED IDS
-   function checkIgn( $a ){
-        global $idsToRemove;
-	return !in_array( $a, $idsToRemove ) ? true : false;
-}
-      $delimiter = ',';
-      $removeIgn = isset( $_POST['removeIgn'] ) ? true : false;
-      $removeIgnAll = isset( $_POST['removeIgnAll'] ) ? true : false;
-      $idsToRemove = isset( $_POST['ignore_list'] ) ? ( is_array( $_POST['ignore_list'] ) ? $_POST['ignore_list'] : false ) : false;
-      $ignoreList = !empty( $CURUSER['ignore_list'] ) ? explode( $delimiter, $CURUSER['ignore_list'] ) : false;
-if( $removeIgn && $ignoreList && $idsToRemove ){
-      $newIgnList = array_filter( $ignoreList, 'checkIgn' );
-      $updateset[] = "ignore_list = " . sqlesc( implode( $delimiter, $newIgnList ) );
-      $curuser_cache['ignore_list'] = implode( $delimiter, $newIgnList );
-      $user_cache['ignore_list'] = implode( $delimiter, $newIgnList );
-}
-if( $removeIgnAll && $ignoreList ){
-	$updateset[] = "ignore_list = ''";
-        $curuser_cache['ignore_list'] = '';
-        $user_cache['ignore_list'] = '';
-}
     if (isset($_POST['language']) && (($language = (int)$_POST['language']) != $CURUSER['language'])) {
         $updateset[] = 'language = ' . sqlesc($language);
         $curuser_cache['language'] = $language;

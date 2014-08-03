@@ -386,24 +386,6 @@ elseif ($action == "personal") {
 	<table class='table table-bordered'>";
     $HTMLOUT.= "<tr><td><input type='hidden' name='action' value='personal' />Personal Options</td></tr>";
     if ($CURUSER['class'] >= UC_VIP) $HTMLOUT.= tr($lang['usercp_title'], "<input size='50' value='" . htmlsafechars($CURUSER["title"]) . "' name='title' /><br />", 1);
-    ### MY IGNORE LIST
-    $delimiter = ',';
-    $ignoreIDs = !empty( $CURUSER['ignore_list'] ) ? explode( $delimiter, $CURUSER['ignore_list'] ) : false;
-if( $ignoreIDs ){
-	$multiSelect  = "<select name='ignore_list[]' multiple='multiple' style='width:200px;height:100px;'>";
-	$q = sql_query( "SELECT id, username FROM users WHERE id IN( {$CURUSER['ignore_list']} ) ORDER BY username DESC" );
-	while( $res = mysqli_fetch_assoc( $q ) ){
-		$multiSelect .= "<option value='".(int)$res['id']."'>" . htmlsafechars( $res['username'] ) . "</option>";
-	}
-	$multiSelect .= "</select>";
-	$multiSelect .= "<input type='submit' name='removeIgn' value='Remove!' />";
-	$multiSelect .= "<input type='submit' name='removeIgnAll' value='Remove all!' />";
-	$multiSelect .= '<p><small>Press down CTRL to select multiple users.</small></p>';
-} else {
-	$multiSelect = 'Your ignore list is empty.';
-}
-
-    $HTMLOUT.= tr( "Shoutbox Ignore List", $multiSelect ,1 );
     //==status mod
     $CURUSER['archive'] = unserialize($CURUSER['archive']);
     $HTMLOUT.= "<tr><td class='rowhead'>Online status</td><td><fieldset><legend><strong>Status update</strong></legend></fieldset>";
