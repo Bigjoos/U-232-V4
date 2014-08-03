@@ -336,6 +336,7 @@ elseif ($action == "torrents") {
 }
 //== Personal stuffs
 elseif ($action == "personal") {
+	
     //custom-title check
     if (isset($_POST["title"]) && $CURUSER["class"] >= UC_VIP && ($title = $_POST["title"]) != $CURUSER["title"]) {
         $notallow = array(
@@ -352,6 +353,27 @@ elseif ($action == "personal") {
         $curuser_cache['title'] = $title;
         $user_cache['title'] = $title;
     }
+    ### REMOVE FROM IGNORE LIST BASED ON SELECTED IDS
+   function checkIgn( $a ){
+        global $idsToRemove;
+	return !in_array( $a, $idsToRemove ) ? true : false;
+}
+      $delimiter = ',';
+      $removeIgn = isset( $_POST['removeIgn'] ) ? true : false;
+      $removeIgnAll = isset( $_POST['removeIgnAll'] ) ? true : false;
+      $idsToRemove = isset( $_POST['ignore_list'] ) ? ( is_array( $_POST['ignore_list'] ) ? $_POST['ignore_list'] : false ) : false;
+      $ignoreList = !empty( $CURUSER['ignore_list'] ) ? explode( $delimiter, $CURUSER['ignore_list'] ) : false;
+if( $removeIgn && $ignoreList && $idsToRemove ){
+      $newIgnList = array_filter( $ignoreList, 'checkIgn' );
+      $updateset[] = "ignore_list = " . sqlesc( implode( $delimiter, $newIgnList ) );
+      $curuser_cache['ignore_list'] = implode( $delimiter, $newIgnList );
+      $user_cache['ignore_list'] = implode( $delimiter, $newIgnList );
+}
+if( $removeIgnAll && $ignoreList ){
+	$updateset[] = "ignore_list = ''";
+        $curuser_cache['ignore_list'] = '';
+        $user_cache['ignore_list'] = '';
+}
     if (isset($_POST['language']) && (($language = (int)$_POST['language']) != $CURUSER['language'])) {
         $updateset[] = 'language = ' . sqlesc($language);
         $curuser_cache['language'] = $language;
@@ -393,6 +415,7 @@ elseif ($action == "personal") {
     $updateset[] = "shoutboxbg = " . sqlesc($shoutboxbg);
     $curuser_cache['shoutboxbg'] = $shoutboxbg;
     $user_cache['shoutboxbg'] = $shoutboxbg;
+	
     if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) $updateset[] = "time_offset = " . sqlesc($_POST['user_timezone']);
     $updateset[] = "auto_correct_dst = " . (isset($_POST['checkdst']) ? 1 : 0);
     $updateset[] = "dst_in_use = " . (isset($_POST['manualdst']) ? 1 : 0);
@@ -446,7 +469,7 @@ elseif ($action == "personal") {
         $user_cache['birthday'] = $birthday;
         $mc1->delete_value('birthdayusers');
     }
-    $action = "personal";
+    $action = "location";
 }
 //== Pm stuffs
 elseif ($action == "default") {
