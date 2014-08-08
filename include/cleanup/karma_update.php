@@ -37,7 +37,6 @@ function docleanup($data)
             $Buffer_User = (XBT_TRACKER == true ? $arr['uid'] : $arr['userid']);
             $users_buffer[] = '(' . $Buffer_User . ', '.$INSTALLER09['bonus_per_duration'].' * ' . $arr['tcount'] . ')';
             $update['seedbonus'] = ($arr['seedbonus'] + $INSTALLER09['bonus_per_duration'] * $arr['tcount']);
-            $update['seedbonus'] = ($arr['seedbonus'] + 0.225 * $arr['tcount']);
             $mc1->begin_transaction('userstats_' . $Buffer_User);
             $mc1->update_row(false, array(
                 'seedbonus' => $update['seedbonus']
