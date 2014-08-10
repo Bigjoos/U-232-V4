@@ -40,7 +40,7 @@ require_once INCL_DIR . 'bbcode_functions.php';
 require_once(CLASS_DIR . 'class_check.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
-$lang = array_merge($lang, load_language('global'), load_language('ad_watchedusers'));
+$lang = array_merge($lang, load_language('ad_watchedusers'));
 $HTMLOUT = $H1_thingie = $count2 = '';
 $div_link_number = $count = 0;
 //=== to delete members from the watched user list... admin and up only!
