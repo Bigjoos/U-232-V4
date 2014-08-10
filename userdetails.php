@@ -214,17 +214,26 @@ if (($user = $mc1->get_value('user' . $id)) === false) {
 if ($user["status"] == "pending") stderr($lang['userdetails_error'], $lang['userdetails_pending']);
 // user stats
 $What_Cache = (XBT_TRACKER == true ? 'user_stats_xbt_' : 'user_stats_');
-if (($user_stats = $mc1->get_value($What_Cache . $id)) === false) {
+if (($user_stats = $mc1->get_value($What_Cache.$id)) === false) {
     $What_Expire = (XBT_TRACKER == true ? $INSTALLER09['expires']['user_stats_xbt'] : $INSTALLER09['expires']['user_stats']);
-    $sql_1 = sql_query('SELECT uploaded, downloaded, seedbonus, bonuscomment, modcomment FROM users WHERE id = ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    $stats_fields_ar_int = array(
+            'uploaded',
+            'downloaded'
+        );
+        $stats_fields_ar_float = array(
+            'seedbonus'
+        );
+        $stats_fields_ar_str = array(
+            'modcomment',
+            'bonuscomment'
+        );
+        $stats_fields = implode(', ', array_merge($stats_fields_ar_int, $stats_fields_ar_float, $stats_fields_ar_str));
+    $sql_1 = sql_query('SELECT ' . $stats_fields . ' FROM users WHERE id= ' . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
     $user_stats = mysqli_fetch_assoc($sql_1);
-    $user_stats['seedbonus'] = (float)$user_stats['seedbonus'];
-    $user_stats['uploaded'] = (int)$user_stats['uploaded'];
-    $user_stats['downloaded'] = (int)$user_stats['downloaded'];
-    $user_stats['bonuscomment'] = $user_stats['bonuscomment'];
-    $user_stats['modcomment'] = $user_stats['modcomment'];
-    $mc1->cache_value($What_Cache . $id, $user_stats, $What_Expire); // 5 mins
-    
+    foreach ($stats_fields_ar_int as $i) $user_stats[$i] = (int)$user_stats[$i];
+    foreach ($stats_fields_ar_float as $i) $user_stats[$i] = (float)$user_stats[$i];
+    foreach ($stats_fields_ar_str as $i) $user_stats[$i] = $user_stats[$i];
+    $mc1->cache_value($What_Cache.$id, $user_stats, $What_Expire); // 5 mins
 }
 if (($user_status = $mc1->get_value('user_status_' . $id)) === false) {
     $sql_2 = sql_query('SELECT * FROM ustatus WHERE userid = ' . sqlesc($id));
