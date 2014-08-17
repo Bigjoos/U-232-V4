@@ -68,7 +68,7 @@ $highlight = " bgcolor='lightgrey'";
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_name'] ?></td>
   <td <?php
-echo (isset($_POST['n']) && !empty($_POST['n'])) ? $highlight : "" ?>><input name="n" type="text" value="<?php
+echo (isset($_POST['n']) && !empty($_POST['n'])) ? $highlight : "" ?>><input name="n" type="text" value=""<?php
 echo isset($_POST['n']) ? htmlsafechars($_POST['n']) : "" ?>" size='25' /></td>
 
   <td valign="middle" class='rowhead'><?php
@@ -87,9 +87,9 @@ for ($i = 0; $i < count($options); $i++) {
 }
 ?>
     </select>
-    <input name="r" type="text" value="<?php
+    <input name="r" type="text" value=""<?php
 echo isset($_POST['r']) ? $_POST['r'] : '' ?>" size="5" maxlength="4" />
-    <input name="r2" type="text" value="<?php
+    <input name="r2" type="text" value=""<?php
 echo isset($_POST['r2']) ? $_POST['r2'] : '' ?>" size="5" maxlength="4" /></td>
 
   <td valign="middle" class='rowhead'><?php
@@ -110,12 +110,12 @@ for ($i = 0; $i < count($options); $i++) {
 <tr><td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_email'] ?></td>
   <td <?php
-echo (isset($_POST['em']) && !empty($_POST['em'])) ? $highlight : "" ?>><input name="em" type="text" value="<?php
+echo (isset($_POST['em']) && !empty($_POST['em'])) ? $highlight : "" ?>><input name="em" type="text" value=""<?php
 echo isset($_POST['em']) ? $_POST['em'] : '' ?>" size="25" /></td>
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_ip'] ?></td>
   <td <?php
-echo (isset($_POST['ip']) && !empty($_POST['ip'])) ? $highlight : "" ?>><input name="ip" type="text" value="<?php
+echo (isset($_POST['ip']) && !empty($_POST['ip'])) ? $highlight : "" ?>><input name="ip" type="text" value=""<?php
 echo isset($_POST['ip']) ? $_POST['ip'] : '' ?>" maxlength="17" /></td>
 
   <td valign="middle" class='rowhead'><?php
@@ -137,12 +137,12 @@ for ($i = 0; $i < count($options); $i++) {
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_comments'] ?></td>
   <td <?php
-echo (isset($_POST['co']) && !empty($_POST['co'])) ? $highlight : "" ?>><input name="co" type="text" value="<?php
+echo (isset($_POST['co']) && !empty($_POST['co'])) ? $highlight : "" ?>><input name="co" type="text" value=""<?php
 echo isset($_POST['co']) ? $_POST['co'] : "" ?>" size="25" /></td>
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_mask'] ?></td>
   <td <?php
-echo (isset($_POST['ma']) && !empty($_POST['ma'])) ? $highlight : "" ?>><input name="ma" type="text" value="<?php
+echo (isset($_POST['ma']) && !empty($_POST['ma'])) ? $highlight : "" ?>><input name="ma" type="text" value=""<?php
 echo isset($_POST['ma']) ? $_POST['ma'] : "" ?>" maxlength="17" /></td>
   <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_class'] ?></td>
@@ -177,10 +177,10 @@ for ($i = 0; $i < count($options); $i++) {
 ?>
     </select>
 
-    <input name="d" type="text" value="<?php
+    <input name="d" type="text" value=""<?php
 echo isset($_POST['d']) ? $_POST['d'] : '' ?>" size="12" maxlength="10" />
 
-    <input name="d2" type="text" value="<?php
+    <input name="d2" type="text" value=""<?php
 echo isset($_POST['d2']) ? $_POST['d2'] : '' ?>" size="12" maxlength="10" /></td>
 
 
@@ -202,10 +202,10 @@ for ($i = 0; $i < count($options); $i++) {
 ?>
     </select>
 
-    <input name="ul" type="text" id="ul" size="8" maxlength="7" value="<?php
+    <input name="ul" type="text" id="ul" size="8" maxlength="7" value=""<?php
 echo isset($_POST['ul']) ? $_POST['ul'] : '' ?>" />
 
-    <input name="ul2" type="text" id="ul2" size="8" maxlength="7" value="<?php
+    <input name="ul2" type="text" id="ul2" size="8" maxlength="7" value=""<?php
 echo isset($_POST['ul2']) ? $_POST['ul2'] : '' ?>" /></td>
   <td valign="middle" class="rowhead"><?php
 echo $lang['usersearch_donor'] ?></td>
@@ -243,10 +243,10 @@ for ($i = 0; $i < count($options); $i++) {
 ?>
   </select>
 
-  <input name="ls" type="text" value="<?php
+  <input name="ls" type="text" value=""<?php
 echo isset($_POST['ls']) ? $_POST['ls'] : '' ?>" size="12" maxlength="10" />
 
-  <input name="ls2" type="text" value="<?php
+  <input name="ls2" type="text" value=""<?php
 echo isset($_POST['ls2']) ? $_POST['ls2'] : '' ?>" size="12" maxlength="10" /></td>
 	  <td valign="middle" class='rowhead'><?php
 echo $lang['usersearch_downloaded'] ?></td>
@@ -266,10 +266,10 @@ for ($i = 0; $i < count($options); $i++) {
 ?>
     </select>
 
-    <input name="dl" type="text" id="dl" size="8" maxlength="7" value="<?php
+    <input name="dl" type="text" id="dl" size="8" maxlength="7" value=""<?php
 echo isset($_POST['dl']) ? $_POST['dl'] : '' ?>" />
 
-    <input name="dl2" type="text" id="dl2" size="8" maxlength="7" value="<?php
+    <input name="dl2" type="text" id="dl2" size="8" maxlength="7" value=""<?php
 echo isset($_POST['dl2']) ? $_POST['dl2'] : '' ?>" /></td>
 
 	<td valign="middle" class='rowhead'><?php
@@ -350,49 +350,46 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                 $names_exc[] = substr($name, 1);
             } else $names_inc[] = $name;
         }
-        if (is_array($names_inc)) {
-            $where_is.= !empty($where_is) ? " AND (" : "(";
-            foreach ($names_inc as $name) {
-                if (!haswildcard($name)) if (is_numeric($name)) $name_is.= (isset($name_is) ? " OR " : "") . "u.id = " . (int)($name);
-                else $name_is.= (isset($name_is) ? " OR " : "") . "u.username = " . sqlesc($name);
-                else {
-                    $name = str_replace(array(
-                        '?',
-                        '*'
-                    ) , array(
-                        '_',
-                        '%'
-                    ) , $name);
-                    $name_is.= (!empty($name_is) ? " OR " : "") . "u.username LIKE " . sqlesc($name);
-                }
-            }
-            $where_is.= $name_is . ")";
-            unset($name_is);
-        }
-        if (is_array($names_exc)) {
-            $where_is.= !empty($where_is) ? " AND NOT (" : " NOT (";
-            foreach ($names_exc as $name) {
-                if (!haswildcard($name)) $name_is.= (isset($name_is) ? " OR " : "") . "u.username = " . sqlesc($name);
-                else {
-                    $name = str_replace(array(
-                        '?',
-                        '*'
-                    ) , array(
-                        '_',
-                        '%'
-                    ) , $name);
-                    $name_is.= (isset($name_is) ? " OR " : "") . "u.username LIKE " . sqlesc($name);
-                }
-            }
-            $where_is.= $name_is . ")";
-        }
-        $q1.= ($q1 ? "&amp;" : "") . "n=" . urlencode(trim($_POST['n']));
-    }
+         if (is_array($names_inc))
+    {
+	  	$where_is .= !empty($where_is)?" AND (":"(";
+	    foreach($names_inc as $name)
+	    {
+      	if (!haswildcard($name))
+	        $name_is .= (!empty($name_is)?" OR ":"")."u.username = ".sqlesc($name);
+        
+	      else
+	      {
+	        $name = str_replace(array('?','*'), array('_','%'), $name);
+	        $name_is .= (!empty($name_is)?" OR ":"")."u.username LIKE ".sqlesc($name);
+	      }
+	    }
+      $where_is .= $name_is.")";
+      unset($name_is);
+	  }
+
+    if (is_array($names_exc))
+    {
+	  	$where_is .= !empty($where_is)?" AND NOT (":" NOT (";
+	    foreach($names_exc as $name)
+	    {
+	    	if (!haswildcard($name))
+	      	$name_is .= (isset($name_is)?" OR ":"")."u.username = ".sqlesc($name);
+	      else
+	      {
+	      	$name = str_replace(array('?','*'), array('_','%'), $name);
+	        $name_is .= (isset($name_is)?" OR ":"")."u.username LIKE ".sqlesc($name);
+	      }
+	    }
+      $where_is .= $name_is.")";
+	  }
+	  $q1 .= ($q1 ? "&amp;" : "") . "n=".urlencode(trim($_POST['n']));
+  }
     // email
     if (is_set_not_empty('em')) {
         $emaila = explode(' ', trim($_POST['em']));
         if ($emaila[0] !== "") {
-            $where_is.= !empty($where_is) ? " AND (" : "(";
+            $where_is.= !empty($where_is) ? " AND (":"(";
             foreach ($emaila as $email) {
                 if (strpos($email, '*') === False && strpos($email, '?') === False && strpos($email, '%') === False) {
                     if (validemail($email) !== 1) {
@@ -400,7 +397,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                         stdfoot();
                         die();
                     }
-                    $email_is.= (!empty($email_is) ? " OR " : "") . "u.email =" . sqlesc($email);
+                    $email_is.= (!empty($email_is) ? " OR ":"") . "u.email =" . sqlesc($email);
                 } else {
                     $sql_email = str_replace(array(
                         '?',
@@ -409,7 +406,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                         '_',
                         '%'
                     ) , $email);
-                    $email_is.= (!empty($email_is) ? " OR " : "") . "u.email LIKE " . sqlesc($sql_email);
+                    $email_is.= (!empty($email_is) ? " OR ":"") . "u.email LIKE " . sqlesc($sql_email);
                 }
             }
             $where_is.= $email_is . ")";
@@ -433,7 +430,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
             die();
         }
         $mask = trim($_POST['ma']);
-        if ($mask == "" || $mask == "255.255.255.255") $where_is.= (!empty($where_is) ? " AND " : "") . "u.ip = '$ip'";
+        if ($mask == "" || $mask == "255.255.255.255") $where_is.= (!empty($where_is) ? " AND ":"") . "u.ip = '$ip'";
         else {
             if (substr($mask, 0, 1) == "/") {
                 $n = substr($mask, 1, strlen($mask) - 1);
@@ -447,7 +444,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                 stdfoot();
                 die();
             }
-            $where_is.= (!empty($where_is) ? " AND " : "") . "INET_ATON(u.ip) & INET_ATON('$mask') = INET_ATON('$ip') & INET_ATON('$mask')";
+            $where_is.= (!empty($where_is) ? " AND ":"") . "INET_ATON(u.ip) & INET_ATON('$mask') = INET_ATON('$ip') & INET_ATON('$mask')";
             $q1.= ($q1 ? "&amp;" : "") . "ma=$mask";
         }
         $q1.= ($q1 ? "&amp;" : "") . "ip=$ip";
@@ -461,7 +458,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
             $where_is.= " u.uploaded = 0 and u.downloaded = 0";
         } elseif (strtolower(substr($ratio, 0, 3)) == 'inf') {
             $ratio2 = "";
-            $where_is.= !empty($where_is) ? " AND " : "";
+            $where_is.= !empty($where_is) ? " AND ":"";
             $where_is.= " u.uploaded > 0 and u.downloaded = 0";
         } else {
             if (!is_numeric($ratio) || $ratio < 0) {
@@ -469,7 +466,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                 stdfoot();
                 die();
             }
-            $where_is.= !empty($where_is) ? " AND " : "";
+            $where_is.= !empty($where_is) ? " AND ":"";
             $where_is.= " (u.uploaded/u.downloaded)";
             $ratiotype = $_POST['rt'];
             $q1.= ($q1 ? "&amp;" : "") . "rt=$ratiotype";
@@ -504,9 +501,9 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                 } else $comments_inc[] = $comment;
             }
             if (is_array($comments_inc)) {
-                $where_is.= !empty($where_is) ? " AND (" : "(";
+                $where_is.= !empty($where_is) ? " AND (":"(";
                 foreach ($comments_inc as $comment) {
-                    if (!haswildcard($comment)) $comment_is.= (!empty($comment_is) ? " OR " : "") . "u.modcomment LIKE " . sqlesc("%" . $comment . "%");
+                    if (!haswildcard($comment)) $comment_is.= (!empty($comment_is) ? " OR ":"") . "u.modcomment LIKE " . sqlesc("%" . $comment . "%");
                     else {
                         $comment = str_replace(array(
                             '?',
@@ -515,14 +512,14 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                             '_',
                             '%'
                         ) , $comment);
-                        $comment_is.= (!empty($comment_is) ? " OR " : "") . "u.modcomment LIKE " . sqlesc($comment);
+                        $comment_is.= (!empty($comment_is) ? " OR ":"") . "u.modcomment LIKE " . sqlesc($comment);
                     }
                 }
                 $where_is.= $comment_is . ")";
                 unset($comment_is);
             }
             if (is_array($comments_exc)) {
-                $where_is.= !empty($where_is) ? " AND NOT (" : " NOT (";
+                $where_is.= !empty($where_is) ? " AND NOT (":" NOT (";
                 foreach ($comments_exc as $comment) {
                     if (!haswildcard($comment)) $comment_is.= (isset($comment_is) ? " OR " : "") . "u.modcomment LIKE " . sqlesc("%" . $comment . "%");
                     else {
@@ -533,13 +530,13 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
                             '_',
                             '%'
                         ) , $comment);
-                        $comment_is.= (isset($comment_is) ? " OR " : "") . "u.modcomment LIKE " . sqlesc($comment);
+                        $comment_is.= (isset($comment_is) ? " OR ":"") . "u.modcomment LIKE " . sqlesc($comment);
                     }
                 }
                 $where_is.= $comment_is . ")";
             }
             $q1.= ($q1 ? "&amp;" : "") . "co=" . urlencode(trim($_POST['co']));
-            $where_is.= (isset($where_is) ? " AND " : "") . "u.class<" . $CURUSER['class'];
+            $where_is.= (isset($where_is) ? " AND ":"") . "u.class<" . $CURUSER['class'];
         }
     }
     $unit = 1073741824; // 1GB
@@ -582,7 +579,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
             stdfoot();
             die();
         }
-        $where_is.= !empty($where_is) ? " AND " : "";
+        $where_is.= !empty($where_is) ? " AND ":"";
         $where_is.= " u.downloaded ";
         $dltype = $_POST['dlt'];
         $q1.= ($q1 ? "&amp;" : "") . "dlt=$dltype";
@@ -619,9 +616,9 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         if ($datetype == "0")
         // For mySQL 4.1.1 or above use instead
         // $where_is .= (isset($where_is)?" AND ":"")."DATE(added) = DATE('$date')";
-        $where_is.= (!empty($where_is) ? " AND " : "") . "(added - $date) BETWEEN 0 and 86400";
+        $where_is.= (!empty($where_is) ? " AND ":"") . "(added - $date) BETWEEN 0 and 86400";
         else {
-            $where_is.= (!empty($where_is) ? " AND " : "") . "u.added ";
+            $where_is.= (!empty($where_is) ? " AND ":"") . "u.added ";
             if ($datetype == "3") {
                 $date2 = strtotime(trim($_POST['d2']));
                 if ($date2) {
@@ -655,9 +652,9 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
         if ($lasttype == "0")
         // For mySQL 4.1.1 or above use instead
         // $where_is .= (isset($where_is)?" AND ":"")."DATE(added) = DATE('$date')";
-        $where_is.= (!empty($where_is) ? " AND " : "") . "(last_access - $last) BETWEEN 0 and 86400";
+        $where_is.= (!empty($where_is) ? " AND ":"") . "(last_access - $last) BETWEEN 0 and 86400";
         else {
-            $where_is.= (!empty($where_is) ? " AND " : "") . "u.last_access ";
+            $where_is.= (!empty($where_is) ? " AND ":"") . "u.last_access ";
             if ($lasttype == "3") {
                 $last2 = strtotime(trim($_POST['ls2']));
                 if ($last2) {
@@ -675,7 +672,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     // status
     if (is_set_not_empty('st')) {
         $status = $_POST['st'];
-        $where_is.= ((!empty($where_is)) ? " AND " : "");
+        $where_is.= ((!empty($where_is)) ? " AND ":"");
         if ($status == "1") $where_is.= "u.status = 'confirmed'";
         else $where_is.= "u.status = 'pending'";
         $q1.= ($q1 ? "&amp;" : "") . "st=$status";
@@ -683,7 +680,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     // account status
     if (is_set_not_empty('as')) {
         $accountstatus = $_POST['as'];
-        $where_is.= (!empty($where_is)) ? " AND " : "";
+        $where_is.= (!empty($where_is)) ? " AND ":"";
         if ($accountstatus == "1") $where_is.= " u.enabled = 'yes'";
         else $where_is.= " u.enabled = 'no'";
         $q1.= ($q1 ? "&amp;" : "") . "as=$accountstatus";
@@ -691,7 +688,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     //donor
     if (is_set_not_empty('do')) {
         $donor = $_POST['do'];
-        $where_is.= (!empty($where_is)) ? " AND " : "";
+        $where_is.= (!empty($where_is)) ? " AND ":"";
         if ($donor == 1) $where_is.= " u.donor = 'yes'";
         else $where_is.= " u.donor = 'no'";
         $q1.= ($q1 ? "&amp;" : "") . "do=$donor";
@@ -699,7 +696,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     //warned
     if (is_set_not_empty('w')) {
         $warned = $_POST['w'];
-        $where_is.= (!empty($where_is)) ? " AND " : "";
+        $where_is.= (!empty($where_is)) ? " AND ":"";
         if ($warned == 1) $where_is.= " u.warned = 'yes'";
         else $where_is.= " u.warned = 'no'";
         $q1.= ($q1 ? "&amp;" : "") . "w=$warned";
@@ -722,12 +719,12 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     $from_is = isset($join_is) ? "users AS u" . $join_is : "users AS u";
     $distinct = isset($distinct) ? $distinct : "";
     $where_is = !empty($where_is) ? $where_is : "";
-    $queryc = "SELECT COUNT(" . $distinct . "u.id) FROM " . $from_is . (($where_is == "") ? "" : " WHERE $where_is ");
+    $queryc = "SELECT COUNT(" . $distinct . "u.id) FROM " . $from_is . (($where_is == "") ? "":" WHERE $where_is ");
     $querypm = "FROM " . $from_is . (($where_is == "") ? " " : " WHERE $where_is ");
-    $announcement_query = 'SELECT u.id FROM ' . $from_is . (($where_is == "") ? " WHERE 1=1" : " WHERE $where_is");
+    $announcement_query = 'SELECT u.id FROM ' . $from_is . (($where_is == "") ? " WHERE 1=1":" WHERE $where_is");
     $select_is = "u.id, u.username, u.email, u.status, u.added, u.last_access, u.ip,
   	u.class, u.uploaded, u.downloaded, u.donor, u.modcomment, u.enabled, u.warned";
-    $query1 = "SELECT " . $distinct . " " . $select_is . " " . $querypm;
+    $query1 = "SELECT ".$distinct." ".$select_is." ".$querypm;
     //    <temporary>    /////////////////////////////////////////////////////
     if ($DEBUG_MODE > 0) {
         stdmsg($lang['usersearch_count'], $queryc);
@@ -811,7 +808,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
 <input name='n_pms' type='hidden' value='" . $count . "' />
 <input name='ann_query' type='hidden' value='" . $announcement_query . "' />
 <input name='ann_hash' type='hidden' value ='" . (hashit($announcement_query, $count)) . "' />
-<button type='submit'>{$lang['usersearch_create_ann']}/button>
+<button type='submit'>{$lang['usersearch_create_ann']}</button>
 </div></td>
 </tr>
 </table>
