@@ -63,7 +63,7 @@ if ($INSTALLER09['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
 }
 if (($CURUSER['downloadpos'] == 0 || $CURUSER['can_leech'] == 0 || $CURUSER['downloadpos'] > 1 || $CURUSER['suspended'] == 'yes') && !($CURUSER['id'] == $row['owner'])) stderr("Error", "Your download rights have been disabled.");
 if (($CURUSER['seedbonus'] === 0 || $CURUSER['seedbonus'] < $INSTALLER09['bonus_per_download']))
-stderr("Error", "Your dont have have credit to download, trying seeding back some torrents =]");
+stderr("Error", "Your dont have enough credit to download, trying seeding back some torrents =]");
 if ($row['vip'] == 1 && $CURUSER['class'] < UC_VIP) stderr('VIP Access Required', 'You must be a VIP In order to view details or download this torrent! You may become a Vip By Donating to our site. Donating ensures we stay online to provide you more Vip-Only Torrents!');
 sql_query("UPDATE torrents SET hits = hits + 1 WHERE id = " . sqlesc($id));
 /** free mod by pdq **/
