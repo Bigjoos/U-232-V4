@@ -750,8 +750,8 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     $query1.= $pager['limit'];
     $res = sql_query($query1) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) == 0) stdmsg($lang['usersearch_warn'], $lang['usersearch_nouser']);
-    else if (mysql_num_rows($res) == 1) {
-        $usertt = mysql_fetch_array($res);
+    else if (mysqli_num_rows($res) == 1) {
+        $usertt = mysqli_fetch_array($res);
         header('Location:userdetails.php?id=' . $usertt['id']);
         die();
     } else {
