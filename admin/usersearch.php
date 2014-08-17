@@ -697,8 +697,8 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
     if (is_set_not_empty('w')) {
         $warned = $_POST['w'];
         $where_is.= (!empty($where_is)) ? " AND ":"";
-        if ($warned == 1) $where_is.= " u.warned = 'yes'";
-        else $where_is.= " u.warned = 'no'";
+        if ($warned == 1) $where_is.= " u.warned >= '1'";
+        else $where_is.= " u.warned = '0'";
         $q1.= ($q1 ? "&amp;" : "") . "w=$warned";
     }
     // disabled IP
