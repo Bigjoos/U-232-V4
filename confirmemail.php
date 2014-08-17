@@ -51,5 +51,5 @@ $mc1->update_row(false, array(
 ));
 $mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
 if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"])) stderr("{$lang['confirmmail_user_error']}", "{$lang['confirmmail_not_complete']}");
-header("Refresh: 0; url={$INSTALLER09['baseurl']}/usercp.php?emailch=1");
+header("Refresh: 0; url={$INSTALLER09['baseurl']}/usercp.php?action=security&emailch=1");
 ?>
