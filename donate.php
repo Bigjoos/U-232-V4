@@ -49,6 +49,7 @@ $donate = array(
         'Freeleech '.$INSTALLER09['paypal_config']['free_dur_1'].' wk',
         ''.$INSTALLER09['paypal_config']['up_amt_1'].'G upload',
         ''.$INSTALLER09['paypal_config']['kp_amt_1'].' bonus points',
+        ''.$INSTALLER09['paypal_config']['inv_amt_1'].' invite',
         'Donor star '.$INSTALLER09['paypal_config']['duntil_dur_1'].' week',
         'Imunnity '.$INSTALLER09['paypal_config']['imm_dur_1'].' week'
     ) ,
@@ -58,6 +59,7 @@ $donate = array(
         'Freeleech '.$INSTALLER09['paypal_config']['free_dur_2'].' wks',
         ''.$INSTALLER09['paypal_config']['up_amt_2'].'G upload',
         ''.$INSTALLER09['paypal_config']['kp_amt_2'].' bonus points',
+        ''.$INSTALLER09['paypal_config']['inv_amt_2'].' invites',
         'Donor star '.$INSTALLER09['paypal_config']['duntil_dur_2'].' weeks',
         'Imunnity '.$INSTALLER09['paypal_config']['imm_dur_2'].' weeks'
     ) ,
@@ -67,6 +69,7 @@ $donate = array(
         'Freeleech '.$INSTALLER09['paypal_config']['free_dur_3'].' wks',
         ''.$INSTALLER09['paypal_config']['up_amt_3'].'G upload',
         ''.$INSTALLER09['paypal_config']['kp_amt_3'].' bonus points',
+        ''.$INSTALLER09['paypal_config']['inv_amt_3'].' invites',
         'Donor star '.$INSTALLER09['paypal_config']['duntil_dur_3'].' weeks',
         'Imunnity '.$INSTALLER09['paypal_config']['imm_dur_3'].' weeks'
     ) ,
@@ -76,6 +79,7 @@ $donate = array(
         'Freeleech '.$INSTALLER09['paypal_config']['free_dur_4'].' wks',
         ''.$INSTALLER09['paypal_config']['up_amt_4'].'G upload',
         ''.$INSTALLER09['paypal_config']['kp_amt_4'].' bonus points',
+        ''.$INSTALLER09['paypal_config']['inv_amt_4'].' invites',
         'Donor star '.$INSTALLER09['paypal_config']['duntil_dur_4'].' weeks',
         'Imunnity '.$INSTALLER09['paypal_config']['imm_dur_4'].' weeks'
     ) ,
@@ -85,6 +89,7 @@ $donate = array(
         'Freeleech '.$INSTALLER09['paypal_config']['free_dur_5'].' wks',
         ''.$INSTALLER09['paypal_config']['up_amt_5'].'G upload',
         ''.$INSTALLER09['paypal_config']['kp_amt_5'].' bonus points',
+        ''.$INSTALLER09['paypal_config']['inv_amt_5'].' invites',
         'Donor star '.$INSTALLER09['paypal_config']['duntil_dur_5'].' weeks',
         'Imunnity '.$INSTALLER09['paypal_config']['imm_dur_5'].' weeks'
     ) ,
@@ -94,6 +99,7 @@ $donate = array(
         'Freeleech '.$INSTALLER09['paypal_config']['free_dur_6'].' wks',
         ''.$INSTALLER09['paypal_config']['up_amt_6'].'G upload',
         ''.$INSTALLER09['paypal_config']['kp_amt_6'].' bonus points',
+        ''.$INSTALLER09['paypal_config']['inv_amt_6'].' invites',
         'Donor star '.$INSTALLER09['paypal_config']['duntil_dur_6'].' weeks',
         'Imunnity '.$INSTALLER09['paypal_config']['imm_dur_6'].' weeks'
     ) ,

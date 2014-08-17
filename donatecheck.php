@@ -24,7 +24,7 @@ $donate_goods = array(
     $INSTALLER09['paypal_config']['gb_donated_1'] => array(
         'to_add' => array(
             'uploaded' => $INSTALLER09['paypal_config']['up_amt_1'] * 1073741824,
-            'invites' => 0,
+            'invites' => $INSTALLER09['paypal_config']['inv_amt_1'],
             'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_1'],
             'total_donated' => $INSTALLER09['paypal_config']['gb_donated_1'],
         ) ,
@@ -35,6 +35,7 @@ $donate_goods = array(
             'uploadpos' => 1,
             'leechwarn' => 0,
             'hit_and_run_total' => 0,
+            'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
             'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_1'], $INSTALLER09['paypal_config']['duntil_dur_1']) ,
@@ -48,7 +49,7 @@ $donate_goods = array(
     $INSTALLER09['paypal_config']['gb_donated_2'] => array(
         'to_add' => array(
             'uploaded' => $INSTALLER09['paypal_config']['up_amt_2'] * 1073741824,
-            'invites' => 0,
+            'invites' => $INSTALLER09['paypal_config']['inv_amt_2'],
             'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_2'],
             'total_donated' => $INSTALLER09['paypal_config']['gb_donated_2'],
         ) ,
@@ -59,6 +60,7 @@ $donate_goods = array(
             'uploadpos' => 1,
             'leechwarn' => 0,
             'hit_and_run_total' => 0,
+            'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
             'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_2'], $INSTALLER09['paypal_config']['duntil_dur_2']) ,
@@ -72,7 +74,7 @@ $donate_goods = array(
     $INSTALLER09['paypal_config']['gb_donated_3'] => array(
         'to_add' => array(
             'uploaded' => $INSTALLER09['paypal_config']['up_amt_3'] * 1073741824,
-            'invites' => 0,
+            'invites' => $INSTALLER09['paypal_config']['inv_amt_3'],
             'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_3'],
             'total_donated' => $INSTALLER09['paypal_config']['gb_donated_3'],
         ) ,
@@ -83,6 +85,7 @@ $donate_goods = array(
             'uploadpos' => 1,
             'leechwarn' => 0,
             'hit_and_run_total' => 0,
+            'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
             'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_3'], $INSTALLER09['paypal_config']['duntil_dur_3']) ,
@@ -96,7 +99,7 @@ $donate_goods = array(
     $INSTALLER09['paypal_config']['gb_donated_4'] => array(
         'to_add' => array(
             'uploaded' => $INSTALLER09['paypal_config']['up_amt_4'] * 1073741824,
-            'invites' => 0,
+            'invites' => $INSTALLER09['paypal_config']['inv_amt_4'],
             'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_4'],
             'total_donated' => $INSTALLER09['paypal_config']['gb_donated_4'],
         ) ,
@@ -107,6 +110,7 @@ $donate_goods = array(
             'uploadpos' => 1,
             'leechwarn' => 0,
             'hit_and_run_total' => 0,
+            'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
             'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_4'], $INSTALLER09['paypal_config']['duntil_dur_4']) ,
@@ -120,7 +124,7 @@ $donate_goods = array(
     $INSTALLER09['paypal_config']['gb_donated_5'] => array(
         'to_add' => array(
             'uploaded' => $INSTALLER09['paypal_config']['up_amt_5'] * 1073741824,
-            'invites' => 0,
+            'invites' => $INSTALLER09['paypal_config']['inv_amt_5'],
             'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_5'],
             'total_donated' => $INSTALLER09['paypal_config']['gb_donated_5'],
         ) ,
@@ -131,6 +135,7 @@ $donate_goods = array(
             'uploadpos' => 1,
             'leechwarn' => 0,
             'hit_and_run_total' => 0,
+            'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
             'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_5'], $INSTALLER09['paypal_config']['duntil_dur_5']) ,
@@ -144,7 +149,7 @@ $donate_goods = array(
     $INSTALLER09['paypal_config']['gb_donated_6'] => array(
         'to_add' => array(
             'uploaded' => $INSTALLER09['paypal_config']['up_amt_6'] * 1073741824,
-            'invites' => 0,
+            'invites' => $INSTALLER09['paypal_config']['inv_amt_6'],
             'seedbonus' => $INSTALLER09['paypal_config']['kp_amt_6'],
             'total_donated' => $INSTALLER09['paypal_config']['gb_donated_6'],
         ) ,
@@ -155,6 +160,7 @@ $donate_goods = array(
             'uploadpos' => 1,
             'leechwarn' => 0,
             'hit_and_run_total' => 0,
+            'hnrwarn' => '\'no\'',
             'enabled' => '\'yes\'',
             'class' => 'IF(class < ' . UC_VIP . ', ' . UC_VIP . ', class), vipclass_before = IF(class < ' . UC_VIP . ', class, 0)',
             'donoruntil' => sprintf('IF(donoruntil > 0,donoruntil + (%d * 604800), ' . TIME_NOW . ' + (%d * 604800))', $INSTALLER09['paypal_config']['duntil_dur_6'], $INSTALLER09['paypal_config']['duntil_dur_6']) ,

@@ -1827,7 +1827,7 @@ CREATE TABLE IF NOT EXISTS `paypal_config` (
 --
 
 INSERT INTO `paypal_config` (`name`, `value`) VALUES
-('email', '''Bigjoos1@hotmail.co.uk'''),
+('email', ''),
 ('gb', '3'),
 ('weeks', '4'),
 ('invites', '1'),
@@ -1840,7 +1840,7 @@ INSERT INTO `paypal_config` (`name`, `value`) VALUES
 ('multiplier', '5'),
 ('currency', '''GBP'''),
 ('staff', '1'),
-('sandbox', ''''''),
+('sandbox', ''),
 ('gb_donated_1', '2'),
 ('gb_donated_2', '4'),
 ('gb_donated_3', '7'),
@@ -1888,7 +1888,13 @@ INSERT INTO `paypal_config` (`name`, `value`) VALUES
 ('duntil_dur_5', '12'),
 ('imm_dur_5', '12'),
 ('duntil_dur_6', '24'),
-('imm_dur_6', '24');
+('imm_dur_6', '24'),
+('inv_amt_1', '1'),
+('inv_amt_2', '2'),
+('inv_amt_3', '3'),
+('inv_amt_4', '4'),
+('inv_amt_5', '5'),
+('inv_amt_6', '6');
 
 -- --------------------------------------------------------
 
