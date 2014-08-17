@@ -851,7 +851,8 @@ INSERT INTO `cleanup` (`clean_id`, `clean_title`, `clean_file`, `clean_time`, `c
 (77, 'Delete torrents', 'delete_torrents_xbt_update.php', 1405731392, 86400, '2d47cfeddfd61ed4529e0d4a25ca0d12', 1, 'Delete torrent xbt update', 1),
 (78, 'XBT Torrents', 'torrents_update_xbt.php', 1405721775, 900, '79e243cf24e92a13441b381d033d03a9', 1, 'XBT Torrents update', 1),
 (79, 'XBT Peers', 'peer_update_xbt.php', 1403459321, 900, '3a0245bc43e2cad94ac7966bb3fe75f3', 1, 'XBT Peers update - Not required', 0),
-(80, 'XBT hit and run system', 'hitrun_xbt_update.php', 1405444631, 3600, 'a6804b0f6d5ce68ac390d4d261a82d85', 1, 'XBT hit and run detection', 0);
+(80, 'XBT hit and run system', 'hitrun_xbt_update.php', 1405444631, 3600, 'a6804b0f6d5ce68ac390d4d261a82d85', 1, 'XBT hit and run detection', 0),
+(81, 'Clean cheater data', 'cheatclean_update.php', 1408382495, 86400, '9b0112ad44b0135220ef539804447d49', 1, 'Clean abnormal upload speed entrys', 1);
 
 -- --------------------------------------------------------
 

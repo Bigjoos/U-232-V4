@@ -68,7 +68,8 @@ INSERT INTO `cleanup` (`clean_id`, `clean_title`, `clean_file`, `clean_time`, `c
 (70, 'Normalize XBT', 'torrents_normalize_xbt.php', 1405720207, 900, 'bd4f4ae7d7499aefbce82971a3b1cbbd', 1, 'XBT normalize query updates', 0),
 (71, 'Delete torrents', 'delete_torrents_xbt_update.php', 1405731392, 86400, '2d47cfeddfd61ed4529e0d4a25ca0d12', 1, 'Delete torrent xbt update', 0),
 (72, 'XBT Torrents', 'torrents_update_xbt.php', 1405721775, 900, '79e243cf24e92a13441b381d033d03a9', 1, 'XBT Torrents update', 0),
-(73, 'XBT hit and run system', 'hitrun_xbt_update.php', 1405444631, 3600, 'a6804b0f6d5ce68ac390d4d261a82d85', 1, 'XBT hit and run detection', 0);
+(73, 'XBT hit and run system', 'hitrun_xbt_update.php', 1405444631, 3600, 'a6804b0f6d5ce68ac390d4d261a82d85', 1, 'XBT hit and run detection', 0),
+(74, 'Clean cheater data', 'cheatclean_update.php', 1408382495, 86400, '9b0112ad44b0135220ef539804447d49', 1, 'Clean abnormal upload speed entrys', 1);
 
 -- --------------------------------------------------------
 
