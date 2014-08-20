@@ -48,12 +48,12 @@ if ($INSTALLER09['seedbonus_on'] == 1 && $row['owner'] != $CURUSER['id']) {
     //===remove karma
     sql_query("UPDATE users SET seedbonus = seedbonus-".sqlesc($INSTALLER09['bonus_per_download'])." WHERE id = " . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
     $update['seedbonus'] = ($CURUSER['seedbonus'] - $INSTALLER09['bonus_per_download']);
-    $mc1->begin_transaction('userstats_' . $row["owner"]);
+    $mc1->begin_transaction('userstats_' . $CURUSER['id']);
     $mc1->update_row(false, array(
         'seedbonus' => $update['seedbonus']
     ));
     $mc1->commit_transaction($INSTALLER09['expires']['u_stats']);
-    $mc1->begin_transaction('user_stats_' . $row["owner"]);
+    $mc1->begin_transaction('user_stats_' . $CURUSER['id']);
     $mc1->update_row(false, array(
         'seedbonus' => $update['seedbonus']
     ));
