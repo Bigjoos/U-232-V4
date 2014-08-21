@@ -232,7 +232,7 @@ $INSTALLER09['slider_cats'] = array(
     11
 );
 $INSTALLER09['moviecats'] = "3,5,6,10,11";
-$youtube_pattern = "/^http\:\/\/www\.youtube\.com\/watch\?v\=[\w]{11}/i";
+$youtube_pattern = "/^http(s)?\:\/\/www\.youtube\.com\/watch\?v\=[\w]{11}/i"; 
 //== set this to size of user avatars
 $INSTALLER09['av_img_height'] = 100;
 $INSTALLER09['av_img_width'] = 100;
