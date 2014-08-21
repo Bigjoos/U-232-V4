@@ -30,7 +30,7 @@ function torrenttable($res, $variant = "index")
     global $INSTALLER09, $CURUSER, $lang, $free, $mc1;
     require_once (INCL_DIR . 'bbcode_functions.php');
     require_once (CLASS_DIR . 'class_user_options_2.php');
-    $htmlout = $prevdate = $nuked = $free_slot = $free_color = $slots_check = $double_slot = $private = $newgenre = $oldlink = $char = $description = $type = $sort = $row = $youtube = '';
+    $htmlout = $prevdate = $nuked = $free_slot = $freetorrent = $free_color = $slots_check = $double_slot = $private = $newgenre = $oldlink = $char = $description = $type = $sort = $row = $youtube = '';
     $count_get = 0;
     /** ALL FREE/DOUBLE **/
     foreach ($free as $fl) {
@@ -158,6 +158,7 @@ function torrenttable($res, $variant = "index")
         $viponly = ($row["vip"] == "1" ? "<img src='{$INSTALLER09['pic_base_url']}star.png' border='0' alt='Vip Torrent' title='Vip Torrent' />" : "");
         $bump = ($row['bump'] == "yes" ? "<img src='{$INSTALLER09['pic_base_url']}up.gif' width='12px' alt='Re-Animated torrent' title='This torrent was ReAnimated!' />" : "");
         /** FREE Torrent **/
+        $freetorrent = (XBT_TRACKER == true && $row["freetorrent"] >= "1" ? "<img src='{$INSTALLER09['pic_base_url']}freedownload.gif' border='0' alt='Vip Torrent' title='Vip Torrent' />" : "");
         $free_tag = ($row['free'] != 0 ? ' <a class="info" href="#"><b>[FREE]</b> <span>' . ($row['free'] > 1 ? 'Expires: ' . get_date($row['free'], 'DATE') . '<br />(' . mkprettytime($row['free'] - TIME_NOW) . ' to go)<br />' : 'Unlimited<br />') . '</span></a>' : $all_free_tag);
         /** Silver Torrent **/
         $silver_tag = ($row['silver'] != 0 ? ' <a class="info" href="#"><b>[SILVER]</b> <span>' . ($row['silver'] > 1 ? 'Expires: ' . get_date($row['silver'], 'DATE') . '<br />(' . mkprettytime($row['silver'] - TIME_NOW) . ' to go)<br />' : 'Unlimited<br />') . '</span></a>' : '');
@@ -180,7 +181,7 @@ function torrenttable($res, $variant = "index")
                 }
             }
         } else $Subs = "---";
-        $htmlout.= "' onmouseover=\"Tip('<b>" . CutName($dispname, 80) . "</b><br /><b>Added:&nbsp;" . get_date($row['added'], 'DATE', 0, 1) . "</b><br /><b>Size:&nbsp;" . mksize(htmlsafechars($row["size"])) . "</b><br /><b>Subtitle:&nbsp;{$Subs}</b><br /><b>Seeders:&nbsp;" . htmlsafechars($row["seeders"]) . "</b><br /><b>Leechers:&nbsp;" . htmlsafechars($row["leechers"]) . "</b><br />$poster');\" onmouseout=\"UnTip();\"><b>" . CutName($dispname, 45) . "</b></a>&nbsp;&nbsp;<a href=\"javascript:klappe_descr('descr" . (int)$row["id"] . "');\" ><img src=\"{$INSTALLER09['pic_base_url']}plus.png\" border=\"0\" alt=\"Show torrent info in this page\" title=\"Show torrent info in this page\" /></a>&nbsp;&nbsp;$youtube&nbsp;$viponly&nbsp;$release_group&nbsp;$sticky&nbsp;" . ($row['added'] >= $CURUSER['last_browse'] ? " <img src='{$INSTALLER09['pic_base_url']}newb.png' border='0' alt='New !' title='New !' />" : "") . "&nbsp;$checked&nbsp;$free_tag&nbsp;$silver_tag<br />$free_slot&nbsp;$double_slot&nbsp;$nuked&nbsp;$newgenre&nbsp;$bump&nbsp;$smalldescr</td>\n";
+        $htmlout.= "' onmouseover=\"Tip('<b>" . CutName($dispname, 80) . "</b><br /><b>Added:&nbsp;" . get_date($row['added'], 'DATE', 0, 1) . "</b><br /><b>Size:&nbsp;" . mksize(htmlsafechars($row["size"])) . "</b><br /><b>Subtitle:&nbsp;{$Subs}</b><br /><b>Seeders:&nbsp;" . htmlsafechars($row["seeders"]) . "</b><br /><b>Leechers:&nbsp;" . htmlsafechars($row["leechers"]) . "</b><br />$poster');\" onmouseout=\"UnTip();\"><b>" . CutName($dispname, 45) . "</b></a>&nbsp;&nbsp;<a href=\"javascript:klappe_descr('descr" . (int)$row["id"] . "');\" ><img src=\"{$INSTALLER09['pic_base_url']}plus.png\" border=\"0\" alt=\"Show torrent info in this page\" title=\"Show torrent info in this page\" /></a>&nbsp;&nbsp;$youtube&nbsp;$viponly&nbsp;$release_group&nbsp;$sticky&nbsp;" . ($row['added'] >= $CURUSER['last_browse'] ? " <img src='{$INSTALLER09['pic_base_url']}newb.png' border='0' alt='New !' title='New !' />" : "") . "&nbsp;$checked&nbsp;$freetorrent&nbsp;$free_tag&nbsp;$silver_tag<br />$free_slot&nbsp;$double_slot&nbsp;$nuked&nbsp;$newgenre&nbsp;$bump&nbsp;$smalldescr</td>\n";
         if ($variant == "mytorrents") $htmlout.= "<td align='center'><a href=\"download.php?torrent={$id}" . ($CURUSER['ssluse'] == 3 ? "&amp;ssl=1" : "") . "\"><img src='{$INSTALLER09['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a></td>\n";
         if ($variant == "mytorrents") $htmlout.= "<td align='center'><a href='edit.php?id=" . (int)$row['id'] . "amp;returnto=" . urlencode($_SERVER["REQUEST_URI"]) . "'>{$lang["torrenttable_edit"]}</a></td>\n";
         $htmlout.= ($variant == "index" ? "<td align='center'><a href=\"download.php?torrent={$id}" . ($CURUSER['ssluse'] == 3 ? "&amp;ssl=1" : "") . "\"><img src='{$INSTALLER09['pic_base_url']}zip.gif' border='0' alt='Download This Torrent!' title='Download This Torrent!' /></a></td>" : "");

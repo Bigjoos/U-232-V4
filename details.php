@@ -92,6 +92,7 @@ if (($torrents = $mc1->get_value('torrent_details_' . $id)) === false) {
         'last_reseed',
         'category',
         'free',
+        'freetorrent',
         'silver',
         'rating_sum',
 	'checked_when',
@@ -460,7 +461,7 @@ if (!($CURUSER["downloadpos"] == 0 && $CURUSER["id"] != $torrents["owner"] OR $C
 }
 $sr = floor($sr * 1000) / 1000;
 $sr = "<font color='" . get_ratio_color($sr) . "'>" . number_format($sr, 3) . "</font>&nbsp;&nbsp;<img src=\"pic/smilies/{$s}.gif\" alt=\"\" />";
-if ($torrents['free'] >= 1 || $isfree['yep'] || $free_slot OR $double_slot != 0 || $CURUSER['free_switch'] != 0) {
+if ($torrents['free'] >= 1 || $torrents['freetorrent'] >= 1 || $isfree['yep'] || $free_slot OR $double_slot != 0 || $CURUSER['free_switch'] != 0) {
     $HTMLOUT.= "<tr>
 				<td align='right' class='heading'>Ratio After Download</td>
 				<td><del>{$sr}&nbsp;&nbsp;Your new ratio if you download this torrent.</del> <b><font size='' color='#FF0000'>[FREE]</font></b>&nbsp;(Only upload stats are recorded)
