@@ -286,7 +286,7 @@ $HTMLOUT.= "</tr>
     </table><br />";
 //== clear new tag manually
 if ($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) {
-    $HTMLOUT.= "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button' /></a><br />";
+    $new_button = "<a href='?clear_new=1'><input type='submit' value='clear new tag' class='button' /></a><br />";
 } else {
     //== clear new tag automatically
     sql_query("UPDATE users SET last_browse=" . TIME_NOW . " where id=" . $CURUSER['id']);
