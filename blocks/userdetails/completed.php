@@ -23,7 +23,7 @@ if ($INSTALLER09['hnr_online'] == 1 && $user['paranoia'] < 2 || $CURUSER['id'] =
     <td class='colhead' align='center'>{$lang['userdetails_laction']}</td>
     <td class='colhead' align='center'>{$lang['userdetails_speed']}</td></tr>";
         while ($a = mysqli_fetch_assoc($r)) {
-        $What_Id = (XBT_TRACKER == true ? $a['fid'] : $a['id']);
+        $What_Id = (XBT_TRACKER == true ? $a['tid'] : $a['id']);
             //=======change colors
             $count2 = (++$count2) % 2;
             $class = ($count2 == 0 ? 'one' : 'two');

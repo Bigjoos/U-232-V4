@@ -214,7 +214,7 @@ void read_db_torrents_sql()
 
 		if (m_config.m_auto_register && !m_torrents.empty())
 			return;
-		Csql_result result = Csql_query(m_database, "select info_hash, @completed, @fid, ctime from @files where @fid >= ?")(m_fid_end).execute();
+		Csql_result result = Csql_query(m_database, "select info_hash, @completed, @fid, ctime, freetorrent from @files where @fid >= ?")(m_fid_end).execute();
 		// m_torrents.reserve(m_torrents.size() + result.size());
 		while (Csql_row row = result.fetch_row())
 		{
