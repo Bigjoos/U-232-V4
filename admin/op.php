@@ -212,9 +212,9 @@ $host = (function_exists('gethostname')
 
     <div style="text-align:center;margin-bottom:2em;">
         <p>
-            <a href="?page=overview" class="button">Overview</a>
-            <a href="?page=files" class="button">File usage</a>
-            <a href="?page=reset" class="button" onclick="return confirm('Are you sure you want to reset the cache?');">Reset cache</a>
+            <a href="staffpanel.php?tool=op&page=overview" class="button">Overview</a>
+            <a href="staffpanel.php?tool=op&page=files" class="button">File usage</a>
+            <a href="staffpanel.php?tool=op&page=reset" class="button" onclick="return confirm('Are you sure you want to reset the cache?');">Reset cache</a>
         </p>
     </div>
 
