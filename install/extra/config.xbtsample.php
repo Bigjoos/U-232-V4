@@ -30,8 +30,9 @@ define('EMAIL_CONFIRM', true);
 define('SQL_DEBUG', 1);
 define('XBT_TRACKER', true);
 //==charset
-if (ini_get('default_charset') != charset()) {
-    ini_set('default_charset', charset());
+$INSTALLER09['char_set'] = 'UTF-8'; //also to be used site wide in meta tags
+if (ini_get('default_charset') != $INSTALLER09['char_set']) {
+    ini_set('default_charset', $INSTALLER09['char_set']);
 }
 /* Compare php version for date/time stuff etc! */
 if (version_compare(PHP_VERSION, "5.1.0RC1", ">=")) date_default_timezone_set('Europe/London');
@@ -232,7 +233,7 @@ $INSTALLER09['slider_cats'] = array(
     11
 );
 $INSTALLER09['moviecats'] = "3,5,6,10,11";
-$youtube_pattern = "/^http(s)?\:\/\/www\.youtube\.com\/watch\?v\=[\w]{11}/i"; 
+$youtube_pattern = "/^http(s)?\:\/\/www\.youtube\.com\/watch\?v\=[\w-]{11}/i"; 
 //== set this to size of user avatars
 $INSTALLER09['av_img_height'] = 100;
 $INSTALLER09['av_img_width'] = 100;
