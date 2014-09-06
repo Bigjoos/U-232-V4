@@ -145,7 +145,7 @@ U-232 V4
 				- include/settings settings.txt 
 				- install/extra/config.phpsample.php/config.xbtsample.php 
 				- install/extra/ann_config.phpsample.php/ann_config.xbtsample.php
-				- logs 
+				- sqlerr_logs 
 				- torrents
 
 
