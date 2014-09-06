@@ -864,7 +864,7 @@ CREATE TABLE IF NOT EXISTS `cleanup_log` (
   `clog_id` int(10) NOT NULL AUTO_INCREMENT,
   `clog_event` char(150) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `clog_time` int(11) NOT NULL DEFAULT '0',
-  `clog_ip` char(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `clog_ip` char(60) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `clog_desc` text CHARACTER SET utf8,
   PRIMARY KEY (`clog_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
@@ -1116,7 +1116,7 @@ INSERT INTO `events` (`id`, `userid`, `startTime`, `endTime`, `overlayText`, `di
 
 CREATE TABLE IF NOT EXISTS `failedlogins` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `added` int(11) NOT NULL,
   `banned` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `attempts` int(10) NOT NULL DEFAULT '0',
@@ -1231,7 +1231,7 @@ CREATE TABLE IF NOT EXISTS `forum_poll_votes` (
   `poll_id` int(10) unsigned NOT NULL DEFAULT '0',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `option` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `added` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `poll_id` (`poll_id`)
@@ -1454,7 +1454,7 @@ CREATE TABLE IF NOT EXISTS `invite_codes` (
 
 CREATE TABLE IF NOT EXISTS `ips` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `userid` int(10) DEFAULT NULL,
   `type` enum('login','announce','browse','like') CHARACTER SET latin1 NOT NULL,
   `seedbox` tinyint(1) NOT NULL DEFAULT '0',
@@ -2003,7 +2003,7 @@ CREATE TABLE IF NOT EXISTS `polls` (
 
 CREATE TABLE IF NOT EXISTS `poll_voters` (
   `vid` int(10) NOT NULL AUTO_INCREMENT,
-  `ip_address` varchar(16) CHARACTER SET utf8 DEFAULT NULL,
+  `ip_address` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `vote_date` int(10) NOT NULL DEFAULT '0',
   `poll_id` int(10) NOT NULL DEFAULT '0',
   `user_id` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
@@ -2034,7 +2034,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `bbcode` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
   `post_history` text CHARACTER SET utf8,
   `edit_reason` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `status` enum('deleted','recycled','postlocked','ok') CHARACTER SET utf8 NOT NULL DEFAULT 'ok',
   `staff_lock` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `anonymous` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'no',
@@ -2121,7 +2121,7 @@ CREATE TABLE IF NOT EXISTS `read_posts` (
 CREATE TABLE IF NOT EXISTS `referrers` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `browser` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
-  `ip` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `referer` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
   `page` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `date` int(11) NOT NULL,
@@ -2278,7 +2278,7 @@ CREATE TABLE IF NOT EXISTS `searchcloud` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `searchedfor` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `howmuch` int(10) NOT NULL,
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `searchedfor` (`searchedfor`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
@@ -2400,7 +2400,7 @@ CREATE TABLE IF NOT EXISTS `snatched` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL DEFAULT '0',
   `torrentid` int(10) unsigned NOT NULL DEFAULT '0',
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `port` smallint(5) unsigned NOT NULL DEFAULT '0',
   `connectable` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `agent` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
@@ -2882,7 +2882,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stylesheet` int(10) NOT NULL DEFAULT '1',
   `info` text CHARACTER SET utf8,
   `acceptpms` enum('yes','friends','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `ip` varchar(15) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `class` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `override_class` tinyint(3) unsigned NOT NULL DEFAULT '255',
   `language` int(11) NOT NULL DEFAULT '1',
