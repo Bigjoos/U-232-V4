@@ -44,6 +44,11 @@ $foo = array(
             'input' => 'config[site_name]',
             'info' => 'Your site name.'
         ) ,
+        array(
+            'text' => 'Using XBT Tracker',
+            'input' => 'config[xbt_tracker]',
+            'info' => 'Check if yes.'
+        ) ,
     ) ,
     'Cookies' => array(
         array(
@@ -106,11 +111,14 @@ function createblock($fo, $foo)
 	<fieldset>
 		<legend>'.$fo.'</legend>
 		<table align="center">';
-    foreach ($foo as $bo) $out.= '<tr>
-			<td class="input_text">'.$bo['text'].'</td>
-			<td class="input_input"><input type="'.(strpos($bo['input'], 'pass') == true ? 'password' : 'text').'" name="'.$bo['input'].'" size="30"/></td>
-			<td class="input_info">'.$bo['info'].'</td>
-		  </tr>';
+    foreach ($foo as $bo) {$out.= '<tr>
+                <td class="input_text">'.$bo['text'].'</td>';
+                if(strpos($bo['input'], 'pass') == true) {$type = 'password';}
+                elseif ($bo['input'] == 'config[xbt_tracker]') {$type = 'checkbox" value="yes" checked="checked';}
+                else {$type = 'text';}
+                $out.= '<td class="input_input"><input type="'.$type.'" name="'.$bo['input'].'" size="30"/></td>
+                <td class="input_info">'.$bo['info'].'</td>
+              </tr>';}
     $out.= '</table></fieldset>';
     return $out;
 }
@@ -120,7 +128,15 @@ function saveconfig()
     $continue = true;
     $out = "<fieldset><legend>Write config</legend>";
     if (!file_exists('config.lock')) {
-        $config = file_get_contents('extra/config.sample.php');
+    	if(isset($_POST['config']['xbt_tracker'])) {
+    		$file = "extra/config.xbtsample.php";
+    		$xbt = 1;
+    	}
+    	else {
+    		$file = "extra/config.phpsample.php";
+    		$xbt = 0;
+    	}
+        $config = file_get_contents($file);
         $keys = array_map('foo', array_keys($_POST['config']));
         $values = array_values($_POST['config']);
         $config = preg_replace($keys, $values, $config);
@@ -133,7 +149,15 @@ function saveconfig()
         }
     } else $out.= '<div class="readable">Config file was already written</div>';
     if (!file_exists('announce.lock')) {
-        $announce = file_get_contents('extra/ann_config.sample.php');
+        if(isset($_POST['config']['xbt_tracker'])) {
+            $file = "extra/ann_config.xbtsample.php";
+            $xbt = 1;
+        }
+        else {
+            $file = "extra/ann_config.phpsample.php";
+            $xbt = 0;
+        }
+        $announce = file_get_contents($file);
         $keys = array_map('foo', array_keys($_POST['announce']));
         $values = array_values($_POST['announce']);
         $announce = preg_replace($keys, $values, $announce);
@@ -146,7 +170,13 @@ function saveconfig()
         }
     } else $out.= '<div class="readable">Announce file was already written</div>';
     if ($continue) {
-        $out.= '<div style="text-align:center" class="info"><input type="button" value="Next step" onclick="window.location.href=\'index.php?step=2\'"/></div>';
+        if(isset($_POST['config']['xbt_tracker'])) {
+            $xbt = 1;
+        }
+        else {
+            $xbt = 0;
+        }
+        $out.= '<div style="text-align:center" class="info"><input type="button" value="Next step" onclick="window.location.href=\'index.php?step=2&xbt='.$xbt.'\'"/></div>';
         file_put_contents('step1.lock', 1);
     } else $out.= '<div style="text-align:center" class="info"><input type="button" value="Go back" onclick="window.go(-1)"/></div>';
     $out.= '</fieldset>';
