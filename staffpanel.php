@@ -214,7 +214,7 @@ if (in_array($tool, $staff_tools) and file_exists(ADMIN_DIR . $staff_tools[$tool
                 $errors[] = $lang['spanel_the_filename'].' '.$lang['spanel_cannot_be_empty'].'.';
             if (empty($description))
                 $errors[] = $lang['spanel_the_descr'].' '.$lang['spanel_cannot_be_empty'].'.';
-            if (!in_array($av_class, $staff_classes))
+            if (!in_array("$av_class", $staff_classes))
                 $errors[] = $lang['spanel_selected_class_not_valid'];
 
             if (!is_file($file_name . '.php') && !empty($file_name) && !preg_match('/.php/', $file_name))

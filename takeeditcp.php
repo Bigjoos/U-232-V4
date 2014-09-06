@@ -291,6 +291,10 @@ elseif ($action == "torrents") {
     $curuser_cache['notifs'] = $notifs;
     $user_cache['notifs'] = $notifs;
     //==
+    if (isset($_POST["torrentsperpage"]) && (($torrentspp = min(100, 0 + $_POST["torrentsperpage"])) != $CURUSER["torrentsperpage"])) $updateset[] = "torrentsperpage = $torrentspp";
+    $curuser_cache['torrentsperpage'] = $torrentspp;
+    $user_cache['torrentsperpage'] = $torrentspp;
+    //==
     if (isset($_POST['viewscloud'])) $setbits|= user_options::VIEWSCLOUD;
     else $clrbits|= user_options::VIEWSCLOUD;
     /*
@@ -369,9 +373,6 @@ elseif ($action == "personal") {
     $curuser_cache['stylesheet'] = $stylesheet;
     $user_cache['stylesheet'] = $stylesheet;
     
-    if (isset($_POST["torrentsperpage"]) && (($torrentspp = min(100, 0 + $_POST["torrentsperpage"])) != $CURUSER["torrentsperpage"])) $updateset[] = "torrentsperpage = $torrentspp";
-    $curuser_cache['torrentsperpage'] = $torrentspp;
-    $user_cache['torrentsperpage'] = $torrentspp;
     if (isset($_POST["topicsperpage"]) && (($topicspp = min(100, 0 + $_POST["topicsperpage"])) != $CURUSER["topicsperpage"])) $updateset[] = "topicsperpage = $topicspp";
     $curuser_cache['topicsperpage'] = $topicspp;
     $user_cache['topicsperpage'] = $topicspp;

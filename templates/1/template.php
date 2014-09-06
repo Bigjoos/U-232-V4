@@ -39,7 +39,6 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
     //== Include css files needed only for the page being used by pdq
     $css_incl = '';
     $css_incl.= '<!-- css goes here -->';
-    $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $CURUSER['username'] . "");
     if (!empty($stdhead['css'])) {
         foreach ($stdhead['css'] as $CSS) $css_incl.= "<link type='text/css' rel='stylesheet' href='{$INSTALLER09['baseurl']}/templates/{$CURUSER['stylesheet']}/css/" . $CSS . ".css' />";
     }
@@ -136,8 +135,6 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
         $last24_cache = $mc1->get_value($keys['last24']);
         $keys['activeusers'] = 'activeusers';
         $active_users_cache = $mc1->get_value($keys['activeusers']);
-		if ($last24_cache['totalonline24'] != 1) $last24_cache['ss24'] = $lang['gl_members'];
-			else $last24_cache['ss24'] = $lang['gl_member'];
         $htmlout.= "
 		<!-- Main Navigation
 		=================================================== -->
@@ -182,7 +179,12 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
                 <li>" . (isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<a class='brand' href='" . $INSTALLER09['baseurl'] . "/contactstaff.php'>{$lang['gl_cstaff']}</a>" : "<a class='brand' href='" . $INSTALLER09['baseurl'] . "/staffbox.php'>{$lang['gl_smessages']}</a>") . "</li>
 		</ul>
 		<small>
-		<strong>&nbsp;&nbsp;" . $last24_cache['totalonline24'] . $last24_cache['ss24'] . " {$lang['gl_last24']}<br />";
+		<strong>";
+                if (!empty($last24_cache)) 
+                if ($last24_cache['totalonline24'] != 1) $last24_cache['ss24'] = $lang['gl_members'];
+	        else $last24_cache['ss24'] = $lang['gl_member'];
+                $htmlout .="
+                &nbsp;&nbsp;" . $last24_cache['totalonline24'] . $last24_cache['ss24'] . " {$lang['gl_last24']}<br />";
 		if (!empty($active_users_cache)) 
                 $htmlout.= "&nbsp;&nbsp;{$lang['gl_ausers']}&nbsp;[" . $active_users_cache['au'] . "]";
 		$htmlout.= "</strong></small></div><div class='clear'></div>";
@@ -202,6 +204,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
 		<!-- End Logo
 		=================================================== -->";
     if ($CURUSER) {
+        $salty = md5("Th15T3xtis5add3dto66uddy6he@water..." . $CURUSER['username'] . "");
         $htmlout.= "
 		<!-- Platform Navigation
 		=================================================== -->
