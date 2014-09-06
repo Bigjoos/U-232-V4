@@ -34,6 +34,12 @@ $INSTALLER09['char_set'] = 'UTF-8'; //also to be used site wide in meta tags
 if (ini_get('default_charset') != $INSTALLER09['char_set']) {
     ini_set('default_charset', $INSTALLER09['char_set']);
 }
+//== Windows fix
+if( !function_exists( 'sys_getloadavg' ) ){
+  function sys_getloadavg(){
+  return array( 0, 0, 0 );
+  }
+}
 /* Compare php version for date/time stuff etc! */
 if (version_compare(PHP_VERSION, "5.1.0RC1", ">=")) date_default_timezone_set('Europe/London');
 define('TIME_NOW', time());

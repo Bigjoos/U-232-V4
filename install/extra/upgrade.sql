@@ -280,7 +280,7 @@ ALTER TABLE `peers` ADD KEY `torrent_pass` (`torrent_pass`);
 CREATE TABLE IF NOT EXISTS `referrers` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `browser` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
-  `ip` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `referer` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
   `page` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `date` int(11) NOT NULL,

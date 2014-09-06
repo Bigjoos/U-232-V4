@@ -33,7 +33,7 @@ function docleanup($data)
     $days = 30;
     $dt = (TIME_NOW - ($days * 86400));
     sql_query("UPDATE torrents SET flags='1' WHERE added < $dt AND seeders='0' AND leechers='0'") or sqlerr(__FILE__, __LINE__);
-    $res = sql_query("SELECT id, name FROM torrents WHERE added < $dt AND seeders='0' AND leechers='0' AND flags='1'") or sqlerr(__FILE__, __LINE__);
+    $res = sql_query("SELECT id, name FROM torrents WHERE mtime < $dt AND seeders='0' AND leechers='0' AND flags='1'") or sqlerr(__FILE__, __LINE__);
     while ($arr = mysqli_fetch_assoc($res)) {
         sql_query("DELETE files.*, xbt_files_users.*, comments.*, thankyou.*, thanks.*, thumbsup.*, bookmarks.*, coins.*, rating.*, torrents.* FROM torrents 
 				 LEFT JOIN files ON files.torrent = torrents.id

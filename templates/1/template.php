@@ -591,7 +591,7 @@ function StatusBar()
        <div id='base_usermenu'>" . format_username($CURUSER) . " &nbsp;&nbsp;&nbsp;<span id='clock'>{$clock}</span>&nbsp;<span class='base_usermenu_arrow'><a href='#' onclick='showSlidingDiv(); return false;'><i class='icon-chevron-down'></i></a></span></div>
        <div id='slidingDiv'>
        <div class='slide_head'>{$lang['gl_pstats']}</div>
-       <div class='slide_a'>{$lang['gl_uclass']}</div><div class='slide_b'>{$usrclass}</div>
+       ".(isset($CURUSER) && $CURUSER['class'] < UC_STAFF ? "<div class='slide_a'>{$lang['gl_uclass']}</div><div class='slide_b'><b>(".get_user_class_name($CURUSER['class']).")</b></div>" : "<div class='slide_a'>{$lang['gl_uclass']}</div><div class='slide_b'>{$usrclass}</div>")."
        <div class='slide_c'>{$lang['gl_rep']}</div><div class='slide_d'>$member_reputation</div>
        <div class='slide_a'>{$lang['gl_invites']}</div><div class='slide_b'><a href='./invite.php'>{$CURUSER['invites']}</a></div>
        <div class='slide_c'>{$lang['gl_karma']}</div><div class='slide_d'><a href='./mybonus.php'>{$CURUSER['seedbonus']}</a></div>
