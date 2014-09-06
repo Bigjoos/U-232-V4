@@ -132,19 +132,19 @@ U-232 V4
 			If you use your own names for those folders then you need to edit bitbucket.php and img.php defines at top of the files.
 			Then add a .htaccess and index.html files into both newly created folders.
 			Then chmod those above folders.
-			Then extract pic.rar - javairc.rar and GeoIp.rar and ensure they are not inside an extra folder from being archived.
+			Then extract pic.taz.gz, javairc.tar.gz, Log_Viewer.tar.gz and GeoIp.tar.gz and ensure they are not inside an extra folder from being archived.
 			Then upload the code to your server and chmod; 
 				- cache and all nested files and folders 
 				- dir_list 
 				- uploads 
-				- uploadsubs 
+				- uploadsub
 				- imdb imdb/cache 
 				- imdb/images 
 				- include 
 				- include/backup 
 				- include/settings settings.txt 
-				- install/config.sample.php 
-				- install/ann_config.sample.php 
+				- install/extra/config.phpsample.php/config.xbtsample.php 
+				- install/extra/ann_config.phpsample.php/ann_config.xbtsample.php
 				- logs 
 				- torrents
 

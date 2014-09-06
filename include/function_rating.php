@@ -31,9 +31,12 @@ function getRate($id, $what)
         $rating_cache = mysqli_fetch_assoc($qy);
         $mc1->cache_value($keys['rating'], $rating_cache, 0);
     }
+    $completeres = sql_query("SELECT * FROM " . (XBT_TRACKER == true ? "xbt_files_users" : "snatched") . " WHERE " . (XBT_TRACKER == true ? "completedtime !=0" : "complete_date !=0") . " AND " . (XBT_TRACKER == true ? "uid" : "userid") . " = " . $CURUSER['id'] . " AND " . (XBT_TRACKER == true ? "fid" : "torrentid") . " = " . $id);
+    $completecount = mysqli_num_rows($completeres);
     // outputs
     $p = ($rating_cache["count"] > 0 ? round((($rating_cache["sum"] / $rating_cache["count"]) * 20) , 2) : 0);
     if ($rating_cache["rated"]) $rate = "<ul class=\"star-rating\" title=\"You rated this " . $what . " " . htmlsafechars($rating_cache["rating"]) . " star" . (htmlsafechars($rating_cache["rating"]) > 1 ? "s" : "") . "\"><li style=\"width: " . $p . "%;\" class=\"current-rating\">.</li></ul>";
+    elseif ($what == 'torrent' && $completecount == 0) $rate = "<ul class=\"star-rating\" title=\"You must download this " . $what . " in order to rate it.\"><li style=\"width: " . $p . "%;\" class=\"current-rating\">.</li></ul>";
     else {
         $i = 1;
         $rate = "<ul class=\"star-rating\"><li style=\"width: " . $p . "%;\" class=\"current-rating\">.</li>";

@@ -27,6 +27,9 @@ $uid = $CURUSER["id"];
 $ajax = isset($_GET["ajax"]) && $_GET["ajax"] == 1 ? true : false;
 $what = isset($_GET["what"]) && $_GET["what"] == "torrent" ? "torrent" : "topic";
 $ref = isset($_GET["ref"]) ? $_GET["ref"] : ($what == "torrent" ? "details.php" : "forums/view_topic.php");
+    $completeres = sql_query("SELECT * FROM " . (XBT_TRACKER == true ? "xbt_files_users" : "snatched") . " WHERE " . (XBT_TRACKER == true ? "completedtime !=0" : "complete_date !=0") . " AND " . (XBT_TRACKER == true ? "uid" : "userid") . " = " . $CURUSER['id'] . " AND " . (XBT_TRACKER == true ? "fid" : "torrentid") . " = " . $id);
+    $completecount = mysqli_num_rows($completeres);
+    if ($what == 'torrent' && $completecount == 0) stderr("Failed", "You must have downloaded this torrent in order to rate it. ");
 if ($id > 0 && $rate >= 1 && $rate <= 5) {
     if (sql_query("INSERT INTO rating(" . $what . ",rating,user) VALUES (" . sqlesc($id) . "," . sqlesc($rate) . "," . sqlesc($uid) . ")")) {
         $table = ($what == "torrent" ? "torrents" : "topics");
@@ -46,7 +49,7 @@ if ($id > 0 && $rate >= 1 && $rate <= 5) {
         }
         if ($INSTALLER09['seedbonus_on'] == 1) {
             //===add karma
-            $amount = ($what == 'torrent' ? $INSTALLER09['bonus_per_rating'] : '3');
+            $amount = ($what == 'torrent' ? $INSTALLER09['bonus_per_rating'] : $INSTALLER09['bonus_per_topic']);
             sql_query("UPDATE users SET seedbonus = seedbonus+$amount WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
             $update['seedbonus'] = ($CURUSER['seedbonus'] + $amount);
             $mc1->begin_transaction('userstats_' . $CURUSER["id"]);
