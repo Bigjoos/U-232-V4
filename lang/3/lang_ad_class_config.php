@@ -3,7 +3,7 @@ $lang = array(
 	'classcfg_error' => "Eroare",
 	'classcfg_denied' => "Acces Refuzat!",
 	'classcfg_error1' => "Tu nu ai ce c&#259;uta aici, ai &#238;ncercat s&#259; intri direct la acest fisier.",
-	'classcfg_file_created' => "?php\n\n/**\nAcest fi&#351;ier a fost creat la ",
+	'classcfg_file_created' => "**\nAcest fi&#351;ier a fost creat la ",
 	'classcfg_user_cfg' => ".\nConfigurare Clas&#259; de utilizatori.\n**/\n\n",
 	'classcfg_success' => "Succes",
 	'classcfg_success_save' => "Configura&#355;iile pentru clasa utilizatorilor a fost salvat&#259;! Clic <a href=\'staffpanel.php?tool=class_config\'>aici pentru a te duce &#238;napoi</a>",
