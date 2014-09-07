@@ -114,6 +114,12 @@ function torrenttable($res, $variant = "index")
         'image' => $value['image']
     );
     while ($row = mysqli_fetch_assoc($res)) {
+    //==
+        if ($CURUSER['opt2'] & user_options_2::SPLIT) {
+            if (get_date($row['added'], 'DATE') == $prevdate) $cleandate = '';
+            else $htmlout.= "<tr><td colspan='12' class='colhead' align='left'><b>{$lang['torrenttable_upped']} ".get_date($row['added'], 'DATE')."</b></td></tr>";
+            $prevdate = get_date($row['added'], 'DATE');
+        }
         $row['cat_name'] = htmlsafechars($change[$row['category']]['name']);
         $row['cat_pic'] = htmlsafechars($change[$row['category']]['image']);
         /** Freeslot/doubleslot in Use **/
