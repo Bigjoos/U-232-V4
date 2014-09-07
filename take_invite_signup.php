@@ -92,8 +92,7 @@ $editsecret = (!$arr[0] ? "" : make_passhash_login_key());
 $wanthintanswer = md5($hintanswer);
 check_banned_emails($email);
 $user_frees = (TIME_NOW + 14 * 86400);
-$class = 2;
-$new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, hintanswer, editsecret, birthday, invitedby, email, class, added, last_access, last_login, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
+$new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, hintanswer, editsecret, birthday, invitedby, email, added, last_access, last_login, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
     $wantusername,
     $wantpasshash,
     $secret,
@@ -103,7 +102,6 @@ $new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, 
     $wanthintanswer,
     (int)$assoc['sender'],
     $email,
-    $class,
     TIME_NOW,
     TIME_NOW,
     TIME_NOW,
