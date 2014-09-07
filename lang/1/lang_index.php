@@ -164,7 +164,7 @@ It is your own responsibility to adhere to these terms.",
 	'index_news_del' => "Delete news",
 	'index_news_added' => "&nbsp;-&nbsp;Added by ",
 	'index_news_anon' => "Anonymous",
-	'index_news_not' => "We currently have nothing all to say :-P",
+	'index_news_not' => "We currently have fuck all to say :-P",
 	'index_news_txt' => "&nbsp;-&nbsp;",
 	//shoutbox
 	'index_shoutbox_general' => "ShoutBox - General Chit-chat",
