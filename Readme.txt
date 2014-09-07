@@ -113,8 +113,6 @@ killall xbt_tracker
 
 If running the upgrade sql then you need to check a few points first, go to your phpmyadmin and check what the last id is on cleanup_manager and edit the upgrade.sql inserts accordinally, check the staffpanel last id and edit the upgrade.sql inserts accordinally, userclasses in class_config table are default 0-6 so if you have different classes then edit that table first adding the new classes and values also edit cache/class_config.php. Once your upgrade is completed with new code in place simply edit your announce urls in all seeding torrents and change announce.php?passkey= to announce.php?torrent_pass= and all torrents should resume as normal, same applys if switching to XBT_TRACKER, you would use the XBT_TRACKER format for announce url in client.
 
-By default the code is configured to run from XBT tracker, if you change to default announce then remember to switch off default torrent updates and enable xbt torrent updates on cleanup manager. 
-
 Open the upgrade.sql and update your database adding all additional entrys, once done backup cache/staff_settings.php also cache/staff_settings2.php, backup include/ann_config.php and include/config.php, then delete all the old v3 files from ftp except pic folder, torrents, then upload the v4 code onto your server except the install folder, when prompted at pic folder hit skip and it will only add the newer files depening on ftp client. Open your ann_config.php and config.php files then open the install/extra/ann_config.sample.php and config.sample.php, transfer all your config settings to the newer files then save and rename them removing.sample out the file name, then transfer them into include folder, ensure you chmod any new cache files added also.
 
 U-232 V4
@@ -151,7 +149,7 @@ U-232 V4
 
 		2. Create a new database user and password via phpmyadmin.
 
-		3. Point to https://yoursite.com/install/index.php - fill in all the required data - then log in. 
+		3. Point to https://yoursite.com/install/index.php - fill in all the required data and choose XBT or default - then log in. 
 
 		4. Create a second user on entry named System ensure its userid2 so you dont need to alter the autoshout function on include/user_functions.php. 
 
