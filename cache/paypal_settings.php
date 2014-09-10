@@ -65,5 +65,11 @@ $INSTALLER09['paypal_config']['duntil_dur_5'] = 12;
 $INSTALLER09['paypal_config']['imm_dur_5'] = 12;
 $INSTALLER09['paypal_config']['duntil_dur_6'] = 24;
 $INSTALLER09['paypal_config']['imm_dur_6'] = 24;
+$INSTALLER09['paypal_config']['inv_amt_1'] = 1;
+$INSTALLER09['paypal_config']['inv_amt_2'] = 2;
+$INSTALLER09['paypal_config']['inv_amt_3'] = 3;
+$INSTALLER09['paypal_config']['inv_amt_4'] = 4;
+$INSTALLER09['paypal_config']['inv_amt_5'] = 5;
+$INSTALLER09['paypal_config']['inv_amt_6'] = 6;
 
 ?>
