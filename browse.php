@@ -205,7 +205,7 @@ if (isset($cleansearchstr)) {
         foreach ($searcha as $foo) {
             foreach ($searchin as $boo) $searchincrt[] = sprintf('%s LIKE \'%s\'', $boo, '%' . $foo . '%');
         }
-        $wherea[] = join(' OR ', $searchincrt);
+        $wherea[] = '( ' . join(' OR ', $searchincrt) . ' )';
     }
 }
 $where = count($wherea) ? 'WHERE ' . join(' AND ', $wherea) : '';
