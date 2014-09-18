@@ -48,7 +48,7 @@ $lang = load_language('global');
 $id = (isset($_GET['id']) ? $_GET['id'] : $CURUSER['id']);
 if (!is_valid_id($id) || $CURUSER['class'] < UC_STAFF) $id = $CURUSER['id'];
 if ($CURUSER['got_blocks'] == 'no') {
-    stderr("<div class='alert alert-error span11'>'Error', Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides.... Go to your Karma bonus page and buy this unlock before trying to access it.</div>");
+    stderr($lang['gl_error'], "Time shall unfold what plighted cunning hides\n\nWho cover faults, at last shame them derides.... Go to your Karma bonus page and buy this unlock before trying to access it.");
     die;
 }
     //$mc1->delete_value('blocks::' . $id);
