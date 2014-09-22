@@ -122,7 +122,7 @@ $res = sql_query("SELECT id, uploaded, downloaded, invites, modcomment FROM user
         $count = count($users_buffer);
         if ($count > 0) {
             sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO users (id, class, invites, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class), invites = invites+values(invites), modcomment=concat(values(modcomment),modcomment)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, class, invites, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class), invites = invites+values(invites), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
             write_log("Cleanup: Promoted " . $count . " member(s) from ".$prev_class_name." to ".$class_name."");
         }
         unset($users_buffer, $msgs_buffer, $update, $count);
