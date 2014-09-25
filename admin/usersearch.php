@@ -806,7 +806,7 @@ if (count($_POST) > 0); //&& isset($_POST['n']))
 <td>
 <div align='center'>
 <input name='n_pms' type='hidden' value='" . $count . "' />
-<input name='ann_query' type='hidden' value='" . $announcement_query . "' />
+<input name='ann_query' type='hidden' value='" . rawurlencode($announcement_query) . "' />
 <input name='ann_hash' type='hidden' value ='" . (hashit($announcement_query, $count)) . "' />
 <button type='submit'>{$lang['usersearch_create_ann']}</button>
 </div></td>
