@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  	<input type='submit' name='buttonval' value='Submit' class='btn' />
  	</td></tr></table>
  	<input type='hidden' name='n_pms' value='" . $n_pms . "' />
- 	<input type='hidden' name='ann_query' value='" . $ann_query . "' />
+    <input type='hidden' name='ann_query' value='".rawurlencode($ann_query)."' />
  	<input type='hidden' name='ann_hash' value='" . $ann_hash . "' />
  	</form><br /><br />
  	</div></td></tr></table>";
