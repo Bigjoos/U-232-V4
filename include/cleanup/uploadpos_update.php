@@ -54,7 +54,7 @@ function docleanup($data)
         $count = count($users_buffer);
         if ($count > 0) {
             sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO users (id, uploadpos, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE uploadpos=values(uploadpos), modcomment=concat(values(modcomment),modcomment)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, uploadpos, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE uploadpos=values(uploadpos), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Upload ban from " . $count . " members");
         }
         unset($users_buffer, $msgs_buffer, $count);
