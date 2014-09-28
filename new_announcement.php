@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $ann_query)) stderr('Error', 'Misformed Query');
     if (!$n_pms) stderr('Error', 'No recipients');
     //== Preview POST data ...
-    $body = trim((isset($_POST['msg']) ? $_POST['msg'] : ''));
+    $body = trim((isset($_POST['body']) ? $_POST['body'] : ''));
     $subject = trim((isset($_POST['subject']) ? $_POST['subject'] : ''));
     $expiry = 0 + (isset($_POST['expiry']) ? $_POST['expiry'] : 0);
     if ((isset($_POST['buttonval']) AND $_POST['buttonval'] == 'Submit')) {
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  	<input name='subject' type='text' size='76' value='" . htmlsafechars($subject) . "' /></td>
  	</tr>
  	<tr><td colspan='2'><div align='center'>
-  " . textbbcode("compose", "msg", $body) . "
+                       ".BBcode(false)."
   </div></td></tr>";
     $HTMLOUT.= "<tr><td colspan='2' align='center'>";
     $HTMLOUT.= "<select name='expiry'>";
