@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     );
     //== Usersearch POST data...
     $n_pms = (isset($_POST['n_pms']) ? (int)$_POST['n_pms'] : 0);
-    $ann_query = (isset($_POST['ann_query']) ? trim($_POST['ann_query']) : '');
+    $ann_query = (isset($_POST['ann_query']) ? rawurldecode(trim($_POST['ann_query'])) : '');
     $ann_hash = (isset($_POST['ann_hash']) ? trim($_POST['ann_hash']) : '');
     if (hashit($ann_query, $n_pms) != $ann_hash) die(); // Validate POST...
     if (!preg_match('/\\ASELECT.+?FROM.+?WHERE.+?\\z/', $ann_query)) stderr('Error', 'Misformed Query');
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  	<input type='submit' name='buttonval' value='Submit' class='btn' />
  	</td></tr></table>
  	<input type='hidden' name='n_pms' value='" . $n_pms . "' />
- 	<input type='hidden' name='ann_query' value='" . $ann_query . "' />
+    <input type='hidden' name='ann_query' value='".rawurlencode($ann_query)."' />
  	<input type='hidden' name='ann_hash' value='" . $ann_hash . "' />
  	</form><br /><br />
  	</div></td></tr></table>";
