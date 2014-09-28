@@ -277,7 +277,8 @@ function torrenttable($res, $variant = "index")
             $keepget = $addthis;
         }
         $editlink = "a href=\"$url\" class=\"sublink\"";
-        $htmlout .= "<td align='center'><$editlink><img src='pic/button_edit2.gif' alt='Fast Edit' title='Fast Edit' /></a><a href='fastdelete.php?id=".(int)$row['id']."'>&nbsp;<img src='pic/button_delete2.gif' alt='Fast Delete' title='Fast Delete' /></a></td>\n";
+        $del_link = ($CURUSER['class'] === UC_MAX ? "<a href='fastdelete.php?id=".(int)$row['id']."'>&nbsp;<img src='pic/button_delete2.gif' alt='Fast Delete' title='Fast Delete' /></a>" : "");
+        $htmlout .= "<td align='center'><$editlink><img src='pic/button_edit2.gif' alt='Fast Edit' title='Fast Edit' /></a>{$del_link}</td>\n";
         }
         $htmlout.= "</tr>\n";
         $htmlout.= "<tr id=\"kdescr" . (int)$row["id"] . "\" style=\"display:none;\"><td width=\"100%\" colspan=\"13\">" . format_comment($descr, false) . "</td></tr>\n";
