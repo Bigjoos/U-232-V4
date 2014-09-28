@@ -696,12 +696,18 @@ function unesc($x)
     if (get_magic_quotes_gpc()) return stripslashes($x);
     return $x;
 }
-function mksize($bytes)
-{
-    if ($bytes < 1000 * 1024) return number_format($bytes / 1024, 2) . " kB";
-    elseif ($bytes < 1000 * 1048576) return number_format($bytes / 1048576, 2) . " MB";
-    elseif ($bytes < 1000 * 1073741824) return number_format($bytes / 1073741824, 2) . " GB";
-    else return number_format($bytes / 1099511627776, 2) . " TB";
+#Extended mksize Function
+function mksize($bytes) {
+    $bytes = max(0, (int)$bytes);
+
+    if ($bytes < 1024000) return number_format($bytes / 1024, 2).' KB'; #Kilobyte
+    elseif ($bytes < 1048576000) return number_format($bytes / 1048576, 2).' MB'; #Megabyte
+    elseif ($bytes < 1073741824000) return number_format($bytes / 1073741824, 2).' GB'; #Gigebyte
+    elseif ($bytes < 1099511627776000) return number_format($bytes / 1099511627776, 3).' TB'; #Terabyte
+    elseif ($bytes < 1125899906842624000) return number_format($bytes / 1125899906842624, 3).' PB'; #Petabyte
+    elseif ($bytes < 1152921504606846976000) return number_format($bytes / 1152921504606846976, 3).' EB'; #Exabyte
+    elseif ($bytes < 1180591620717411303424000) return number_format($bytes / 1180591620717411303424, 3).' ZB'; #Zettabyte
+    else return number_format($bytes / 1208925819614629174706176, 3).' YB'; #Yottabyte
 }
 function mkprettytime($s)
 {
