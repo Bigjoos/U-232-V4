@@ -66,10 +66,11 @@ function torrenttable($res, $variant = "index")
             'type'
         ))) continue;
         if (is_array($var)) {
-            foreach ($var as $s_var) $oldlink[] = sprintf('%s=%s', $key . '%5B%5D', $s_var);
-        } else $oldlink[] = sprintf('%s=%s', $key, $var);
+            foreach ($var as $s_var) $oldlink[] = sprintf('%s=%s', urlencode($key) . '%5B%5D', urlencode($s_var));
+        } else
+            $oldlink[] = sprintf('%s=%s', urlencode($key), urlencode($var));
     }
-    if ($oldlink > 0) $oldlink = join('&amp;', $oldlink) . '&amp;';
+    $oldlink = !empty($oldlink) ? join('&amp;', array_map('htmlsafechars', $oldlink)) .'&amp;' : '';
     $links = array(
         'link1',
         'link2',
@@ -106,6 +107,9 @@ function torrenttable($res, $variant = "index")
    <td class='colhead' align='right'><a href='{$_SERVER["PHP_SELF"]}?{$oldlink}sort=7&amp;type={$link7}'>{$lang["torrenttable_seeders"]}</a></td>
    <td class='colhead' align='right'><a href='{$_SERVER["PHP_SELF"]}?{$oldlink}sort=8&amp;type={$link8}'>{$lang["torrenttable_leechers"]}</a></td>";
     if ($variant == 'index') $htmlout.= "<td class='colhead' align='center'><a href='{$_SERVER["PHP_SELF"]}?{$oldlink}sort=9&amp;type={$link9}'>{$lang["torrenttable_uppedby"]}</a></td>\n";
+    if ($CURUSER['class'] >= UC_STAFF)  {
+    $htmlout .= "<td class='colhead' align='center'>Tools</td>\n";
+    }
     $htmlout.= "</tr>\n";
     $categories = genrelist();
     foreach ($categories as $key => $value) $change[$value['id']] = array(
@@ -265,6 +269,16 @@ function torrenttable($res, $variant = "index")
         if ($variant == "index") {
             $htmlout.= "<td align='center'>" . (isset($row["username"]) ? (($row["anonymous"] == "yes" && $CURUSER['class'] < UC_STAFF && $row['owner'] != $CURUSER['id']) ? "<i>" . $lang['torrenttable_anon'] . "</i>" : "<a href='userdetails.php?id=" . (int)$row["owner"] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>") : "<i>(" . $lang["torrenttable_unknown_uploader"] . ")</i>") . "</td>\n";
         } 
+        if ($CURUSER['class'] >= UC_STAFF)  {
+                $url = "edit.php?id=" .(int)$row["id"];
+        if (isset($_GET["returnto"])) {
+            $addthis = "&amp;returnto=" . urlencode($_GET["returnto"]);
+            $url .= $addthis;
+            $keepget = $addthis;
+        }
+        $editlink = "a href=\"$url\" class=\"sublink\"";
+        $htmlout .= "<td align='center'><$editlink><img src='pic/button_edit2.gif' alt='Fast Edit' title='Fast Edit' /></a><a href='fastdelete.php?id=".(int)$row['id']."'>&nbsp;<img src='pic/button_delete2.gif' alt='Fast Delete' title='Fast Delete' /></a></td>\n";
+        }
         $htmlout.= "</tr>\n";
         $htmlout.= "<tr id=\"kdescr" . (int)$row["id"] . "\" style=\"display:none;\"><td width=\"100%\" colspan=\"13\">" . format_comment($descr, false) . "</td></tr>\n";
     }

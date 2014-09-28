@@ -21,7 +21,7 @@
 require_once (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'function_onlinetime.php');
-$password = "richmond1"; // same as in staff.tcl;
+$password = "adlsadladadll"; // same as in staff.tcl;
 $hash = "adlsadladadll"; // same as in staff.tcl;
 $modclass = "4"; // minumum staff class;
 function calctime($val)

@@ -123,11 +123,11 @@ else {
     if ($global_down > ($max_download_global / $cheat_breakpoint))
         $cheat_value = $cheat_value_max;
     if ($casino_ratio_global < $cheat_ratio_global)
-        $cheat_value = rand($cheat_value, $cheat_value_max);
+        $cheat_value = mt_rand($cheat_value, $cheat_value_max);
     if (($user_win - $user_lost) > ($max_download_user / $cheat_breakpoint))
         $cheat_value = $cheat_value_max;
     if ($casino_ratio_user < $cheat_ratio_user)
-        $cheat_value = rand($cheat_value, $cheat_value_max);
+        $cheat_value = mt_rand($cheat_value, $cheat_value_max);
 }
 if ($global_down > $max_download_global)
     stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_but_global_max_win_is_above']} " . htmlsafechars(mksize($max_download_global)));
@@ -168,7 +168,7 @@ if (isset($color_options[$post_color]) && isset($number_options[$post_number]) |
     $win = $win_amount * $betmb;
     if ($CURUSER["uploaded"] < $betmb)
         stderr($lang['gl_sorry'], "" . htmlsafechars($CURUSER["username"]) . " {$lang['casino_but_you_have_not_uploaded']} " . htmlsafechars(mksize($betmb)));
-    if (rand(0, $cheat_value) == $cheat_value) {
+    if (mt_rand(0, $cheat_value) == $cheat_value) {
         sql_query("UPDATE users SET uploaded = uploaded + " . sqlesc($win) . " WHERE id=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
         sql_query("UPDATE casino SET date = '" . TIME_NOW . "', trys = trys + 1, win = win + " . sqlesc($win) . "  WHERE userid=" . sqlesc($CURUSER["id"])) or sqlerr(__FILE__, __LINE__);
         $update['uploaded'] = ($User['uploaded'] + $win);
@@ -187,7 +187,7 @@ if (isset($color_options[$post_color]) && isset($number_options[$post_number]) |
     } else {
         if (isset($_POST["number"])) {
             do {
-                $fake_winner = rand(1, 6);
+                $fake_winner = mt_rand(1, 6);
             } while ($_POST["number"] == $fake_winner);
         } else {
             if ($_POST["color"] == "black")
@@ -234,7 +234,7 @@ if (isset($color_options[$post_color]) && isset($number_options[$post_number]) |
     //== Take Bet
     if (isset($_GET["takebet"])) {
         $betid = 0 + $_GET["takebet"];
-        $random = rand(0, 1);
+        $random = mt_rand(0, 1);
         $loc = sql_query("SELECT * FROM casino_bets WHERE id = " . sqlesc($betid));
         $tbet = mysqli_fetch_assoc($loc);
         $nogb = mksize($tbet['amount']);

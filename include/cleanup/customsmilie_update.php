@@ -62,7 +62,7 @@ function docleanup($data)
         $count = count($users_buffer);
         if ($count > 0) {
             sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO users (id, smile_until, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE smile_until=values(smile_until),modcomment=concat(values(modcomment),modcomment)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, smile_until, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE smile_until=values(smile_until),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Custom smilies from " . $count . " members");
         }
         unset($users_buffer, $msgs_buffer, $count);

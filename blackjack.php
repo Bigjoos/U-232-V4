@@ -92,10 +92,10 @@ if ($game) {
             cheater_check($arr['gameover'] == 'yes');
             $cardids = array();
             for ($i = 0; $i <= 1; $i++)
-                $cardids[] = rand(1, $cardcount);
+                $cardids[] = mt_rand(1, $cardcount);
             foreach ($cardids as $cardid) {
                 while (in_array($cardid, $cardids))
-                    $cardid = rand(1, $cardcount);
+                    $cardid = mt_rand(1, $cardcount);
                 $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
                 $cardarr = mysqli_fetch_assoc($cardres);
                 if ($cardarr["points"] > 1)
@@ -129,9 +129,9 @@ if ($game) {
             }
         } elseif (($start_ != 'yes' && isset($_POST['continue']) != 'yes') && !$gameover) {
             cheater_check(empty($playerarr));
-            $cardid = rand(1, $cardcount);
+            $cardid = mt_rand(1, $cardcount);
             while (in_array($cardid, $arr))
-                $cardid = rand(1, $cardcount);
+                $cardid = mt_rand(1, $cardcount);
             $cardres = sql_query("SELECT points, pic FROM cards WHERE id='$cardid'");
             $cardarr = mysqli_fetch_assoc($cardres);
             $showcards .= "<img src='{$INSTALLER09['pic_base_url']}cards/" . $cardarr['pic'] . "' width='71' height='96' border='0' alt='{$lang['bj_cards']}' title='{$lang['bj_cards']}' />";

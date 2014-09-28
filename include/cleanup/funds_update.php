@@ -75,7 +75,7 @@ function docleanup($data)
         if ($count > 0) {
             sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
             sql_query("INSERT INTO users (id, class, donor, donoruntil, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class),
-            donor=values(donor),donoruntil=values(donoruntil),modcomment=concat(values(modcomment),modcomment)") or sqlerr(__FILE__, __LINE__);
+            donor=values(donor),donoruntil=values(donoruntil),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
             write_log("Cleanup: Donation status expired - " . $count . " Member(s)");
         }
         unset($users_buffer, $msgs_buffer, $update, $count);

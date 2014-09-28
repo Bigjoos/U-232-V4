@@ -106,8 +106,12 @@ if (($row['curr_ann_id'] == 0) AND ($row['curr_ann_last_check'] == 0)) { // Forc
     unset($result);
     unset($ann_row);
 }
+
+if ((!empty($add_set))) {
 $add_set = (isset($add_set)) ? $add_set : '';
 sql_query("UPDATE users SET $add_set WHERE id=" . ($row['id']));
+}
+
 // Announcement Code...
 $ann_subject = trim($row['curr_ann_subject']);
 $ann_body = trim($row['curr_ann_body']);
@@ -123,7 +127,7 @@ if ((!empty($ann_subject)) AND (!empty($ann_body))) {
     " . format_comment($ann_body) . "
     </font><br /><br />
     {$lang['annouce_click']} <a href='{$INSTALLER09['baseurl']}/clear_announcement.php'>
-    <i><b>{$lang['annouce_here']}</b></i></a> {$lang['annouce_to_clr_annouce']}.</div></div></div></div>\n";
+    <i><b>{$lang['annouce_here']}</b></i></a> {$lang['annouce_to_clr_annouce']}.</div></div>\n";
 }
 if ((empty($ann_subject)) AND (empty($ann_body))) {
     $HTMLOUT .= "<div align='center' class='article'>

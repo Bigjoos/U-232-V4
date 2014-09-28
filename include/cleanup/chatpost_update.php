@@ -54,7 +54,7 @@ function docleanup($data)
         $count = count($users_buffer);
         if ($count > 0) {
             sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
-            sql_query("INSERT INTO users (id, chatpost, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE chatpost=values(chatpost), modcomment=concat(values(modcomment),modcomment)") or sqlerr(__FILE__, __LINE__);
+            sql_query("INSERT INTO users (id, chatpost, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE chatpost=values(chatpost), modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
             write_log("Cleanup - Removed Chatpost ban from " . $count . " members");
         }
         unset($users_buffer, $msgs_buffer, $count);
