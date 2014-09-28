@@ -1255,7 +1255,7 @@ case 'title':
 /**** the $words array are words that you DO NOT want the user to have... use to filter "bad words" & user class...
 the user class is just for show, but what the hell :p Add more or edit to your liking.
 *note if they try to use a restricted word, they will recieve the special title "I just wasted my karma" *****/
-$title = strip_tags($_POST['title']);
+$title = strip_tags(htmlsafechars($_POST['title']));
 $words = array('fuck', 'shit', 'Moderator', 'Administrator', 'Admin', 'pussy', 'Sysop', 'cunt', 'nigger', 'VIP', 'Super User', 'Power User', 'ADMIN', 'SYSOP', 'MODERATOR', 'ADMINISTRATOR');
 $title = str_replace($words, "I just wasted my karma", $title);
 $bonuscomment = get_date( TIME_NOW, 'DATE', 1 ) . " - " .$points. " Points for custom title. Old title was {$CURUSER['title']} new title is ".$title.".\n " .$bonuscomment;
