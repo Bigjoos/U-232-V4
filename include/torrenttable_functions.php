@@ -66,10 +66,11 @@ function torrenttable($res, $variant = "index")
             'type'
         ))) continue;
         if (is_array($var)) {
-            foreach ($var as $s_var) $oldlink[] = sprintf('%s=%s', $key . '%5B%5D', $s_var);
-        } else $oldlink[] = sprintf('%s=%s', $key, $var);
+            foreach ($var as $s_var) $oldlink[] = sprintf('%s=%s', urlencode($key) . '%5B%5D', urlencode($s_var));
+        } else
+            $oldlink[] = sprintf('%s=%s', urlencode($key), urlencode($var));
     }
-    if ($oldlink > 0) $oldlink = join('&amp;', $oldlink) . '&amp;';
+    $oldlink = !empty($oldlink) ? join('&amp;', array_map('htmlsafechars', $oldlink)) .'&amp;' : '';
     $links = array(
         'link1',
         'link2',
