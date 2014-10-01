@@ -26,6 +26,8 @@ fastdelete by Froggaard
 */
 $lang = array_merge( load_language('global'), load_language('fastdelete') );
      
+ if (!in_array($CURUSER['id'], $INSTALLER09['allowed_staff']['id'])) stderr($lang['fastdelete_error'], $lang['fastdelete_no_acc']);
+
  if (!isset($_GET['id']) || !is_valid_id($_GET['id']))
         stderr("{$lang['fastdelete_error']}", "{$lang['fastdelete_error_id']}");
          
