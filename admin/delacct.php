@@ -32,6 +32,7 @@ if (!defined('IN_INSTALLER09_ADMIN')) {
 }
 require_once (INCL_DIR . 'user_functions.php');
 require_once (CLASS_DIR . 'class_check.php');
+require_once (INCL_DIR . 'password_functions.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $lang = array_merge($lang, load_language('ad_delacct'));
@@ -68,9 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim(htmlsafechars($_POST["username"]));
     $password = trim(htmlsafechars($_POST["password"]));
     if (!$username || !$password) stderr("{$lang['text_error']}", "{$lang['text_please']}");
-    $res = sql_query("SELECT * FROM users WHERE username=" . sqlesc($username) . " AND passhash=md5(concat(secret,concat(" . sqlesc($password) . ",secret)))") or sqlerr(__FILE__, __LINE__);
+    $res = sql_query("SELECT * FROM users WHERE username=" . sqlesc($username) . "") or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($res) != 1) stderr("{$lang['text_error']}", "{$lang['text_bad']}");
     $arr = mysqli_fetch_assoc($res);
+    $wantpasshash = make_passhash($arr['secret'], md5($password));
+    if($arr['passhash']!=$wantpasshash)
+    stderr("{$lang['text_error']}", "{$lang['text_bad']}");
     $userid = (int)$arr['id'];
     //account_delete(sqlesc($userid));
     $res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
