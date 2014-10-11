@@ -1,5 +1,4 @@
 <?php
-//$_NO_COMPRESS = true;
 /**
  |--------------------------------------------------------------------------|
  |   https://github.com/Bigjoos/                			    |
@@ -55,7 +54,29 @@ $stdhead = array(
 );
 $lang = array_merge(load_language('global') , load_language('browse') , load_language('torrenttable_functions'));
 if (function_exists('parked')) parked();
-$HTMLOUT = $searchin = $select_searchin = $where = $addparam = $new_button = '';
+$HTMLOUT = $searchin = $select_searchin = $where = $addparam = $new_button = $search_help_boolean = '';
+$HTMLOUT .='<script type="text/javascript">
+/*<![CDATA[*/
+$(document).ready(function(){
+	$("#help_open").click(function(){
+	$("#help").slideToggle("slow", function() {
+	});
+	});
+})
+/*]]>*/
+</script>';
+$search_help_boolean = '<table border="0" cellspacing="0" cellpadding="0" style="max-width:600px;" align="center">
+    <tr>
+    <td class="two"><div id="help" style="display:none"><h1>The boolean search supports the following operators:</h1>
+    <span style="font-weight: bold;">+</span> A leading plus sign indicates that this word must be present.<br /><br />
+    <span style="font-weight: bold;">-</span> A leading minus sign indicates that this word must not be present.<br /><br />
+        By default (when neither + nor - is specified) the word is optional, but results that contain it are rated higher. <br /><br />
+    <span style="font-weight: bold;">*</span> The asterisk serves as the wildcard operator. Unlike the other operators, it should be appended to the word to be affected. Words match if they begin with the word preceding the * operator.<br /><br />
+    <span style="font-weight: bold;">> <</span> These two operators are used to change a word\'s contribution to the relevance value that is assigned to a word. The > operator increases the contribution and the < operator decreases it.<br /><br />
+    <span style="font-weight: bold;">~</span> A leading tilde acts as a negation operator, causing the word\'s contribution to the words\'s relevance to be negative. A row containing such a word is rated lower than others, but is not excluded altogether, as it would be with the - operator.<br /><br />
+    <span style="font-weight: bold;">" "</span> A phrase that is enclosed within double quotes return only results that contain the phrase literally, as it was typed. <br /><br />
+    <span style="font-weight: bold;">( )</span> Parentheses group words into subexpressions. Parenthesized groups can be nested.<br /><br /></div></td>
+     </tr></table>';
 $cats = genrelist();
 if (isset($_GET["search"])) {
     $searchstr = sqlesc($_GET["search"]);
@@ -302,7 +323,17 @@ if ($CURUSER['opt1'] & user_options::CLEAR_NEW_TAG_MANUALLY) {
     $mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
 }
 $HTMLOUT.= "<br />
-    <table width='1000' class='main' border='0' cellspacing='0' cellpadding='0'><tr><td class='embedded'>
+    <table width='1000' class='main' border='0' cellspacing='0' cellpadding='0'>
+    <tr>
+    <td class='colhead' colspan='2' align='center'>Torrent search
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class='altlink' title='Open/Close Boolean Search Help' id='help_open' style='font-weight:bold;cursor:help;'>Search help</a></td>
+    </tr>
+    <tr>
+    <td class='two' colspan='2'>".$search_help_boolean."</td>
+    </tr>
+    <tr><td class='embedded'><br />
     <input type='text' name='search' size='40' value='' />";
 //=== only free option :o)
 $only_free = ((isset($_GET['only_free'])) ? intval($_GET['only_free']) : '');
