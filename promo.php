@@ -25,7 +25,7 @@ global $CURUSER;
 if (!$CURUSER) {
     get_template();
 }
-$lang = array_merge(load_language('global'));
+$lang = array_merge(load_language('global') , load_language('signup'));
 $HTMLOUT = '';
 //==Promo mod by putyn 24/2/2009
 $do = (isset($_GET["do"]) ? $_GET["do"] : (isset($_POST["do"]) ? $_POST["do"] : ""));
@@ -83,7 +83,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
         $secret = mksecret();
         $passhash = make_passhash($secret, md5($password));
         $editsecret = make_passhash_login_key();
-        $res = sql_query("INSERT INTO users(username, passhash, secret, editsecret, email, added, uploaded, invites, seedbonus) VALUES (" . implode(",", array_map("sqlesc", array(
+        $passhint = (isset($_POST["passhint"]) ? $_POST["passhint"] : "");
+        if (empty($passhint)) stderr("Error", "No password hint question, you forgot about that?");
+        $hintanswer = (isset($_POST["hintanswer"]) ? $_POST["hintanswer"] : "");
+        if (empty($hintanswer)) stderr("Error", "No password hint answer, you forgot about that?");
+
+                $wanthintanswer = md5($hintanswer);
+
+        
+        $res = sql_query("INSERT INTO users(username, passhash, secret, editsecret, email, added, uploaded, invites, seedbonus, passhint, hintanswer) VALUES (" . implode(",", array_map("sqlesc", array(
             $username,
             $passhash,
             $secret,
@@ -92,7 +100,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             TIME_NOW,
             ($ar_check["bonus_upload"] * 1073741824) ,
             $ar_check["bonus_invites"],
-            $ar_check["bonus_karma"]
+            $ar_check["bonus_karma"],
+            $passhint,
+            $wanthintanswer
         ))) . ") ") or sqlerr(__FILE__, __LINE__);
         if ($res) {
             //==Updating promo table
@@ -112,6 +122,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 						Staff at {$INSTALLER09['site_name']}";
             $headers = 'From: ' . $INSTALLER09['site_email'] . "\r\n" . 'Reply-To:' . $INSTALLER09['site_email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
             $mail = @mail($email, $subject, $message, $headers);
+
+            //==New member pm
+            $added = TIME_NOW;
+            $subject = sqlesc("Welcome");
+            $msg = sqlesc("Hey there " . htmlsafechars($username) . " ! Welcome to {$INSTALLER09['site_name']} ! :clap2: \n\n Please ensure your connectable before downloading or uploading any torrents\n - If your unsure then please use the forum and Faq or pm admin onsite.\n\ncheers {$INSTALLER09['site_name']} staff.\n");
+            sql_query("INSERT INTO messages (sender, subject, receiver, msg, added) VALUES (0, $subject, " . sqlesc($userid) . ", $msg, $added)") or sqlerr(__FILE__, __LINE__);
+            //==End new member pm
+            write_log("User account " . (int)$id . " (" . htmlsafechars($username) . ") was created");
+            if ($INSTALLER09['autoshout_on'] == 1) {
+                $message = "Welcome New {$INSTALLER09['site_name']} Member : - " . htmlsafechars($username) . "";
+                autoshout($message);
+                $mc1->delete_value('shoutbox_');
+                }
+
             stderr("Success!", "Account was created! and an email was sent to <b>" . htmlsafechars($email) . "</b>, you can use your account once you confirm the email!");
         } else stderr("Error", "Something odd happned please retry");
     }
@@ -170,6 +194,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
             if ($ar["max_users"] == $ar["accounts_made"]) stderr("Error", "Sorry account limit (" . $ar["max_users"] . ") on this link has been reached ");
             if (($ar["added"] + (86400 * $ar["days_valid"])) < TIME_NOW) stderr("Error", "This link was valid only till " . date("d/M-Y", ($ar["added"] + (86400 * $ar["days_valid"]))));
             $HTMLOUT.= begin_frame();
+
+$passhint = "";
+$questions = array(
+    array(
+        "id" => "1",
+        "question" => "{$lang['signup_q1']}"
+    ) ,
+    array(
+        "id" => "2",
+        "question" => "{$lang['signup_q2']}"
+    ) ,
+    array(
+        "id" => "3",
+        "question" => "{$lang['signup_q3']}"
+    ) ,
+    array(
+        "id" => "4",
+        "question" => "{$lang['signup_q4']}"
+    ) ,
+    array(
+        "id" => "5",
+        "question" => "{$lang['signup_q5']}"
+    ) ,
+    array(
+        "id" => "6",
+        "question" => "{$lang['signup_q6']}"
+    )
+);
+foreach ($questions as $sph) {
+    $passhint.= "<option value='" . $sph['id'] . "'>" . $sph['question'] . "</option>\n";
+}
+
+
             $HTMLOUT.= "<form action='" . ($_SERVER["PHP_SELF"]) . "' method='post'>
 						  <table cellpadding='10' width='50%' align='center' cellspacing='0'  border='1' style='border-collapse:collapse'>
 						  <tr><td class='colhead' align='center' colspan='2'>Promo : " . htmlsafechars($ar["name"]) . " </td></tr>
@@ -186,6 +243,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $do == "addpromo") {
 							<tr><td nowrap='nowrap' align='right'>Password</td><td align='left' width='100%'><input type='password' name='password' size='40' /></td></tr>
 							<tr><td nowrap='nowrap' align='right'>Password again</td><td align='left' width='100%'><input type='password' name='passwordagain' size='40' /></td></tr>
 							<tr><td nowrap='nowrap' align='right'>Email</td><td align='left' width='100%'><input type='text' name='mail' size='40'/></td></tr>
+                            <tr><td align='right' class='heading'>{$lang['signup_select']}</td><td align='left'><select name='passhint'>\n$passhint\n</select></td></tr>
+                            <tr><td align='right' class='heading'>{$lang['signup_enter']}</td><td align='left'><input type='text' size='40'  name='hintanswer' /><br /><span style='font-size: 1em;'>{$lang['signup_this_answer']}<br />{$lang['signup_this_answer1']}</span></td></tr>
 							<tr><td colspan='2' class='colhead' align='center'><input type='hidden' name='link' value='" . ($link) . "'/><input type='hidden' name='do' value='signup'/><input type='submit' value='SignUp!' /></td></tr>
 						  </table> 
 						</form>";
