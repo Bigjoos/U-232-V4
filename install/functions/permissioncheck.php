@@ -22,7 +22,7 @@ function permissioncheck()
         $root.'torrents/' => 0,
         $root.'uploads/' => 0,
         $root.'include/backup/' => 0,
-        $root.'logs/' => 0,
+        $root.'sqlerr_logs/' => 0,
         $root.'install/' => 0,
         $root.'install/extra/' => 0,
         $root.'include/' => 0

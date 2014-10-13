@@ -53,7 +53,7 @@ function dltable($name, $arr, $torrent)
         $htmlout.= "<td align='right'>" . sprintf("%.2f%%", 100 * (1 - ($e["to_go"] / $torrent["size"]))) . "</td>\n";
         $htmlout.= "<td align='right'>" . mkprettytime($now - $e["st"]) . "</td>\n";
         $htmlout.= "<td align='right'>" . mkprettytime($now - $e["la"]) . "</td>\n";
-        $htmlout.= "<td align='left'>" . htmlsafechars(getagent($e['peer_id'])) . "</td>\n";
+        $htmlout.= "<td align='left'>".htmlsafechars(getagent($e["agent"], $e['peer_id']))."</td>\n";
         $htmlout.= "</tr>\n";
     }
     $htmlout.= "</table>\n";
