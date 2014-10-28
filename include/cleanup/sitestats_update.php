@@ -40,7 +40,7 @@ function docleanup($data)
     $gender_na = get_row_count('users', "WHERE gender='NA'");
     $gender_male = get_row_count('users', "WHERE gender='Male'");
     $gender_female = get_row_count('users', "WHERE gender='Female'");
-    $powerusers = get_row_count('users', "WHERE class='1'");
+    $powerusers = get_row_count('users', "WHERE class='".UC_POWER_USER."'");
     $disabled = get_row_count('users', "WHERE enabled='no'");
     $uploaders = get_row_count('users', "WHERE class='".UC_UPLOADER."'");
     $moderators = get_row_count('users', "WHERE class='".UC_MODERATOR."'");
