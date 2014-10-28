@@ -151,6 +151,7 @@ function torrenttable($res, $variant = "index")
         $youtube = (!empty($row['youtube']) ? "<a href='" . htmlsafechars($row['youtube']) . "' target='_blank'><img src='{$INSTALLER09['pic_base_url']}youtube.png' width='14' height='14' border='0' alt='Youtube Trailer' title='Youtube Trailer' /></a>" : "");
         if (isset($row["descr"])) $descr = str_replace("\"", "&quot;", readMore($row["descr"], 350, "details.php?id=" . (int)$row["id"] . "&amp;hit=1"));
         $descr = str_replace('&', '&amp;', $descr);
+        $descr = preg_replace('/\[img.*\[\/img\]/i', '', $descr);
         $htmlout.= "<td align='left'><a href='details.php?";
         if ($variant == "mytorrents") $htmlout.= "returnto=" . urlencode($_SERVER["REQUEST_URI"]) . "&amp;";
         $htmlout.= "id=$id";
