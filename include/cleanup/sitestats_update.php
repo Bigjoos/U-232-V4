@@ -40,12 +40,12 @@ function docleanup($data)
     $gender_na = get_row_count('users', "WHERE gender='NA'");
     $gender_male = get_row_count('users', "WHERE gender='Male'");
     $gender_female = get_row_count('users', "WHERE gender='Female'");
-    $powerusers = get_row_count('users', "WHERE class='1'");
+    $powerusers = get_row_count('users', "WHERE class='".UC_POWER_USER."'");
     $disabled = get_row_count('users', "WHERE enabled='no'");
-    $uploaders = get_row_count('users', "WHERE class='3'");
-    $moderators = get_row_count('users', "WHERE class='4'");
-    $administrators = get_row_count('users', "WHERE class='5'");
-    $sysops = get_row_count('users', "WHERE class='6'");
+    $uploaders = get_row_count('users', "WHERE class='".UC_UPLOADER."'");
+    $moderators = get_row_count('users', "WHERE class='".UC_MODERATOR."'");
+    $administrators = get_row_count('users', "WHERE class='".UC_ADMINISTRATOR."'");
+    $sysops = get_row_count('users', "WHERE class='".UC_SYSOP."'");
     $seeders = (int)$XBT_Seeder['seeders'];
     $leechers = (int)$XBT_Leecher['leechers'];
     sql_query("UPDATE stats SET regusers = '$registered', unconusers = '$unverified', torrents = '$torrents', seeders = '$seeders', leechers = '$leechers', unconnectables = '$unconnectables', torrentstoday = '$torrentstoday', donors = '$donors', forumposts = '$forumposts', forumtopics = '$forumtopics', numactive = '$numactive', torrentsmonth = '$torrentsmonth', gender_na = '$gender_na', gender_male = '$gender_male', gender_female = '$gender_female', powerusers = '$powerusers', disabled = '$disabled', uploaders = '$uploaders', moderators = '$moderators', administrators = '$administrators', sysops = '$sysops' WHERE id = '1' LIMIT 1");
