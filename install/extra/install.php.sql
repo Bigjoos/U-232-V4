@@ -705,7 +705,7 @@ CREATE TABLE IF NOT EXISTS `cheaters` (
 CREATE TABLE IF NOT EXISTS `class_config` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `value` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `value` int(3) DEFAULT NULL,
   `classname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `classcolor` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `classpic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
