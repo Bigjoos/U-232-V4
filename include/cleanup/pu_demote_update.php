@@ -76,7 +76,7 @@ $prev_class_name = $arr2['classname'];
     $subject = "Auto Demotion";
     $msgs_buffer = $users_buffer = array();
     if (mysqli_num_rows($res) > 0) {
-        $msg = "You have been auto-demoted from [b]Power User[/b] to [b]User[/b] because your share ratio has dropped below  $minratio.\n";
+        $msg = "You have been auto-demoted from [b]$class_name[/b] to [b]$prev_class_name[/b] because your share ratio has dropped below  $minratio.\n";
 
 
 
