@@ -1002,6 +1002,7 @@ INSERT INTO `countries` (`id`, `name`, `flagpic`) VALUES
 (59, 'Iceland', 'iceland.gif'),
 (60, 'Nauru', 'nauru.gif'),
 (61, 'Slovenia', 'slovenia.gif'),
+(61, 'Slovakia', 'slovakia.gif'),
 (63, 'Turkmenistan', 'turkmenistan.gif'),
 (64, 'Bosnia Herzegovina', 'bosniaherzegovina.gif'),
 (65, 'Andorra', 'andorra.gif'),
