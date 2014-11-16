@@ -102,7 +102,7 @@ if (isset($_POST["form"]) != 1) {
     // Process application
     
 } else {
-    $app['userid'] = (int)sqlesc($_POST['userid']);
+    $app['userid'] = (int)$_POST['userid'];
     $app['connectable'] = htmlsafechars($_POST['connectable']);
     $app['speed'] = htmlsafechars($_POST['speed']);
     $app['offer'] = htmlsafechars($_POST['offer']);
@@ -117,7 +117,8 @@ if (isset($_POST["form"]) != 1) {
     if (!$app['offer']) stderr($lang['uploadapp_error'], $lang['uploadapp_offerblank']);
     if (!$app['reason']) stderr($lang['uploadapp_error'], $lang['uploadapp_reasonblank']);
     if ($app['sites'] == 'yes' && !$app['sitenames']) stderr($lang['uploadapp_error'], $lang['uploadapp_sitesblank']);
-    $res = sql_query("INSERT INTO uploadapp(userid,applied,connectable,speed,offer,reason,sites,sitenames,scene,creating,seeding) VALUES({$app['userid']}, " . implode(",", array_map("sqlesc", array(
+    $res = sql_query("INSERT INTO uploadapp(userid,applied,connectable,speed,offer,reason,sites,sitenames,scene,creating,seeding) VALUES(" . implode(",", array_map("sqlesc", array(
+        $app['userid'],
         TIME_NOW,
         $app['connectable'],
         $app['speed'],
