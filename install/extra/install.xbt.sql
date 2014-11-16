@@ -910,15 +910,14 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `anonymous` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `request` int(10) unsigned NOT NULL DEFAULT '0',
   `offer` int(10) unsigned NOT NULL DEFAULT '0',
-  `scheck` int(1) NOT NULL DEFAULT '0',
+  `edit_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `user_likes` text CHARACTER SET utf8,
   `checked_by` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
   `checked_when` int(11) NOT NULL,
   `checked` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user` (`user`),
-  KEY `torrent` (`torrent`),
-  KEY `scheck` (`scheck`)
+  KEY `torrent` (`torrent`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
 
 -- --------------------------------------------------------
@@ -1002,6 +1001,7 @@ INSERT INTO `countries` (`id`, `name`, `flagpic`) VALUES
 (59, 'Iceland', 'iceland.gif'),
 (60, 'Nauru', 'nauru.gif'),
 (61, 'Slovenia', 'slovenia.gif'),
+(62, 'Slovakia', 'slovakia.gif'),
 (63, 'Turkmenistan', 'turkmenistan.gif'),
 (64, 'Bosnia Herzegovina', 'bosniaherzegovina.gif'),
 (65, 'Andorra', 'andorra.gif'),

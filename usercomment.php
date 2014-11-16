@@ -38,7 +38,7 @@ $stdhead = array(
 function usercommenttable($rows)
 {
     $htmlout = '';
-    global $CURUSER, $INSTALLER09, $userid;
+    global $CURUSER, $INSTALLER09, $userid, $lang;
     $htmlout.= begin_main_frame();
     $htmlout.= begin_frame();
     $count = 0;
@@ -54,7 +54,7 @@ function usercommenttable($rows)
         $avatar = ($CURUSER["avatars"] == "yes" ? htmlsafechars($row["avatar"]) : "");
         if (!$avatar) $avatar = "{$INSTALLER09['pic_base_url']}default_avatar.gif";
         $text = format_comment($row["text"]);
-        if ($row["editedby"]) $text.= "<font size='1' class='small'><br /><br />Last edited by <a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['username']) . "</b></a> " . get_date($row['editedat'], 'DATE', 0, 1) . "</font>\n";
+        if ($row["editedby"]) $text.= "<font size='1' class='small'><br /><br />Last edited by <a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['edit_name']) . "</b></a> " . get_date($row['editedat'], 'DATE', 0, 1) . "</font>\n";
         $htmlout.= begin_table(true);
         $htmlout.= "<tr valign='top'>\n";
         $htmlout.= "<td align='center' width='150' style='padding:0px'><img width='150' src=\"{$avatar}\" alt=\"Avatar\" /></td>\n";
@@ -92,7 +92,7 @@ if ($action == "add") {
     <div>". BBcode(false)."</div>
     <br /><br />
     <input type='submit' class='btn' value='Do it!' /></form>\n";
-    $res = sql_query("SELECT usercomments.id, usercomments.text, usercomments.editedby, usercomments.editedat, usercomments.added, username, users.id as user, users.avatar, users.title, users.anonymous, users.class, users.donor, users.warned, users.leechwarn, users.chatpost FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE user = " . sqlesc($userid) . " ORDER BY usercomments.id DESC LIMIT 5");
+    $res = sql_query("SELECT usercomments.id, usercomments.text, usercomments.editedby, usercomments.editedat, usercomments.added, usercomments.edit_name, username, users.id as user, users.avatar, users.title, users.anonymous, users.class, users.donor, users.warned, users.leechwarn, users.chatpost FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE user = " . sqlesc($userid) . " ORDER BY usercomments.id DESC LIMIT 5");
     $allrows = array();
     while ($row = mysqli_fetch_assoc($res)) $allrows[] = $row;
     if (count($allrows)) {
@@ -114,7 +114,7 @@ if ($action == "add") {
         if ($text == "") stderr("Error", "Comment body cannot be empty!");
         //$text = sqlesc($text);
         $editedat = sqlesc(TIME_NOW);
-        sql_query("UPDATE usercomments SET text=" . sqlesc($text) . ", editedat={$editedat}, editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE usercomments SET text=" . sqlesc($text) . ", editedat={$editedat}, edit_name=".sqlesc($CURUSER['username']).", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
         if ($returnto) header("Location: $returnto");
         else header("Location: {$INSTALLER09['baseurl']}/userdetails.php?id={$userid}");
         die;
