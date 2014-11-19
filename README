@@ -29,24 +29,25 @@
 |--------------------------------------------------------------------|
 
 		Lead Coders
-			Mindless, autotron, Stoner
+			Mindless, autotron, Stoner, Whocares
 			
 		Coders
 			Stillapunk, Tundracanine, whocares, iseeyoucopy
 
 		Support Specialists
-			Credit's to pdq/putyn/elephant for improvements in key areas on the code. Your input has been first class.
+			Credit's to pdq/putyn/elephant/Laffin/Sir_snugglebunny for improvements in key areas on the code. Your input has been first class.
 		
 		Lead Designer
-			RogueSurfer
+			RogueSurfer, son
 			
 		Designers
 			RogueSurfer, Swizzles, mistero
 		
 		Designers Support
 			Credit's to Kidvision & others for designs used in the v0+v1+v2 Installer projects.
-			Credit's to Roguesurfer for all v3&v4 design - Your a credit to this team.
+			Credit's to Roguesurfer for all v3&v4 design - Your a credit to this team.... RIP bro.
 			Credit's to swizzles and mistero for their work on framework intergration and design layout for v4.
+
 |--------------------------------------------------------------------|
 |	Special Thanks
 |--------------------------------------------------------------------|
