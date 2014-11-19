@@ -50,8 +50,8 @@ else {
     $HTMLOUT.= "<table align='center' border='0' cellspacing='0' cellpadding='2' width='100%' class='small'>\n";
     while ($arr = mysqli_fetch_assoc($res)) {
         if (($arr['to_user'] != $CURUSER['id'] && $arr['to_user'] != 0) && $arr['userid'] != $CURUSER['id']) continue;
-        if ($arr['to_user'] == $CURUSER['id'] || ($arr['userid'] == $CURUSER['id'] && $arr['to_user'] != 0)) $private = "<img src='{$INSTALLER09['pic_base_url']}private-shout.png' alt=''.$lang['staff_shistory_private1'].'' title=''.$lang['staff_shistory_private1'].'!' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";
-        else $private = "<img src='{$INSTALLER09['pic_base_url']}group.png' alt=''.$lang['staff_shistory_public1'].'' title=''.$lang['staff_shistory_public1'].'!' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";
+        if ($arr['to_user'] == $CURUSER['id'] || ($arr['userid'] == $CURUSER['id'] && $arr['to_user'] != 0)) $private = "<img src='{$INSTALLER09['pic_base_url']}private-shout.png' alt='".$lang['staff_shistory_private1']."' title='".$lang['staff_shistory_private1']."!' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";
+        else $private = "<img src='{$INSTALLER09['pic_base_url']}group.png' alt='".$lang['staff_shistory_public1']."' title='".$lang['staff_shistory_public1']."!' width='16' style='padding-left:2px;padding-right:2px;' border='0' />";
         $date = get_date($arr["date"], 0, 1);
         $user_stuff = $arr;
         $user_stuff['id'] = (int)$arr['userid'];
