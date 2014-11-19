@@ -85,7 +85,7 @@ function commenttable($rows, $variant = 'torrent')
         $avatar = ($row['anonymous'] == "yes" ? "{$INSTALLER09['pic_base_url']}anonymous_1.jpg" : htmlsafechars($row["avatar"]));
         if (!$avatar) $avatar = "{$INSTALLER09['pic_base_url']}default_avatar.gif";
         $text = format_comment($row["text"]);
-        if ($row["editedby"]) $text.= "<p><font size='1' class='small'>" . $lang["commenttable_last_edited_by"] . " <a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['username']) . "</b></a> " . $lang["commenttable_last_edited_at"] . " " . get_date($row['editedat'], 'DATE') . "</font></p>\n";
+        if ($row["editedby"]) $text.= "<p><font size='1' class='small'>" . $lang["commenttable_last_edited_by"] . " <a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['edit_name']) . "</b></a> " . $lang["commenttable_last_edited_at"] . " " . get_date($row['editedat'], 'DATE') . "</font></p>\n";
         $htmlout.= begin_table(true);
         
         $htmlout.= "<tr valign='top'>\n";

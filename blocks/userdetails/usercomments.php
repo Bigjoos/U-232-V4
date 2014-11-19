@@ -2,7 +2,7 @@
 function usercommenttable($rows)
 {
     $htmlout = '';
-    global $CURUSER, $INSTALLER09, $userid;
+    global $CURUSER, $INSTALLER09, $userid, $lang;
     $htmlout.= "<table class='main' width='750' border='0' cellspacing='0' cellpadding='0'>" . "<tr><td class='embedded'>";
     $htmlout.= begin_frame();
     $count = 0;
@@ -18,7 +18,7 @@ function usercommenttable($rows)
         $avatar = ($CURUSER["avatars"] == "yes" ? htmlsafechars($row["avatar"]) : "");
         if (!$avatar) $avatar = "{$INSTALLER09['pic_base_url']}default_avatar.gif";
         $text = format_comment($row["text"]);
-        if ($row["editedby"]) $text.= "<font size='1' class='small'><br /><br />{$lang['userdetails_comm_ledited']}<a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['username']) . "</b></a> " . get_date($row['editedat'], 'DATE', 0, 1) . "</font>\n";
+        if ($row["editedby"]) $text.= "<font size='1' class='small'><br /><br />{$lang['userdetails_comm_ledited']}<a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['edit_name']) . "</b></a> " . get_date($row['editedat'], 'DATE', 0, 1) . "</font>\n";
         $htmlout.= "<table width='100%' border='1' cellspacing='0' cellpadding='5'>";
         $htmlout.= "<tr valign='top'>\n";
         $htmlout.= "<td align='center' width='150' style='padding:0px'><img width='150' src=\"{$avatar}\" alt=\"Avatar\" /></td>\n";
@@ -44,7 +44,7 @@ if (!$count) {
     $pager = pager(5, $count, "userdetails.php?id=$id&amp;", array(
         'lastpagedefault' => 1
     ));
-    $subres = sql_query("SELECT usercomments.id, text, user, usercomments.added, editedby, editedat, avatar, warned, username, title, class, leechwarn, chatpost, pirate, king, donor FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE userid = {$id} ORDER BY usercomments.id {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+    $subres = sql_query("SELECT usercomments.id, text, user, usercomments.added, editedby, editedat, edit_name, avatar, warned, username, title, class, leechwarn, chatpost, pirate, king, donor FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE userid = {$id} ORDER BY usercomments.id {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
     $allrows = array();
     while ($subrow = mysqli_fetch_assoc($subres)) $allrows[] = $subrow;
     $HTMLOUT.= ($commentbar);
