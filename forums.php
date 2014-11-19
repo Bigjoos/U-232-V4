@@ -676,7 +676,8 @@ function ratingpic_forums($num)
 function insert_quick_jump_menu($current_forum = 0, $staff = false)
 {
     global $CURUSER, $INSTALLER09, $mc1, $lang;
-    if (($quick_jump_menu = $mc1->get_value('f_insertJumpTo' . $CURUSER['id'])) === false) {
+    $cachename = 'f_insertJumpTo' . $CURUSER['id'] . ($staff === false ? '' : '_staff');
+    if (($quick_jump_menu = $mc1->get_value($cachename)) === false) {
     $res = sql_query('SELECT f.id, f.name, f.parent_forum, f.min_class_read, of.name AS over_forum_name FROM forums AS f LEFT JOIN over_forums AS of ON f.forum_id = of.id ORDER BY of.sort, f.parent_forum, f.sort ASC');
     $switch = '';
     $quick_jump_menu = ($staff === false ? '
@@ -698,7 +699,7 @@ function insert_quick_jump_menu($current_forum = 0, $staff = false)
         }
     }
     $quick_jump_menu.= ($staff === false ? '</select></span></form></td></tr></table><br />' : '');
-    $mc1->cache_value('f_insertJumpTo' . $CURUSER['id'], $quick_jump_menu, $INSTALLER09['expires']['forum_insertJumpTo']);
+    $mc1->cache_value($cachename, $quick_jump_menu, $INSTALLER09['expires']['forum_insertJumpTo']);
     }
     return $quick_jump_menu;
 }
