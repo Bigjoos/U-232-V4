@@ -1926,7 +1926,7 @@ CREATE TABLE IF NOT EXISTS `peers` (
   `corrupt` int(10) NOT NULL DEFAULT '0',
   `compact` varchar(6) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `torrent_peer_id` (`torrent`),
+  UNIQUE KEY `torrent_peer_id` (`torrent`,`peer_id`),
   KEY `torrent` (`torrent`),
   KEY `torrent_seeder` (`torrent`),
   KEY `last_action` (`last_action`),
