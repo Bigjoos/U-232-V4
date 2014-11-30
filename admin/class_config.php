@@ -98,7 +98,7 @@ $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX
             ftruncate($filenum, 0);
             fwrite($filenum, $configfile);
             fclose($filenum);
-            stderr($lang['classcfg_success'], $lang['classcfg_success1']);
+            stderr($lang['classcfg_success'], $lang['classcfg_success_save']);
         } else stderr($lang['classcfg_error'], $lang['classcfg_error_query1']);
         exit;
     }
