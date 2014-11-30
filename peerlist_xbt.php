@@ -85,7 +85,7 @@ $subres = sql_query("SELECT u.username, u.anonymous, u.paranoia, t.owner, t.anon
     FROM xbt_files_users x
     LEFT JOIN users u ON x.uid = u.id
 	LEFT JOIN torrents as t on t.id = x.fid
-    WHERE x.fid = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
+    WHERE active='1' AND x.fid = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
 if (mysqli_num_rows($subres) == 0) stderr("{$lang['peerslist_warning']}", "{$lang['peerslist_no_data']}");
 while ($subrow = mysqli_fetch_assoc($subres)) {
     if ($subrow["left"] == 0) $seeders[] = $subrow;
