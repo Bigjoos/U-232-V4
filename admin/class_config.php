@@ -78,7 +78,7 @@ $classcolor = str_replace("#","","$classcolor");
         }
         if (sql_query('INSERT INTO class_config(name,value,classname,classcolor,classpic) VALUES ' . join(',', $update) . ' ON DUPLICATE KEY update value=values(value),classname=values(classname),classcolor=values(classcolor),classpic=values(classpic)')) { // need to change strut
             $t = 'define(';
-            $configfile = "<?php\n\n/*" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg']."*/\n\n";
+            $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
             $res = sql_query("SELECT * from class_config ORDER BY value  ASC");
             $the_names = $the_colors = $the_images = '';
             while ($arr = mysqli_fetch_assoc($res)) {
@@ -185,8 +185,7 @@ $color = str_replace("#","","$color");
        }
        if (sql_query("INSERT INTO class_config (name, value,classname,classcolor,classpic) VALUES(" . sqlesc($name) . "," . sqlesc($value) . "," . sqlesc($r_name) . "," . sqlesc($color) . "," . sqlesc($pic) . ")")) {     
        $t = 'define(';
-            //$configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
-            $configfile = "<?php\n\n/*" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg']."*/\n\n";
+            $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
             $res = sql_query("SELECT * from class_config ORDER BY value  ASC");
             $the_names = $the_colors = $the_images = '';
             while ($arr = mysqli_fetch_assoc($res)) {
@@ -262,8 +261,7 @@ $color = str_replace("#","","$color");
       }	
         if (sql_query("DELETE FROM class_config WHERE name = " . sqlesc($name) . "")) {
             $t = 'define(';
-            //$configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
-            $configfile = "<?php\n\n/*" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg']."*/\n\n";
+            $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
             $res = sql_query("SELECT * from class_config ORDER BY value  ASC");
             $the_names = $the_colors = $the_images = '';
             while ($arr = mysqli_fetch_assoc($res)) {
