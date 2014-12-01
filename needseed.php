@@ -42,7 +42,7 @@ if ($needed == "leechers") {
     $HTMLOUT.= begin_frame("{$lang['needseed_sin']}&nbsp;&nbsp;-&nbsp;&nbsp;[<a href='?needed=seeders' class='altlink'>{$lang['needseed_tns']}</a>]");
     $Dur = TIME_NOW - 86400 * 7; //== 7 days
     if (XBT_TRACKER === true) {
-    $res = sql_query("SELECT x.fid, x.uid, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM xbt_files_users AS x " . "LEFT JOIN users AS u ON u.id=x.uid " . "LEFT JOIN torrents AS t ON t.id=x.fid WHERE x.left = '0' " . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20") or sqlerr(__FILE__, __LINE__);
+    $res = sql_query("SELECT x.fid, x.uid, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM xbt_files_users AS x " . "LEFT JOIN users AS u ON u.id=x.uid " . "LEFT JOIN torrents AS t ON t.id=x.fid WHERE x.left = '0' AND active='1'" . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20") or sqlerr(__FILE__, __LINE__);
     } else {
     $res = sql_query("SELECT p.id, p.userid, p.torrent, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM peers AS p " . "LEFT JOIN users AS u ON u.id=p.userid " . "LEFT JOIN torrents AS t ON t.id=p.torrent WHERE p.seeder = 'yes' " . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20") or sqlerr(__FILE__, __LINE__);
     }
