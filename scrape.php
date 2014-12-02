@@ -16,8 +16,9 @@
 ( U | - | 2 | 3 | 2 )-( S | o | u | r | c | e )-( C | o | d | e )
  \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/
  */
-require_once ("include/ann_config.php");
+require_once ('include/ann_config.php');
 require_once ('include/ann_functions.php');
+require_once ('include/class/class_bt_options.php');
 
 function error($err)
 {
@@ -25,7 +26,7 @@ function error($err)
     header('Pragma: no-cache');
     exit("d14:failure reason" . strlen($err) . ":{$err}ed5:flagsd20:min_request_intervali1800eeee");
 }
-/*
+
 function getip()
 {
     foreach (array(
@@ -69,7 +70,7 @@ function check_bans($ip, &$reason = '')
         return true;
     }
 }
-*/
+
 $q = explode('&',$_SERVER['QUERY_STRING']);
 $_GET = array();
 foreach ($q as $p)
@@ -122,7 +123,9 @@ if (isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) != 32)
    else
      error('torrent pass not valid, please redownload your torrent file');
   }
-$torrent_pass = $_GET['torrent_pass'];
+
+$torrent_pass = isset($_GET['torrent_pass']) && ($_GET['torrent_pass'])  ? $_GET['torrent_pass'] : '';
+//$torrent_pass = $_GET['torrent_pass'];
 if (!$torrent_pass)
 	die('scrape error');
 
@@ -146,7 +149,7 @@ elseif ($numhash == 1) {
 $user = get_user_from_torrent_pass($torrent_pass);
 if (!$user || !count($torrents))
 	die('scrape user error');
-/*
+
 if (!$user['perms'] & bt_options::PERMS_BYPASS_BAN) {
 	$rip = $_SERVER['REMOTE_ADDR'];
 	$ip = getip();
@@ -157,7 +160,7 @@ if (!$user['perms'] & bt_options::PERMS_BYPASS_BAN) {
 			error('IP Banned');
 	}
 }
-*/
+
 $r = 'd5:filesd';
 foreach ($torrents as $info_hash => $torrent) $r.= '20:' . $info_hash . 'd8:completei' . $torrent['seeders'] . 'e10:downloadedi' . $torrent['times_completed'] . 'e10:incompletei' . $torrent['leechers'] . 'ee';
 $r.= 'ee';
