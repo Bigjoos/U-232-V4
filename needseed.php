@@ -32,25 +32,34 @@ if (!in_array($needed, $possible_actions)) stderr('Error', 'A ruffian that will 
 //$needed = isset($_GET["needed"]) ? htmlsafechars($_GET["needed"]) : '';
 $categorie = genrelist();
 foreach ($categorie as $key => $value) $change[$value['id']] = array(
-    'id' => $value['id'],
-    'name' => $value['name'],
-    'image' => $value['image']
-);
+        'id' => $value['id'],
+        'name' => $value['name'],
+        'image' => $value['image'],
+        'min_class' => $value['min_class']
+    );
 if ($needed == "leechers") {
     $HTMLOUT.= begin_main_frame();
     $HTMLOUT.= begin_frame("{$lang['needseed_sin']}&nbsp;&nbsp;-&nbsp;&nbsp;[<a href='?needed=seeders' class='altlink'>{$lang['needseed_tns']}</a>]");
     $Dur = TIME_NOW - 86400 * 7; //== 7 days
+    if (XBT_TRACKER === true) {
+    $res = sql_query("SELECT x.fid, x.uid, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM xbt_files_users AS x " . "LEFT JOIN users AS u ON u.id=x.uid " . "LEFT JOIN torrents AS t ON t.id=x.fid WHERE x.left = '0' AND active='1'" . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20") or sqlerr(__FILE__, __LINE__);
+    } else {
     $res = sql_query("SELECT p.id, p.userid, p.torrent, u.username, u.uploaded, u.downloaded, t.name, t.seeders, t.leechers, t.category " . "FROM peers AS p " . "LEFT JOIN users AS u ON u.id=p.userid " . "LEFT JOIN torrents AS t ON t.id=p.torrent WHERE p.seeder = 'yes' " . "AND u.downloaded > '1024' AND u.added < $Dur ORDER BY u.uploaded / u.downloaded ASC LIMIT 20") or sqlerr(__FILE__, __LINE__);
+    }
     if (mysqli_num_rows($res) > 0) {
         $HTMLOUT.= "<table align='center' class='main' border='1' cellspacing='0' cellpadding='5'>
     <tr><td class='colhead'>{$lang['needseed_user']}</td><td class='colhead'>{$lang['needseed_tor']}</td><td class='colhead'>{$lang['needseed_cat']}</td><td class='colhead'>{$lang['needseed_peer']}</td></tr>\n";
         while ($arr = mysqli_fetch_assoc($res)) {
-            $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
-            $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
-            $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
-            $torrname = htmlsafechars(CutName($arr["name"], 80));
-            $peers = (int)$arr['seeders'] . " seeder" . ((int)$arr['seeders'] > 1 ? "s" : "") . ", " . (int)$arr['leechers'] . " leecher" . ((int)$arr['leechers'] > 1 ? "s" : "");
-            $HTMLOUT.= "<tr><td><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$arr['userid'] . "'>" . htmlsafechars($arr['username']) . "</a>&nbsp;(" . member_ratio($arr['uploaded'], $arr['downloaded']) . ")</td><td><a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$arr['torrent'] . "' title='{$torrname}'>{$torrname}</a></td><td>{$cat}</td><td>{$peers}</td></tr>\n";
+                $What_ID = (XBT_TRACKER === true ? $arr['fid'] : $arr['torrent']);
+                $What_User_ID = (XBT_TRACKER === true ? $arr['uid'] : $arr['userid']);
+                if ($change[$srr['category']]['min_class'] < $CURUSER['class']) {
+                            $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
+                            $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
+                            $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
+                            $torrname = htmlsafechars(CutName($arr["name"], 80));
+                            $peers = (int)$arr['seeders'] . " seeder" . ((int)$arr['seeders'] > 1 ? "s" : "") . ", " . (int)$arr['leechers'] . " leecher" . ((int)$arr['leechers'] > 1 ? "s" : "");
+                            $HTMLOUT.= "<tr><td><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$What_User_ID . "'>" . htmlsafechars($arr['username']) . "</a>&nbsp;(" . member_ratio($arr['uploaded'], $arr['downloaded']) . ")</td><td><a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$What_ID . "' title='{$torrname}'>{$torrname}</a></td><td>{$cat}</td><td>{$peers}</td></tr>\n";
+                        }
         }
         $HTMLOUT.= "</table>\n";
     } else $HTMLOUT.= "{$lang['needseed_noleech']}\n";

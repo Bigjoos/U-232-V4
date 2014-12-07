@@ -111,8 +111,8 @@ if (isset($_POST['button']) && $_POST['button'] == 'Post') {
         }
     }
     if ($INSTALLER09['seedbonus_on'] == 1) {
-        sql_query("UPDATE users SET seedbonus = seedbonus+2.0 WHERE id = " . sqlesc($CURUSER['id']) . "") or sqlerr(__FILE__, __LINE__);
-        $update['seedbonus'] = ($CURUSER['seedbonus'] + 2);
+        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_post'])." WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_post']);
         $mc1->begin_transaction('userstats_' . $CURUSER["id"]);
         $mc1->update_row(false, array(
             'seedbonus' => $update['seedbonus']

@@ -18,13 +18,13 @@
  */
 require_once (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
-require_once (INCL_DIR . 'html_functions.php');
+//require_once (INCL_DIR . 'html_functions.php');
 dbconn(false);
 //loggedinorreturn();
 $radio = array(
-    'host' => '09radio.no-ip.org',
-    'port' => '8000',
-    'password' => 'golfaren'
+    'host' => '',
+    'port' => '',
+    'password' => ''
 );
 $langs = array(
     'CURRENTLISTENERS' => 'Current listeners: <b>%d</b>',
