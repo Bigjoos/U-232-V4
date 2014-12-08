@@ -1,5 +1,5 @@
 <?php
-if(XBT_TRACKER == false OR $INSTALLER09['crazy_hour'] == true) {
+if(XBT_TRACKER == false AND $INSTALLER09['crazy_hour'] == true) {
 function crazyhour()
 {
     global $CURUSER, $INSTALLER09, $mc1, $lang;
