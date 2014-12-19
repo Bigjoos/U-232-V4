@@ -345,7 +345,8 @@ INSERT INTO `bannedemails` (`id`, `added`, `addedby`, `comment`, `email`) VALUES
 (50, 1282299331, 1, 'Fake provider', '*@tempemail.net'),
 (51, 1282299331, 1, 'Fake provider', '*@tempinbox.com'),
 (52, 1282299331, 1, 'Fake provider', '*@throwaway.de'),
-(53, 1282299331, 1, 'Fake provider', '*@woodyland.org');
+(53, 1282299331, 1, 'Fake provider', '*@woodyland.org'),
+(54, 1282299331, 1, 'Fake provider', '*@trbvm.com');
 
 -- --------------------------------------------------------
 
