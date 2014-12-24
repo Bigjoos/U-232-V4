@@ -38,7 +38,7 @@ $newpage = new page_verify();
 $newpage->create('tkIs');
 $res = sql_query("SELECT COUNT(*) FROM users") or sqlerr(__FILE__, __LINE__);
 $arr = mysqli_fetch_row($res);
-if ($arr[0] >= $INSTALLER09['inviteusers']) stderr("Sorry", "The current user account limit (" . number_format($INSTALLER09['inviteusers']) . ") has been reached. Inactive accounts are pruned all the time, please check back again later...");
+if ($arr[0] >= $INSTALLER09['invites']) stderr("Sorry", "The current user account limit (" . number_format($INSTALLER09['invites']) . ") has been reached. Inactive accounts are pruned all the time, please check back again later...");
 if (!$INSTALLER09['openreg_invites']) stderr('Sorry', 'Invite Signups are closed presently');
 // TIMEZONE STUFF
 $offset = (string)$INSTALLER09['time_offset'];

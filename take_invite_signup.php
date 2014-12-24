@@ -31,7 +31,7 @@ $newpage = new page_verify();
 $newpage->check('tkIs');
 $res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
 $arr = mysqli_fetch_row($res);
-if ($arr[0] >= $INSTALLER09['inviteusers']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $INSTALLER09['inviteusers']));
+if ($arr[0] >= $INSTALLER09['invites']) stderr($lang['stderr_errorhead'], sprintf($lang['stderr_ulimit'], $INSTALLER09['invites']));
 if (!$INSTALLER09['openreg_invites']) stderr('Sorry', 'Invite Signups are closed presently');
 if (!mkglobal('wantusername:wantpassword:passagain:email:invite' . ($INSTALLER09['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme:passhint:hintanswer')) stderr("Oops", "Missing form data - You must fill all fields");
 if ($submitme != 'X') stderr('Ha Ha', 'You Missed, You plonker !');

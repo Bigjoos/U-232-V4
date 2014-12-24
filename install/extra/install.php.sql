@@ -345,7 +345,8 @@ INSERT INTO `bannedemails` (`id`, `added`, `addedby`, `comment`, `email`) VALUES
 (50, 1282299331, 1, 'Fake provider', '*@tempemail.net'),
 (51, 1282299331, 1, 'Fake provider', '*@tempinbox.com'),
 (52, 1282299331, 1, 'Fake provider', '*@throwaway.de'),
-(53, 1282299331, 1, 'Fake provider', '*@woodyland.org');
+(53, 1282299331, 1, 'Fake provider', '*@woodyland.org'),
+(54, 1282299331, 1, 'Fake provider', '*@trbvm.com');
 
 -- --------------------------------------------------------
 
@@ -1001,7 +1002,7 @@ INSERT INTO `countries` (`id`, `name`, `flagpic`) VALUES
 (59, 'Iceland', 'iceland.gif'),
 (60, 'Nauru', 'nauru.gif'),
 (61, 'Slovenia', 'slovenia.gif'),
-(62, 'Slovakia', 'slovakia.gif'),
+(103, 'Slovakia', 'slovakia.gif'),
 (63, 'Turkmenistan', 'turkmenistan.gif'),
 (64, 'Bosnia Herzegovina', 'bosniaherzegovina.gif'),
 (65, 'Andorra', 'andorra.gif'),

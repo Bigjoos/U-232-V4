@@ -104,12 +104,12 @@ if (isset($_POST['button']) && $_POST['button'] == 'Post') {
     sql_query('INSERT INTO topics (`id`, `user_id`, `topic_name`, `last_post`, `forum_id`, `topic_desc`, `poll_id`, `anonymous`) VALUES (NULL, ' . $CURUSER['id'] . ', ' . sqlesc($topic_name) . ', '. $CURUSER['id'] .', ' . $forum_id . ', ' . sqlesc($topic_desc) . ', ' . $poll_id . ', ' . sqlesc($anonymous) . ')');
     $topic_id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
     sql_query('INSERT INTO `posts` ( `topic_id` , `user_id` , `added` , `body` , `icon` , `post_title` , `bbcode` , `ip` , `anonymous`) VALUES 
-      		(' . $topic_id . ', ' . $CURUSER['id'] . ', ' . TIME_NOW . ', ' . sqlesc($body) . ', ' . sqlesc($icon) . ',  ' . sqlesc($post_title) . ', ' . sqlesc($bb_code) . ', ' . sqlesc($ip) . ', ' . sqlesc($anonymous) . ')');
+      		(' . sqlesc($topic_id) . ', ' . $CURUSER['id'] . ', ' . TIME_NOW . ', ' . sqlesc($body) . ', ' . sqlesc($icon) . ',  ' . sqlesc($post_title) . ', ' . sqlesc($bb_code) . ', ' . sqlesc($ip) . ', ' . sqlesc($anonymous) . ')');
     sql_query("UPDATE usersachiev SET forumtopics=forumtopics+1 WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
     $post_id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
     $mc1->delete_value('last_posts_' . $CURUSER['class']);
     $mc1->delete_value('forum_posts_' . $CURUSER['id']);
-    sql_query('UPDATE `topics` SET first_post =  ' . $post_id . ', post_count = 1 WHERE id=' . sqlesc($topic_id));
+    sql_query('UPDATE `topics` SET first_post =  ' . sqlesc($post_id) . ', last_post = ' . sqlesc($post_id) . ', post_count = 1 WHERE id=' . sqlesc($topic_id));
     sql_query('UPDATE `forums` SET post_count = post_count +1, topic_count = topic_count + 1 WHERE id =' . sqlesc($forum_id));
     if ($INSTALLER09['autoshout_on'] == 1) {
         $message = $CURUSER['username'] . " ".$lang['nt_created_new_topic']." [url={$INSTALLER09['baseurl']}/forums.php?action=view_topic&topic_id=$topic_id&page=last]{$topic_name}[/url]";
@@ -120,8 +120,8 @@ if (isset($_POST['button']) && $_POST['button'] == 'Post') {
         }
     }
     if ($INSTALLER09['seedbonus_on'] == 1) {
-        sql_query("UPDATE users SET seedbonus = seedbonus+3.0 WHERE id =  " . sqlesc($CURUSER['id'] . "")) or sqlerr(__FILE__, __LINE__);
-        $update['seedbonus'] = ($CURUSER['seedbonus'] + 3);
+        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_topic'])." WHERE id =  " . sqlesc($CURUSER['id'] . "")) or sqlerr(__FILE__, __LINE__);
+        $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_topic']);
         $mc1->begin_transaction('userstats_' . $CURUSER["id"]);
         $mc1->update_row(false, array(
             'seedbonus' => $update['seedbonus']

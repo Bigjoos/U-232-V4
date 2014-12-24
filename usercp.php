@@ -228,7 +228,7 @@ elseif ($action == "location") {
     $HTMLOUT.= tr($lang['usercp_language'], "<select name='language'>
     <option value='1'" . ($CURUSER['language'] == '1' ? " selected='selected'" : "") . ">En</option>
     <option value='2'" . ($CURUSER['language'] == '2' ? " selected='selected'" : "") . ">Dk</option>
-    <option value='2'" . ($CURUSER['language'] == '3' ? " selected='selected'" : "") . ">New</option>
+    <option value='3'" . ($CURUSER['language'] == '3' ? " selected='selected'" : "") . ">New</option>
     </select>", $CURUSER['language']);
     $HTMLOUT.= "<tr ><td align='center' colspan='2'><input class='btn btn-primary' type='submit' value='Submit changes!' style='height: 25px' /></td></tr>";
 }

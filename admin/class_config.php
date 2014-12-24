@@ -58,7 +58,6 @@ $mode = (isset($_GET['mode']) ? htmlsafechars($_GET['mode']) : '');
 if (!in_array($mode, $possible_modes)) stderr($lang['classcfg_error'], $lang['classcfg_error1']);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($mode == 'edit') {
-
         foreach ($class_config as $c_name => $value) {
             // handing from database
             $c_value = $value['value']; // $key is like UC_USER etc....
@@ -72,7 +71,6 @@ $c_classcolor = str_replace("#","","$c_classcolor");
             $classname = strtoupper($post_data[1]);
             $classcolor = $post_data[2];
 $classcolor = str_replace("#","","$classcolor");
-
             $classpic = $post_data[3];
             if (isset($_POST[$c_name][0]) && (($value != $c_value) || ($classname != $c_classname) || ($classcolor != $c_classcolor) || ($classpic != $c_classpic))) {
                 $update[$c_name] = '(' . sqlesc($c_name) . ',' . sqlesc(is_array($value) ? join('|', $value) : $value) . ',' . sqlesc(is_array($classname) ? join('|', $classname) : $classname) . ',' . sqlesc(is_array($classcolor) ? join('|', $classcolor) : $classcolor) . ',' . sqlesc(is_array($classpic) ? join('|', $classpic) : $classpic) . ')';
@@ -90,164 +88,6 @@ unset($arr);
 $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC");
             $the_names = $the_colors = $the_images = '';
             while ($arr = mysqli_fetch_assoc($res)) {
-
-                $the_names.= "$arr[name] => '$arr[classname]',";
-                $the_colors.= "$arr[name] => '$arr[classcolor]',";
-                $the_images.= "$arr[name] => " . '$INSTALLER09[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
-            }
-            $configfile.= get_cache_config_data($the_names, $the_colors, $the_images);
-            $configfile.= "\n\n\n?" . ">";
-            $filenum = fopen('./cache/class_config.php', 'w');
-            ftruncate($filenum, 0);
-            fwrite($filenum, $configfile);
-            fclose($filenum);
-            stderr($lang['classcfg_success'], $lang['classcfg_success1']);
-        } else stderr($lang['classcfg_error'], $lang['classcfg_error_query1']);
-        exit;
-    }
-
-
-//ADD CLASS
-    if ($mode == 'add') {
-        $name = isset($_POST['name']) ? htmlsafechars($_POST['name']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_name']);
-        $value = isset($_POST['value']) ? (int)$_POST['value'] : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
-        $r_name = isset($_POST['cname']) ? htmlsafechars($_POST['cname']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
-        $color = isset($_POST['color']) ? htmlsafechars($_POST['color']) : '';
-$color = str_replace("#","","$color");
-        $pic = isset($_POST['pic']) ? htmlsafechars($_POST['pic']) : '';
-
-
-//FIND UC_MAX;
-//FROM HERE
-// CAN REMOVE THE QUERY I THINK.   $old_max = UC_MAX;  OR EVEN  $new_max = UC_MAX +1;  << BOTH WORK
-$res = sql_query("SELECT * from class_config WHERE name IN ('UC_MAX') ");
-        
-            while ($arr = mysqli_fetch_array($res)) {
-$old_max = $arr['value'];
-$new_max = $arr['value'] +1;
-sql_query("UPDATE class_config SET value = '$new_max' WHERE name = 'UC_MAX'");
-}
-// TO HERE
-
-//FIND AND UPDATE UC_STAFF
-//FROM HERE
-//SAME AS ABOVE $new_staff = UC_STAFF +1; THEN UPDATE DB WITH THAT
-$res = sql_query("SELECT * from class_config WHERE name = 'UC_STAFF'");
-        
-            while ($arr = mysqli_fetch_array($res)) {
-if ($value <= $arr['value']) 
-{
-$new_staff = $arr['value'] +1;
-sql_query("UPDATE class_config SET value = '$new_staff' WHERE name = 'UC_STAFF'");
-}}
-
-//TO HERE
-//UPDATE ALL CLASSES TO ONE HIGHER, BUT NOT SECURITY SHITZ
-
-
-
-
-$i = $old_max;
-while ($i >= $value)
-{
-    sql_query( "UPDATE class_config SET value = value +1 where value = $i AND name NOT IN ('UC_MIN', 'UC_STAFF', 'UC_MAX')");
-$i--;
-}
-
-
-
-//IF ADDING NEW CLASS ABOVE UC_MAXX CLASS WE NEED TO PUT CURRENT MAX CLASS USERS INTO IT
-if ($value > UC_MAX) {
-sql_query( "UPDATE users SET class = class +1 where class = $old_max");
-
-$result = sql_query("SELECT id, class FROM users");
-$mc1->delete_value('shoutbox_');
-$mc1->delete_value('staff_shoutbox_');
-$result = sql_query("SELECT id, class FROM users");
-
-while ($row = mysqli_fetch_assoc($result)) { 
-$row1 = array();
-$row1[]= $row;
-
-
-   foreach($row1 as $row2) { 
-
-        
-                $mc1->begin_transaction('MyUser_'.$row2['id']);
-                $mc1->update_row(false, array(
-                    'class' => $row2['class']
-                ));
-$mc1->commit_transaction($INSTALLER09['expires']['curuser']);
-
-
-        $mc1->begin_transaction('user'.$row2['id']);
-        $mc1->update_row(false, array(
-            'class' => $row2['class']
-        ));
-$mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
-   } 
-
-}
-}
-//END IFF SETTING ABOVE UC_MAX
-
-//UPDATE ALL USERS TO ONE HIGHER IN REVERSE ORDER
-
-else {
-
-$i = $old_max;
-while ($i >= $value)
-{
-    sql_query( "UPDATE users SET class = class +1 where class = $i");
-sql_query( "UPDATE staffpanel SET av_class = av_class +1 where av_class = $i");
-$i--;
-}
-
-$mc1->delete_value('shoutbox_');
-$mc1->delete_value('staff_shoutbox_');
-$result = sql_query("SELECT id, class FROM users");
-
-while ($row = mysqli_fetch_assoc($result)) { 
-$row1 = array();
-$row1[]= $row;
-
-
-   foreach($row1 as $row2) { 
-
-        
-                $mc1->begin_transaction('MyUser_'.$row2['id']);
-                $mc1->update_row(false, array(
-                    'class' => $row2['class']
-                ));
-$mc1->commit_transaction($INSTALLER09['expires']['curuser']);
-
-
-        $mc1->begin_transaction('user'.$row2['id']);
-        $mc1->update_row(false, array(
-            'class' => $row2['class']
-        ));
-$mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
-   } 
-
-}
-}
-
-        if (sql_query("INSERT INTO class_config (name, value,classname,classcolor,classpic) VALUES(" . sqlesc($name) . "," . sqlesc($value) . "," . sqlesc($r_name) . "," . sqlesc($color) . "," . sqlesc($pic) . ")")) {
-       
-
-
- $t = 'define(';
-            $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
-            $res = sql_query("SELECT * from class_config ORDER BY value  ASC");
-            $the_names = $the_colors = $the_images = '';
-            while ($arr = mysqli_fetch_assoc($res)) {
-                $configfile.= "" . $t . "'$arr[name]', $arr[value]);\n";
-}
-unset($arr);
-$res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC");
-            $the_names = $the_colors = $the_images = '';
-            while ($arr = mysqli_fetch_assoc($res)) {
-
                 $the_names.= "$arr[name] => '$arr[classname]',";
                 $the_colors.= "$arr[name] => '$arr[classcolor]',";
                 $the_images.= "$arr[name] => " . '$INSTALLER09[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
@@ -259,90 +99,166 @@ $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX
             fwrite($filenum, $configfile);
             fclose($filenum);
             stderr($lang['classcfg_success'], $lang['classcfg_success_save']);
+        } else stderr($lang['classcfg_error'], $lang['classcfg_error_query1']);
+        exit;
+    }
+//ADD CLASS
+    if ($mode == 'add') {
+        $name = isset($_POST['name']) ? htmlsafechars($_POST['name']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_name']);
+        $value = isset($_POST['value']) ? (int)$_POST['value'] : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
+        $r_name = isset($_POST['cname']) ? htmlsafechars($_POST['cname']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
+        $color = isset($_POST['color']) ? htmlsafechars($_POST['color']) : '';
+$color = str_replace("#","","$color");
+        $pic = isset($_POST['pic']) ? htmlsafechars($_POST['pic']) : '';
+        //FIND UC_MAX;
+        //FROM HERE
+        // CAN REMOVE THE QUERY I THINK.   $old_max = UC_MAX;  OR EVEN  $new_max = UC_MAX +1;  << BOTH WORK
+        $res = sql_query("SELECT * from class_config WHERE name IN ('UC_MAX') ");
+          while ($arr = mysqli_fetch_array($res)) {
+          $old_max = $arr['value'];
+          $new_max = $arr['value'] +1;
+        sql_query("UPDATE class_config SET value = '$new_max' WHERE name = 'UC_MAX'");
+        }
+        // TO HERE
+        //FIND AND UPDATE UC_STAFF
+        //FROM HERE
+        //SAME AS ABOVE $new_staff = UC_STAFF +1; THEN UPDATE DB WITH THAT
+        $res = sql_query("SELECT * from class_config WHERE name = 'UC_STAFF'");
+            while ($arr = mysqli_fetch_array($res)) {
+            if ($value <= $arr['value']) {
+            $new_staff = $arr['value'] +1;
+            sql_query("UPDATE class_config SET value = '$new_staff' WHERE name = 'UC_STAFF'");
+            }
+       }
+       //TO HERE
+       //UPDATE ALL CLASSES TO ONE HIGHER, BUT NOT SECURITY SHITZ
+       $i = $old_max;
+       while ($i >= $value) {
+       sql_query( "UPDATE class_config SET value = value +1 where value = $i AND name NOT IN ('UC_MIN', 'UC_STAFF', 'UC_MAX')");
+       $i--;
+       }
+       //IF ADDING NEW CLASS ABOVE UC_MAXX CLASS WE NEED TO PUT CURRENT MAX CLASS USERS INTO IT
+       if ($value > UC_MAX) {
+       sql_query( "UPDATE users SET class = class +1 where class = $old_max");
+       $result = sql_query("SELECT id, class FROM users");
+       $mc1->delete_value('shoutbox_');
+       $mc1->delete_value('staff_shoutbox_');
+       $result = sql_query("SELECT id, class FROM users");
+       while ($row = mysqli_fetch_assoc($result)) { 
+       $row1 = array();
+       $row1[]= $row;
+       foreach($row1 as $row2) { 
+            $mc1->begin_transaction('MyUser_'.$row2['id']);
+            $mc1->update_row(false, array('class' => $row2['class']));
+            $mc1->commit_transaction($INSTALLER09['expires']['curuser']);
+            $mc1->begin_transaction('user'.$row2['id']);
+            $mc1->update_row(false, array('class' => $row2['class']));
+            $mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
+            } 
+         }
+       }
+       //END IFF SETTING ABOVE UC_MAX
+       //UPDATE ALL USERS TO ONE HIGHER IN REVERSE ORDER
+       else {
+       $i = $old_max;
+       while ($i >= $value) {
+       sql_query( "UPDATE users SET class = class +1 where class = $i");
+       sql_query( "UPDATE staffpanel SET av_class = av_class +1 where av_class = $i");
+       $i--;
+       }
 
-
+           $mc1->delete_value('shoutbox_');
+           $mc1->delete_value('staff_shoutbox_');
+           $result = sql_query("SELECT id, class FROM users");
+           while ($row = mysqli_fetch_assoc($result)) { 
+           $row1 = array();
+           $row1[]= $row;
+       foreach($row1 as $row2) { 
+                $mc1->begin_transaction('MyUser_'.$row2['id']);
+                $mc1->update_row(false, array('class' => $row2['class']));
+                $mc1->commit_transaction($INSTALLER09['expires']['curuser']);
+                $mc1->begin_transaction('user'.$row2['id']);
+                $mc1->update_row(false, array('class' => $row2['class']));
+                $mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
+                } 
+              }
+       }
+       if (sql_query("INSERT INTO class_config (name, value,classname,classcolor,classpic) VALUES(" . sqlesc($name) . "," . sqlesc($value) . "," . sqlesc($r_name) . "," . sqlesc($color) . "," . sqlesc($pic) . ")")) {     
+       $t = 'define(';
+            $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
+            $res = sql_query("SELECT * from class_config ORDER BY value  ASC");
+            $the_names = $the_colors = $the_images = '';
+            while ($arr = mysqli_fetch_assoc($res)) {
+                $configfile.= "" . $t . "'$arr[name]', $arr[value]);\n";
+       }
+       unset($arr);
+       $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC");
+       $the_names = $the_colors = $the_images = '';
+            while ($arr = mysqli_fetch_assoc($res)) {
+                $the_names.= "$arr[name] => '$arr[classname]',";
+                $the_colors.= "$arr[name] => '$arr[classcolor]',";
+                $the_images.= "$arr[name] => " . '$INSTALLER09[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";
+            }
+            $configfile.= get_cache_config_data($the_names, $the_colors, $the_images);
+            $configfile.= "\n\n\n?" . ">";
+            $filenum = fopen('./cache/class_config.php', 'w');
+            ftruncate($filenum, 0);
+            fwrite($filenum, $configfile);
+            fclose($filenum);
+            stderr($lang['classcfg_success'], $lang['classcfg_success_save']);
         } else stderr($lang['classcfg_error'], $lang['classcfg_error_query2']);
         exit;
     }
-
-
     // remove
     if ($mode == 'remove') {
         $name = isset($_POST['remove']) ? htmlsafechars($_POST['remove']) : stderr($lang['classcfg_error'], $lang['classcfg_error_required']);
-		
-		$res = sql_query("SELECT value from class_config WHERE name = '$name' ");
-        
+	    $res = sql_query("SELECT value from class_config WHERE name = '$name' ");
             while ($arr = mysqli_fetch_array($res)) {
-	$value = $arr['value'];		
-			}
-		
-	//FIND UC_MAX;
-$res = sql_query("SELECT * from class_config WHERE name IN ('UC_MAX') ");
-        
+	    $value = $arr['value'];		
+    }
+    //FIND UC_MAX;
+    $res = sql_query("SELECT * from class_config WHERE name IN ('UC_MAX') ");
             while ($arr = mysqli_fetch_array($res)) {
-$old_max = $arr['value'];
-$new_max = $arr['value'] -1;
-sql_query("UPDATE class_config SET value = '$new_max' WHERE name = 'UC_MAX'");
-}
-
-//FIND AND UPDATE UC_STAFF
-$res = sql_query("SELECT * from class_config WHERE name = 'UC_STAFF'");
-        
+            $old_max = $arr['value'];
+            $new_max = $arr['value'] -1;
+           sql_query("UPDATE class_config SET value = '$new_max' WHERE name = 'UC_MAX'");
+    }
+    //FIND AND UPDATE UC_STAFF
+    $res = sql_query("SELECT * from class_config WHERE name = 'UC_STAFF'");
             while ($arr = mysqli_fetch_array($res)) {
-if ($value <= $arr['value']) 
-{
-$new_staff = $arr['value'] -1;
-sql_query("UPDATE class_config SET value = '$new_staff' WHERE name = 'UC_STAFF'");
-}}
-//UPDATE ALL CLASSES TO ONE LOWER, BUT NOT SECURITY SHITZ
-
-$i = $value;
-while ($i <= $old_max)
-{
-    sql_query( "UPDATE class_config SET value = value -1 where value = $i AND name NOT IN ('UC_MIN', 'UC_STAFF', 'UC_MAX')");
-$i++;
-}
-
-//UPDATE ALL USERS TO ONE LOWER IN REVERSE ORDER
-$i = $value;
-while ($i <= $old_max)
-{
-    sql_query( "UPDATE users SET class = class -1 where class = $i");
-sql_query( "UPDATE staffpanel SET av_class = av_class -1 where av_class = $i");
-$i++;
-}
-$mc1->delete_value('shoutbox_');
-$mc1->delete_value('staff_shoutbox_');
-$result = sql_query("SELECT id, class FROM users");
-
-while ($row = mysqli_fetch_assoc($result)) { 
-$row1 = array();
-$row1[]= $row;
-
-
-   foreach($row1 as $row2) { 
-
-        
+            if ($value <= $arr['value']) {
+            $new_staff = $arr['value'] -1;
+            sql_query("UPDATE class_config SET value = '$new_staff' WHERE name = 'UC_STAFF'");
+            }           
+    }
+    //UPDATE ALL CLASSES TO ONE LOWER, BUT NOT SECURITY SHITZ
+    $i = $value;
+            while ($i <= $old_max) {
+            sql_query( "UPDATE class_config SET value = value -1 where value = $i AND name NOT IN ('UC_MIN', 'UC_STAFF', 'UC_MAX')");
+    $i++;
+    }
+    //UPDATE ALL USERS TO ONE LOWER IN REVERSE ORDER
+    $i = $value;
+            while ($i <= $old_max) {
+            sql_query( "UPDATE users SET class = class -1 where class = $i");
+            sql_query( "UPDATE staffpanel SET av_class = av_class -1 where av_class = $i");
+    $i++;
+    }
+            $mc1->delete_value('shoutbox_');
+            $mc1->delete_value('staff_shoutbox_');
+            $result = sql_query("SELECT id, class FROM users");
+            while ($row = mysqli_fetch_assoc($result)) { 
+            $row1 = array();
+            $row1[]= $row;
+    foreach($row1 as $row2) { 
                 $mc1->begin_transaction('MyUser_'.$row2['id']);
-                $mc1->update_row(false, array(
-                    'class' => $row2['class']
-                ));
-$mc1->commit_transaction($INSTALLER09['expires']['curuser']);
-
-
-        $mc1->begin_transaction('user'.$row2['id']);
-        $mc1->update_row(false, array(
-            'class' => $row2['class']
-        ));
-$mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
-   } 
-
-}
-
-		
-		
-		
-		
+                $mc1->update_row(false, array('class' => $row2['class']));
+                $mc1->commit_transaction($INSTALLER09['expires']['curuser']);
+                $mc1->begin_transaction('user'.$row2['id']);
+                $mc1->update_row(false, array('class' => $row2['class']));
+                $mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
+                } 
+      }	
         if (sql_query("DELETE FROM class_config WHERE name = " . sqlesc($name) . "")) {
             $t = 'define(';
             $configfile = "<" . $lang['classcfg_file_created'] . date('M d Y H:i:s') . $lang['classcfg_user_cfg'];
@@ -351,11 +267,10 @@ $mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
             while ($arr = mysqli_fetch_assoc($res)) {
                 $configfile.= "" . $t . "'$arr[name]', $arr[value]);\n";
                 }
-unset($arr);
-$res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC");
+            unset($arr);
+            $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX','UC_STAFF') ORDER BY value  ASC");
             $the_names = $the_colors = $the_images = '';
             while ($arr = mysqli_fetch_assoc($res)) {
-
                 $the_names.= "$arr[name] => '$arr[classname]',";
                 $the_colors.= "$arr[name] => '$arr[classcolor]',";
                 $the_images.= "$arr[name] => " . '$INSTALLER09[' . "'pic_base_url'" . ']' . ".'class/$arr[classpic]',";

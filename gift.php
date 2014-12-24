@@ -41,8 +41,8 @@ $sql = sql_query('SELECT seedbonus, invites, freeslots, uploaded ' . 'FROM users
 $User = mysqli_fetch_assoc($sql);
 if (isset($open) && $open == 1) {
     if ($today >= $xmasday) {
-        if (!($CURUSER["opt1"] & user_options::GOTGIFT)) {
-            //if ($CURUSER["gotgift"] == 'no') {
+        //if (!($CURUSER["opt1"] & user_options::GOTGIFT)) {
+            if ($CURUSER["gotgift"] == 'no') {
             if ($gift == "upload") {
                 sql_query("UPDATE users SET invites=invites+1, uploaded=uploaded+1024*1024*1024*10, freeslots=freeslots+1, gotgift='yes' WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
                 $update['invites'] = ($User['invites'] + 1);
