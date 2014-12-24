@@ -28,7 +28,7 @@ $HTMLOUT.= "<fieldset class='header'><legend>{$lang['index_donations']}</legend>
 			</fieldset><hr />";
 */
 $HTMLOUT.= "<fieldset><legend>{$lang['index_donations']}</legend>
-			<div class='container' align='center'>
+			<div class='container-fluid' align='center'>
 			<a href='{$INSTALLER09['baseurl']}/donate.php'><img border='0' src='{$INSTALLER09['pic_base_url']}makedonation.gif' alt='{$lang['index_donations']}' title='{$lang['index_donations']}'  /></a><br />
 				<table width='140' style='height: 20%;' border='2'>
 					<tr>

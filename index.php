@@ -180,7 +180,7 @@ $HTMLOUT .="</div>";
 	}
 
 	if (curuser::$blocks['index_page'] & block_index::DONATION_PROGRESS && $BLOCKS['donation_progress_on']) {
-$HTMLOUT .="<div class='portlet' id='DONATION_PROGRESS'>";
+$HTMLOUT .="<div class='portlet' id='DONATIONS'>";
     	require_once (BLOCK_DIR . 'index/donations.php');
 $HTMLOUT .="</div>";
 	}
