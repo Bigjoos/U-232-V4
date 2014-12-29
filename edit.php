@@ -25,19 +25,12 @@ global $CURUSER;
 if (!mkglobal("id")) die();
 $id = 0 + $id;
 if (!$id) die();
-$INSTALLER09['expires']['ismoddin'] = 60;
 /** who is modding by pdq **/
 if ((isset($_GET['unedit']) && $_GET['unedit'] == 1) && $CURUSER['class'] >= UC_STAFF) {
-    //$modfile = 'cache/details/' . $id . '_moddin.txt';
-    //if (file_exists($modfile)) unlink($modfile);
     $mc1->delete_value('editedby_' . $id);
     $returl = "details.php?id=$id";
     if (isset($_POST["returnto"])) $returl.= "&returnto=" . urlencode($_POST["returnto"]);
     header("Refresh: 1; url=$returl");
-    //if (($mod_cache_name = $mc1->get_value('editedby_'.$id)) === false) {
-    //$mod_cache_name = $CURUSER['username'];
-    //$mc1->add_value('editedby_'.$id, $mod_cache_name, $INSTALLER09['expires']['ismoddin']);
-    //}
     exit();
 }
 dbconn();
@@ -74,24 +67,12 @@ $HTMLOUT = "<script type='text/javascript'>
     };
     </script>";
 if ($CURUSER['class'] >= UC_STAFF) {
-    //$expire = 300; // 5 minutes
-    //$modfile = 'cache/details/' . $id . '_moddin.txt';
-    //if (file_exists($modfile) && filemtime($modfile) > (TIME_NOW - $expire)) {
-    //$modcache = fopen($modfile, "r");
-    //$ismoddin = fread($modcache, filesize($modfile));
-    //fclose($modcache);
     if (($mod_cache_name = $mc1->get_value('editedby_' . $id)) === false) {
         $mod_cache_name = $CURUSER['username'];
         $mc1->add_value('editedby_' . $id, $mod_cache_name, $INSTALLER09['expires']['ismoddin']);
     }
     $HTMLOUT.= '<h1><font size="+1"><font color="#FF0000">' . $mod_cache_name . '</font> is currently editing this torrent!</font></h1>';
-    //} else {
-    //$modder = $CURUSER['username'];
-    //$fp = fopen($modfile, "w") or die('Couldn\'t open file for writing!');
-    //fwrite($fp, $modder) or die('Couldn\'t write values to file!');
-    //fclose($fp);
 }
-//}
 $ismodd = '<tr><td align=\'center\' class=\'colhead\' colspan=\'2\'><b>Edit Torrent</b> ' . (($CURUSER['class'] > UC_UPLOADER) ? '<small><a href="edit.php?id=' . $id . '&amp;unedit=1">Click here</a> to add temp edit notification while you edit this torrent</small>' : '') . '</td></tr>';
 $HTMLOUT.= "<form method='post' name='edit' action='takeedit.php' enctype='multipart/form-data'>
     <input type='hidden' name='id' value='$id' />";
