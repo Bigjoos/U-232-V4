@@ -54,7 +54,7 @@ if ($action == 'reset') {
     header("Refresh: 1; url={$INSTALLER09['baseurl']}/userdetails.php?id=$id");
     stderr($lang['createlink_success'], $lang['createlink_your_login_link_was_reset_successfully']);
 } else {
-    if ($arr['hash1'] === '') {
+    if ($arr['hash1'] === '' || $arr['hash1'] === NULL) {
         sql_query("UPDATE users SET hash1 = " . sqlesc($hash1) . " WHERE id = " . sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         header("Refresh: 2; url={$INSTALLER09['baseurl']}/userdetails.php?id=$id");
         $mc1->begin_transaction('user' . $id);
