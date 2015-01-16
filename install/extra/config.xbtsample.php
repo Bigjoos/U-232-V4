@@ -141,7 +141,8 @@ $INSTALLER09['expires']['checked_by'] = 0; // 0 = infinite
 $INSTALLER09['expires']['sanity'] = 0; // 0 = infinite
 $INSTALLER09['expires']['movieofweek'] = 300; // 604800 = 1 week
 $INSTALLER09['expires']['browse_where'] = 60; // 60 = 60 seconds
-$INSTALLER09['expires']['torrent_xbt_data'] = 300;
+$INSTALLER09['expires']['torrent_xbt_data'] = 300; // 300 = 5 min
+$INSTALLER09['expires']['ismoddin'] = 0; // 0 = infinite
 //== Tracker configs
 $INSTALLER09['tracker_post_key'] = 'lsdflksfda4545frwe35@kk';
 $INSTALLER09['max_torrent_size'] = 3 * 1024 * 1024;

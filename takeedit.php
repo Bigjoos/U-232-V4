@@ -269,8 +269,7 @@ if ($torrent_txt_cache) {
 }
 remove_torrent($infohash);
 write_log("torrent edited - " . htmlsafechars($name) . ' was edited by ' . (($fetch_assoc['anonymous'] == 'yes') ? 'Anonymous' : htmlsafechars($CURUSER['username'])) . "");
-$modfile = 'cache/details/' . $id . '_moddin.txt';
-if (file_exists($modfile)) unlink($modfile);
+$mc1->delete_value('editedby_' . $id);
 $returl = (isset($_POST['returnto']) ? '&returnto=' . urlencode($_POST['returnto']) : 'details.php?id=' . $id . '&edited=1');
 header("Refresh: 0; url=$returl");
 ?>
