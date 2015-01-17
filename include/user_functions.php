@@ -464,4 +464,16 @@ function get_cache_config_data($the_names,$the_colors,$the_images)
 	return $configfile;
 }
 /** end functions **/
+
+//Clear forum memecache for all classes
+function clr_forums_cache($post_id) {
+    global $mc1, $INSTALLER09;
+    $uclass = UC_MIN;
+    while ($uclass <= UC_MAX) {
+        $mc1->delete_value('last_post_' . $post_id . '_' . $uclass);
+        $mc1->delete_value('sv_last_post_' . $post_id . '_' . $uclass);
+        $mc1->delete_value('last_posts_' . $uclass);
+        $uclass++;
+    }
+}
 ?>

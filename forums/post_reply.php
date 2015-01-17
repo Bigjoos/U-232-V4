@@ -95,10 +95,8 @@ if (isset($_POST['button']) && $_POST['button'] == 'Post') {
     }
     $ip = ($CURUSER['ip'] == '' ? htmlsafechars($_SERVER['REMOTE_ADDR']) : $CURUSER['ip']);
     sql_query('INSERT INTO `posts` (`topic_id`, `user_id`, `added`, `body`, `icon`, `post_title`, `bbcode`, `ip` , `anonymous`) VALUES (' . sqlesc($topic_id) . ', ' . sqlesc($CURUSER['id']) . ', ' . TIME_NOW . ', ' . sqlesc($body) . ', ' . sqlesc($icon) . ', ' . sqlesc($post_title) . ', ' . sqlesc($bb_code) . ', ' . sqlesc($ip) . ', ' . sqlesc($anonymous) . ')');
-    $mc1->delete_value('last_posts_' . $CURUSER['class']);
+    clr_forums_cache($arr['real_forum_id']);
     $mc1->delete_value('forum_posts_' . $CURUSER['id']);
-    $mc1->delete_value('last_post_' . $arr['real_forum_id'] . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $arr['real_forum_id'] . '_' . $CURUSER['class']);
     $post_id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
     sql_query('UPDATE topics SET last_post=' . sqlesc($post_id) . ', post_count = post_count + 1 WHERE id=' . sqlesc($topic_id));
     sql_query('UPDATE `forums` SET post_count = post_count +1 WHERE id =' . sqlesc($arr['real_forum_id']));
@@ -111,7 +109,7 @@ if (isset($_POST['button']) && $_POST['button'] == 'Post') {
         }
     }
     if ($INSTALLER09['seedbonus_on'] == 1) {
-        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_post'])." WHERE id = " . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE users SET seedbonus = seedbonus+".sqlesc($INSTALLER09['bonus_per_post'])." WHERE id = " . sqlesc($CURUSER['id']) . "") or sqlerr(__FILE__, __LINE__);
         $update['seedbonus'] = ($CURUSER['seedbonus'] + $INSTALLER09['bonus_per_post']);
         $mc1->begin_transaction('userstats_' . $CURUSER["id"]);
         $mc1->update_row(false, array(

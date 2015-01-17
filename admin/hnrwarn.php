@@ -60,12 +60,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
     $act = isset($_POST["action"]) && in_array($_POST["action"], $valid) ? $_POST["action"] : false;
     if (!$act) stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
-    if ($act == "delete") {
-        if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
-            $c = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
-            header("Refresh: 2; url=" . $r);
-            stderr($lang['hnrwarn_success'], $c . $lang['hnrwarn_user'] . ($c > 1 ? $lang['hnrwarn_s'] : "") . $lang['hnrwarn_deleted']);
-        } else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
+    if ($act == "delete" && ($CURUSER['class']>=UC_SYSOP)) {
+        $res_del = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE id IN (" . join(",", $_uids) . ") ORDER BY username DESC");
+        if (mysqli_num_rows($res_del) != 0) {
+        $count = mysqli_num_rows($res_del);
+        while ($arr_del = mysqli_fetch_assoc($res_del)) {
+            $userid = $arr_del['id'];
+            $res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+            $mc1->delete_value('MyUser_' . $userid);
+            $mc1->delete_value('user' . $userid);
+            write_log("User: {$arr_del['username']} Was deleted by ".$CURUSER['username']." Via Hit And Run Page");
+            }
+        }
+         else stderr($lang['hnrwarn_stderror'], $lang['hnrwarn_wrong']);
     }
     if ($act == "disable") {
         if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['hnrwarn_disabled'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")")) {
@@ -154,8 +161,10 @@ else {
 				<select name='action'>
 					<option value='unwarn'>{$lang['hnrwarn_unwarn']}</option>
 					<option value='disable'>{$lang['hnrwarn_disable2']}</option>
-					<option value='delete'>{$lang['hnrwarn_delete']}</option>
-				</select>
+					";
+                $HTMLOUT.= "<option value='delete' " . ($CURUSER["class"] < UC_ADMINISTRATOR ? "disabled" : "") . ">{$lang['hnrwarn_delete']}</option>";
+    $HTMLOUT.= "
+    				</select>
 				&raquo;
 				<input type='submit' value='{$lang['hnrwarn_apply']}' />
 				<input type='hidden' value='" . htmlsafechars($_SERVER["REQUEST_URI"]) . "' name='ref' />
