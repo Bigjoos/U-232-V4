@@ -125,7 +125,7 @@ if (isset($_POST['button']) && $_POST['button'] == 'Edit') {
         $post_history = htmlsafechars($arr_post['post_history']);
     }
     sql_query('UPDATE posts SET body = ' . sqlesc($body) . ', icon = ' . sqlesc($icon) . ', post_title = ' . sqlesc($post_title) . ', bbcode = ' . sqlesc($show_bbcode) . ', edit_reason = ' . sqlesc($edit_reason) . ', edited_by = ' . sqlesc($edited_by) . ', edit_date = ' . sqlesc($edit_date) . ', post_history = ' . sqlesc($post_history) . ' WHERE id = ' . sqlesc($post_id));
-    $mc1->delete_value('last_posts_' . $CURUSER['class']);
+    clr_forums_cache($post_id);
     $mc1->delete_value('forum_posts_' . $CURUSER['id']);
     //=== update topic stuff
     if ($can_edit) {
