@@ -271,8 +271,8 @@ function islocal($link)
         $l[1] = substr($title, strlen($title) - round($limit / 3));
         $lshort = $l[0] . "..." . $l[1];
     } else $lshort = $title;
-    //return "&nbsp;<a href=\"" . ((stristr($url, $INSTALLER09['url']) !== false) ? "" : "http://www.redirect.am/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
-    return "&nbsp;<a href=\"".((stristr($url, $INSTALLER09['url']) !== false) ? "" : "http://anonym.to?").$url."\" target=\"_blank\">".$lshort."</a>";
+    return "&nbsp;<a href=\"" . ((stristr($url, $INSTALLER09['url']) !== false) ? "" : "http://www.redirect.am/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
+    //return "&nbsp;<a href=\"".((stristr($url, $INSTALLER09['url']) !== false) ? "" : "http://anonym.to?").$url."\" target=\"_blank\">".$lshort."</a>";
 }
 function format_urls($s)
 {
