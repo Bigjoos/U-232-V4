@@ -253,7 +253,9 @@ function islocal($link)
     $INSTALLER09['url'] = str_replace(array(
         'http://',
         'www',
-        'http://www'
+        'http://www',
+        'https://',
+        'https://www'
     ) , '', $INSTALLER09['baseurl']);
     if (false !== stristr($link[0], '[url=')) {
         $url = trim($link[1]);
@@ -282,6 +284,9 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     $s = $text;
     unset($text);
     $s = validate_imgs($s);
+    $INSTALLER09['url'] = str_replace(array('http://', 'www', 'http://www', 'https://', 'https://www'), '', $INSTALLER09['baseurl']);
+    if(isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) $s = preg_replace('/http:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'https://$1', $s);
+    else $s = preg_replace('/https:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'http://$1', $s);
     // This fixes the extraneous ;) smilies problem. When there was an html escaped
     // char before a closing bracket - like >), "), ... - this would be encoded
     // to &xxx;), hence all the extra smilies. I created a new :wink: label, removed
