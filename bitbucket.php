@@ -126,14 +126,14 @@ document.getElementById(id).select();
         $year = (!isset($_GET['year']) ? '&amp;year='.date('Y') : '&amp;year='.(int)$_GET['year']);
         $HTMLOUT.= '<p align="center"><a href="bitbucket.php?images=2">' . $lang['bitbucket_viewmya'] . '</a></p>
 <p align="center"><a href="bitbucket.php">' . $lang['bitbucket_hideimgs'] . '</a></p>
-<p align="center"><b>' . $lang['bitbucket_previousimg'] . '</b><br />
+<p align="center"><b>' . $lang['bitbucket_previosimg'] . '</b><br />
 <a href="bitbucket.php?images=1&amp;month='.$folder_month.'&amp;year='.(isset($_GET['year']) && $_GET['year'] != date('Y') ? date('Y').'">This' : (date('Y') - 1).'">' . $lang['bitbucket_last'] . '').'' . $lang['bitbucket_year'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=01'.$year.'">' . $lang['bitbucket_jan'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=02'.$year.'">' . $lang['bitbucket_feb'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=03'.$year.'">' . $lang['bitbucket_mar'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=04'.$year.'">' . $lang['bitbucket_apr'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=05'.$year.'">' . $lang['bitbucket_may'] . '</a> &nbsp;
-<a href="bitbucket.php?images=1&amp;month=06'.$year.'">' . $lang['bitbucket_june'] . '</a> &nbsp;
+<a href="bitbucket.php?images=1&amp;month=06'.$year.'">' . $lang['bitbucket_jun'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=07'.$year.'">' . $lang['bitbucket_jul'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=08'.$year.'">' . $lang['bitbucket_aug'] . '</a> &nbsp;
 <a href="bitbucket.php?images=1&amp;month=09'.$year.'">' . $lang['bitbucket_sep'] . '</a> &nbsp;

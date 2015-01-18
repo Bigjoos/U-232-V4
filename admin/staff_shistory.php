@@ -36,7 +36,7 @@ require_once (INCL_DIR . 'html_functions.php');
 require_once (INCL_DIR . 'bbcode_functions.php');
 require_once (CLASS_DIR . 'class_check.php');
 class_check(UC_STAFF);
-$lang = array_merge($lang, load_language('global'), load_language('ad_staff_shistory'));
+$lang = array_merge($lang, load_language('ad_staff_shistory'));
 $HTMLOUT = '';
 // //////////////////////
 $count1 = get_row_count('shoutbox', "WHERE staff_shout='yes'");

@@ -76,9 +76,7 @@ $prev_class_name = $arr2['classname'];
     $subject = "Auto Demotion";
     $msgs_buffer = $users_buffer = array();
     if (mysqli_num_rows($res) > 0) {
-        $msg = "You have been auto-demoted from [b]$class_name[/b] to [b]$prev_class_name[/b] because your share ratio has dropped below  $minratio.\n";
-
-
+        $msg = "You have been auto-demoted from [b]{$class_name}[/b] to [b]{$prev_class_name}[/b] because your share ratio has dropped below  $minratio.\n";
 
         while ($arr = mysqli_fetch_assoc($res)) {
             $ratio = number_format($arr['uploaded'] / $arr['downloaded'], 3);
@@ -114,7 +112,7 @@ $prev_class_name = $arr2['classname'];
         if ($count > 0) {
             sql_query("INSERT INTO messages (sender,receiver,added,msg,subject) VALUES " . implode(', ', $msgs_buffer)) or sqlerr(__FILE__, __LINE__);
             sql_query("INSERT INTO users (id, class, modcomment) VALUES " . implode(', ', $users_buffer) . " ON DUPLICATE key UPDATE class=values(class),modcomment=values(modcomment)") or sqlerr(__FILE__, __LINE__);
-            write_log("Cleanup: Demoted " . $count . " member(s) from $class_name to $prev_class_name");
+            write_log("Cleanup: Demoted " . $count . " member(s) from {$class_name} to {$prev_class_name}");
             status_change($arr['id']);
         }
         unset($users_buffer, $msgs_buffer, $count);
@@ -122,7 +120,7 @@ $prev_class_name = $arr2['classname'];
         
     }
     //==End
-    if ($queries > 0) write_log("$prev_class_name Updates -------------------- Power User Demote Updates Clean Complete using $queries queries--------------------");
+    if ($queries > 0) write_log("{$prev_class_name} Updates -------------------- Power User Demote Updates Clean Complete using $queries queries--------------------");
     if (false !== mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         $data['clean_desc'] = mysqli_affected_rows($GLOBALS["___mysqli_ston"]) . " items deleted/updated";
     }

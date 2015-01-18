@@ -43,7 +43,7 @@ $modes = array(
 $HTMLOUT = '';
 function do_sort($arr, $empty = false)
 {
-    global $CURUSER;
+    global $CURUSER, $lang;
     $count = $arr->num_rows;
     $ret_html = '';
     if ($empty) {
