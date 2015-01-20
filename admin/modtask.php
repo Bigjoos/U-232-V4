@@ -580,8 +580,8 @@ if ((isset($_POST['action'])) && ($_POST['action'] == "edituser")) {
         $modcomment = get_date(TIME_NOW, 'DATE', 1) . $lang['modtask_invites_allowed'] . htmlsafechars($user['invite_on']) . "{$lang['modtask_to']}$invite_on{$lang['modtask_gl_by']}" . $CURUSER['username'] . ".\n" . $modcomment;
         $updateset[] = "invite_on = " . sqlesc($invite_on);
         $useredit['update'][] = $lang['modtask_invites_enabled'] . htmlsafechars($invite_on) . '';
-        $curuser_cache['invites_on'] = $invites_on;
-        $user_cache['invites_on'] = $invites_on;
+        $curuser_cache['invites_on'] = $invite_on;
+        $user_cache['invites_on'] = $invite_on;
     }
     //== change invites
     if ((isset($_POST['invites'])) && (($invites = $_POST['invites']) != ($curinvites = $user['invites']))) {

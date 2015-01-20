@@ -72,41 +72,21 @@ function validusername($username)
     return true;
 }
 
-switch ($CURUSER['class']) {
-case UC_USER:
+if ($CURUSER['class'] <= UC_USER) {
     $maxbox = 50;
     $maxboxes = 5;
-    break;
-
-case UC_POWER_USER:
+} elseif ($CURUSER['class'] >= UC_POWER_USER && $CURUSER['class'] < UC_VIP) {
     $maxbox = 100;
     $maxboxes = 6;
-    break;
-
-case UC_VIP:
-    $maxbox = 250;
-    $maxboxes = 10;
-    break;
-
-case UC_UPLOADER:
+} elseif ($CURUSER['class'] >= UC_VIP && $CURUSER['class'] < UC_UPLOADER) {
     $maxbox = 300;
     $maxboxes = 15;
-    break;
-
-case UC_MODERATOR:
+} elseif ($CURUSER['class'] >= UC_UPLOADER && $CURUSER['class'] < UC_STAFF) {
     $maxbox = 300;
     $maxboxes = 20;
-    break;
-
-case UC_ADMINISTRATOR:
-    $maxbox = 400;
-    $maxboxes = 30;
-    break;
-
-case UC_SYSOP:
-    $maxbox = 500;
-    $maxboxes = 40;
-    break;
+} else {
+    $maxbox = 50;
+    $maxboxes = 5;
 }
 //=== get action and check to see if it's ok...
 $returnto = isset($_GET['returnto']) ? $_GET['returnto'] : '/index.php';

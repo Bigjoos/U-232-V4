@@ -22,7 +22,7 @@ function getBrowser()
     $u_agent = $_SERVER['HTTP_USER_AGENT'];
     $bname = 'Unknown';
     $platform = 'Unknown';
-    $version = "";
+    $version = $ub = "";
     //First get the platform?
     if (preg_match('/linux/i', $u_agent)) {
         $platform = 'Linux';
