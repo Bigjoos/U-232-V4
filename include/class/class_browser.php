@@ -19,7 +19,7 @@
 //== Get browser by ruudrp
 function getBrowser()
 {
-    $u_agent = $_SERVER['HTTP_USER_AGENT'];
+    $u_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
     $bname = 'Unknown';
     $platform = 'Unknown';
     $version = "";
@@ -58,24 +58,25 @@ function getBrowser()
         'other'
     );
     $pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-    if (!preg_match_all($pattern, $u_agent, $matches)) {
-        // we have no matching number just continue
-        
-    }
-    // see how many we have
-    $i = count($matches['browser']);
-    if ($i != 1) {
-        //we will have two since we are not using 'other' argument yet
-        //see if version is before or after the name
-        if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
-            $version = $matches['version'][0];
-        } else {
-            $version = $matches['version'][1];
+    if($u_agent != '') {
+        if (!preg_match_all($pattern, $u_agent, $matches)) {
+            // we have no matching number just continue
+           
         }
-    } else {
-        $version = $matches['version'][0];
-    }
-    // check if we have a number
+        // see how many we have
+        $i = count($matches['browser']);
+        if ($i != 1) {
+            //we will have two since we are not using 'other' argument yet
+            //see if version is before or after the name
+            if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
+                $version = $matches['version'][0];
+            } else {
+                $version = $matches['version'][1];
+            }
+        } else {
+            $version = $matches['version'][0];
+        }
+    }    // check if we have a number
     if ($version == null || $version == "") {
         $version = "?";
     }
