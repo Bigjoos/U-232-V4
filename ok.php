@@ -16,7 +16,7 @@
 ( U | - | 2 | 3 | 2 )-( S | o | u | r | c | e )-( C | o | d | e )
  \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/
  */
-require_once (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
+require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
 global $CURUSER;
 if (!$CURUSER) {
@@ -25,11 +25,11 @@ if (!$CURUSER) {
 dbconn();
 $lang = array_merge(load_language('global') , load_language('ok'));
 $type = isset($_GET['type']) ? $_GET['type'] : '';
-$email = isset($_GET['email']) ? $_GET['email'] : '';
-if ($type == "signup" && $email!='') {
-    stderr("{$lang['ok_success']}", sprintf((!EMAIL_CONFIRM ? $lang['ok_email'] : $lang['ok_email_confirm']) , htmlsafechars($email, ENT_QUOTES)));
-} elseif ($type == "invite" && $email!='') {
-    stderr("{$lang['ok_invsuccess']}", sprintf($lang['ok_email2'], htmlsafechars($email, ENT_QUOTES)));
+$HTMLOUT = '';
+if ($type == "signup" && isset($_GET['email'])) {
+    stderr("{$lang['ok_success']}", sprintf((!EMAIL_CONFIRM ? $lang['ok_email'] : $lang['ok_email_confirm']) , htmlsafechars($_GET['email'], ENT_QUOTES)));
+} elseif ($type == "invite" && isset($_GET['email'])) {
+    stderr("{$lang['ok_invsuccess']}", sprintf($lang['ok_email2'], htmlsafechars($_GET['email'], ENT_QUOTES)));
 } elseif ($type == "sysop") {
     $HTMLOUT = stdhead("{$lang['ok_sysop_account']}");
     $HTMLOUT.= "{$lang['ok_sysop_activated']}";
