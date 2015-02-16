@@ -27,6 +27,7 @@ global $CURUSER;
 if (!$CURUSER) {
     get_template();
 }
+$ip = getip();
 if (!$INSTALLER09['openreg']) stderr('Sorry', 'Invite only - Signups are closed presently if you have an invite code click <a href="' . $INSTALLER09['baseurl'] . '/invite_signup.php"><b> Here</b></a>');
 $res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
 $arr = mysqli_fetch_row($res);
@@ -79,8 +80,8 @@ $a = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE email=" . sq
 if ($a[0] != 0) stderr($lang['takesignup_user_error'], $lang['takesignup_email_used']);
 //=== check if ip addy is already in use
 if ($INSTALLER09['dupeip_check_on']) {
-    $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])))) or sqlerr(__FILE__, __LINE__);
-    if ($c[0] != 0) stderr("Error", "The ip " . htmlsafechars($_SERVER['REMOTE_ADDR']) . " is already in use. We only allow one account per ip address.");
+    $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($ip)))) or sqlerr(__FILE__, __LINE__);
+    if ($c[0] != 0) stderr("Error", "The ip " . htmlsafechars($ip) . " is already in use. We only allow one account per ip address.");
 }
 // TIMEZONE STUFF
 if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) {
@@ -97,7 +98,7 @@ $editsecret = (!$arr[0] ? "" : EMAIL_CONFIRM ? make_passhash_login_key() : "");
 $wanthintanswer = md5($hintanswer);
 $user_frees = (XBT_TRACKER == true ? '0' : TIME_NOW + 14 * 86400);
 check_banned_emails($email);
-$ret = sql_query("INSERT INTO users (username, passhash, secret, editsecret, birthday, country, gender, stylesheet, passhint, hintanswer, email, status, " . (!$arr[0] ? "class, " : "") . "added, last_access, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
+$ret = sql_query("INSERT INTO users (username, passhash, secret, editsecret, birthday, country, gender, stylesheet, passhint, hintanswer, email, status, " . (!$arr[0] ? "class, " : "") . "added, last_access, time_offset, dst_in_use, free_switch, ip) VALUES (" . implode(",", array_map("sqlesc", array(
     $wantusername,
     $wantpasshash,
     $secret,
@@ -110,7 +111,7 @@ $ret = sql_query("INSERT INTO users (username, passhash, secret, editsecret, bir
     $wanthintanswer,
     $email,
     (!$arr[0] || !EMAIL_CONFIRM ? 'confirmed' : 'pending')
-))) . ", " . (!$arr[0] ? UC_SYSOP . ", " : "") . "" . TIME_NOW . "," . TIME_NOW . " , $time_offset, {$dst_in_use['tm_isdst']}, $user_frees)");
+))) . ", " . (!$arr[0] ? UC_SYSOP . ", " : "") . "" . TIME_NOW . "," . TIME_NOW . " , $time_offset, {$dst_in_use['tm_isdst']}, $user_frees, {$ip})");
 $mc1->delete_value('birthdayusers');
 $message = "Welcome New {$INSTALLER09['site_name']} Member : - " . htmlsafechars($wantusername) . "";
 if (!$arr[0]) {
@@ -153,7 +154,7 @@ $body = str_replace(array(
 ) , array(
     $INSTALLER09['site_name'],
     $email,
-    $_SERVER['REMOTE_ADDR'],
+    $ip,
     "{$INSTALLER09['baseurl']}/confirm.php?id=$id&secret=$psecret"
 ) , $lang['takesignup_email_body']);
 if ($arr[0] || EMAIL_CONFIRM) mail($email, "{$INSTALLER09['site_name']} {$lang['takesignup_confirm']}", $body, "{$lang['takesignup_from']} {$INSTALLER09['site_email']}");
