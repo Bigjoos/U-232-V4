@@ -34,8 +34,7 @@ $categorie = genrelist();
 foreach ($categorie as $key => $value) $change[$value['id']] = array(
         'id' => $value['id'],
         'name' => $value['name'],
-        'image' => $value['image'],
-        'min_class' => $value['min_class']
+        'image' => $value['image']
     );
 if ($needed == "leechers") {
     $HTMLOUT.= begin_main_frame();
@@ -52,14 +51,12 @@ if ($needed == "leechers") {
         while ($arr = mysqli_fetch_assoc($res)) {
                 $What_ID = (XBT_TRACKER === true ? $arr['fid'] : $arr['torrent']);
                 $What_User_ID = (XBT_TRACKER === true ? $arr['uid'] : $arr['userid']);
-                if ($change[$srr['category']]['min_class'] < $CURUSER['class']) {
-                            $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
-                            $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
-                            $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
-                            $torrname = htmlsafechars(CutName($arr["name"], 80));
-                            $peers = (int)$arr['seeders'] . " seeder" . ((int)$arr['seeders'] > 1 ? "s" : "") . ", " . (int)$arr['leechers'] . " leecher" . ((int)$arr['leechers'] > 1 ? "s" : "");
-                            $HTMLOUT.= "<tr><td><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$What_User_ID . "'>" . htmlsafechars($arr['username']) . "</a>&nbsp;(" . member_ratio($arr['uploaded'], $arr['downloaded']) . ")</td><td><a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$What_ID . "' title='{$torrname}'>{$torrname}</a></td><td>{$cat}</td><td>{$peers}</td></tr>\n";
-                        }
+                           $needseed['cat_name'] = htmlsafechars($change[$arr['category']]['name']);
+                           $needseed['cat_pic'] = htmlsafechars($change[$arr['category']]['image']);
+                           $cat = "<img src=\"pic/caticons/{$CURUSER['categorie_icon']}/{$needseed['cat_pic']}\" alt=\"{$needseed['cat_name']}\" title=\"{$needseed['cat_name']}\" />";
+                           $torrname = htmlsafechars(CutName($arr["name"], 80));
+                           $peers = (int)$arr['seeders'] . " seeder" . ((int)$arr['seeders'] > 1 ? "s" : "") . ", " . (int)$arr['leechers'] . " leecher" . ((int)$arr['leechers'] > 1 ? "s" : "");
+                           $HTMLOUT.= "<tr><td><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$What_User_ID . "'>" . htmlsafechars($arr['username']) . "</a>&nbsp;(" . member_ratio($arr['uploaded'], $arr['downloaded']) . ")</td><td><a href='{$INSTALLER09['baseurl']}/details.php?id=" . (int)$What_ID . "' title='{$torrname}'>{$torrname}</a></td><td>{$cat}</td><td>{$peers}</td></tr>\n";
         }
         $HTMLOUT.= "</table>\n";
     } else $HTMLOUT.= "{$lang['needseed_noleech']}\n";
