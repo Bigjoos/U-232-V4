@@ -210,6 +210,18 @@ elseif ($do = 'confirm_account') {
     isset($_GET['sure']) && $sure = htmlsafechars($_GET['sure']);
     if (!$sure) stderr($lang['invites_confirm1'], $lang['invites_sure1'] . ' ' . htmlsafechars($assoc['username']) . '\'s account? Click <a href="?do=confirm_account&amp;userid=' . $userid . '&amp;sender=' . (int)$CURUSER['id'] . '&amp;sure=yes">here</a> to confirm it or <a href="?do=view_page">here</a> to go back.');
     sql_query('UPDATE users SET status = "confirmed" WHERE id = ' . sqlesc($userid) . ' AND invitedby = ' . sqlesc($CURUSER['id']) . ' AND status="pending"') or sqlerr(__FILE__, __LINE__);
+    
+        $mc1->begin_transaction('MyUser_' . $userid);
+    $mc1->update_row(false, array(
+        'status' => 'confirmed'
+    ));
+    $mc1->commit_transaction($INSTALLER09['expires']['curuser']); // 15 mins
+    $mc1->begin_transaction('user' . $userid);
+    $mc1->update_row(false, array(
+        'status' => 'confirmed'
+    ));
+    $mc1->commit_transaction($INSTALLER09['expires']['user_cache']); // 15 mins 
+    
     //==pm to new invitee/////
     $msg = sqlesc("Hey there :wave:
 Welcome to {$INSTALLER09['site_name']}!\n
