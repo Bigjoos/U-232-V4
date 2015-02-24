@@ -110,8 +110,9 @@ if ($INSTALLER09['seedbonus_on'] == 1) {
 if ($CURUSER["id"] != $row["owner"] AND $CURUSER['pm_on_delete'] == 'yes') {
     $added = TIME_NOW;
     $pm_on = (int)$row["owner"];
+    $subject = 'Torrent Deleted';
     $message = "Torrent $id (" . htmlsafechars($row['name']) . ") has been deleted.\n  Reason: $reasonstr";
-    sql_query("INSERT INTO messages (sender, receiver, msg, added) VALUES(0, " . sqlesc($pm_on) . "," . sqlesc($message) . ", $added)") or sqlerr(__FILE__, __LINE__);
+    sql_query("INSERT INTO messages (subject, sender, receiver, msg, added) VALUES(" . sqlesc($subject) . ", 0, " . sqlesc($pm_on) . "," . sqlesc($message) . ", $added)") or sqlerr(__FILE__, __LINE__);
     $mc1->delete_value('inbox_new_' . $pm_on);
     $mc1->delete_value('inbox_new_sb_' . $pm_on);
 }
