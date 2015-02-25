@@ -75,8 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     break;
 
                 case "all_users":
-                    $where[] = "u.class BETWEEN " . $FUCLASS . " and " . $LUCLASS;
-                    classes2name($FSCLASS, $LSCLASS);
+                    $where[] = "u.class BETWEEN " . $FUCLASS . " and " . $LSCLASS;
+                    classes2name($FUCLASS, $LSCLASS);
                     break;
 
                 case "fls":
