@@ -42,7 +42,7 @@ $err = array();
 $FSCLASS = UC_STAFF; //== First staff class;
 $LSCLASS = UC_MAX; //== Last staff class;
 $FUCLASS = UC_MIN; //== First users class;
-$LUCLASS = UC_VIP; //== Last users class;
+$LUCLASS = UC_STAFF - 1; //== Last users class;
 $sent2classes = array();
 function classes2name($min, $max)
 {
@@ -75,8 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     break;
 
                 case "all_users":
-                    $where[] = "u.class BETWEEN " . $FUCLASS . " and " . $LUCLASS;
-                    classes2name($FSCLASS, $LSCLASS);
+                    $where[] = "u.class BETWEEN " . $FUCLASS . " and " . $LSCLASS;
+                    classes2name($FUCLASS, $LSCLASS);
                     break;
 
                 case "fls":
@@ -118,77 +118,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else $err[] = $lang['grouppm_nousers'];
     }
 }
-$groups = array(
-    array(
-        "opname" => "{$lang['grouppm_staff']}",
+
+$groups = array();
+$groups['staff'] = array("opname" => $lang['grouppm_staff'],
+        "minclass" => UC_USER);
+for ($i = $FSCLASS; $i <= $LSCLASS; $i++) $groups['staff']['ops'][$i] = get_user_class_name($i);
+$groups['staff']['ops']['fls'] = $lang['grouppm_fls'];
+$groups['staff']['ops']['all_staff'] = $lang['grouppm_allstaff'];
+$groups['members'] = array();
+$groups['members'] = array("opname" => $lang['grouppm_mem'],
+        "minclass" => UC_STAFF);
+for ($i = $FUCLASS; $i <= $LUCLASS; $i++) $groups['members']['ops'][$i] = get_user_class_name($i);
+$groups['members']['ops']['donor'] = $lang['grouppm_donor'];
+$groups['members']['ops']['all_users'] = $lang['grouppm_allusers'];
+$groups['friends'] = array("opname" => $lang['grouppm_related'],
         "minclass" => UC_USER,
-        "ops" => array(
-            array(
-                6 => "{$lang['grouppm_sysops']}"
-            ) ,
-            array(
-                5 => "{$lang['grouppm_admins']}"
-            ) ,
-            array(
-                4 => "{$lang['grouppm_mods']}"
-            ) ,
-            array(
-                3 => "{$lang['grouppm_uploaders']}"
-            ) ,
-            array(
-                "fls" => "{$lang['grouppm_fls']}"
-            ) ,
-            array(
-                "all_staff" => "{$lang['grouppm_allstaff']}"
-            )
-        )
-    ) ,
-    array(
-        "opname" => "{$lang['grouppm_mem']}",
-        "minclass" => UC_STAFF,
-        "ops" => array(
-            array(
-                "users" => "{$lang['grouppm_users']}"
-            ) ,
-            array(
-                1 => "{$lang['grouppm_power']}"
-            ) ,
-            array(
-                2 => "{$lang['grouppm_vips']}"
-            ) ,
-            array(
-                "donor" => "{$lang['grouppm_donor']}"
-            ) ,
-            array(
-                "all_users" => "{$lang['grouppm_allusers']}"
-            )
-        )
-    ) ,
-    array(
-        "opname" => "{$lang['grouppm_related']}",
-        "minclass" => UC_USER,
-        "ops" => array(
-            array(
-                "all_friends" => "{$lang['grouppm_friends']}"
-            )
-        )
-    )
-);
-function mysort($array)
-{
-    foreach ($array as $key => $value) {
-        foreach ($value as $key2 => $value2) $new[$key2] = $value2;
-    }
-    return $new;
-}
+        "ops" => array("all_friends" => $lang['grouppm_friends']));
+
 function dropdown()
 {
     global $CURUSER, $groups;
+
     $r = "<select multiple=\"multiple\" name=\"groups[]\"  size=\"11\" style=\"padding:5px; width:180px;\">";
     foreach ($groups as $group) {
         if ($group["minclass"] >= $CURUSER["class"]) continue;
         $r.= "<optgroup label=\"" . $group["opname"] . "\">";
-        $ops = mysort($group["ops"]);
+        $ops = $group['ops'];
         foreach ($ops as $k => $v) $r.= "<option value=\"" . $k . "\">" . $v . "</option>";
         $r.= "</optgroup>";
     }
