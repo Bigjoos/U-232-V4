@@ -27,6 +27,7 @@ if (!$CURUSER) {
     get_template();
 }
 $lang = array_merge(load_language('global') , load_language('takesignup'));
+$ip = getip();
 $newpage = new page_verify();
 $newpage->check('tkIs');
 $res = sql_query("SELECT COUNT(id) FROM users") or sqlerr(__FILE__, __LINE__);
@@ -69,8 +70,8 @@ $a = (mysqli_fetch_row(sql_query('SELECT COUNT(id) FROM users WHERE email = ' . 
 if ($a[0] != 0) stderr('Error', 'The e-mail address <b>' . htmlsafechars($email) . '</b> is already in use.');
 //=== check if ip addy is already in use
 if ($INSTALLER09['dupeip_check_on']) {
-    $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($_SERVER['REMOTE_ADDR'])))) or sqlerr(__FILE__, __LINE__);
-    if ($c[0] != 0) stderr("Error", "The ip " . htmlsafechars($_SERVER['REMOTE_ADDR']) . " is already in use. We only allow one account per ip address.");
+    $c = (mysqli_fetch_row(sql_query("SELECT COUNT(id) FROM users WHERE ip=" . sqlesc($ip)))) or sqlerr(__FILE__, __LINE__);
+    if ($c[0] != 0) stderr("Error", "The ip " . htmlsafechars($ip) . " is already in use. We only allow one account per ip address.");
 }
 // TIMEZONE STUFF
 if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) {
@@ -92,7 +93,7 @@ $editsecret = (!$arr[0] ? "" : make_passhash_login_key());
 $wanthintanswer = md5($hintanswer);
 check_banned_emails($email);
 $user_frees = (TIME_NOW + 14 * 86400);
-$new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, hintanswer, editsecret, birthday, invitedby, email, added, last_access, last_login, time_offset, dst_in_use, free_switch) VALUES (" . implode(",", array_map("sqlesc", array(
+$new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, hintanswer, editsecret, birthday, invitedby, email, added, last_access, last_login, time_offset, dst_in_use, free_switch, ip) VALUES (" . implode(",", array_map("sqlesc", array(
     $wantusername,
     $wantpasshash,
     $secret,
@@ -107,7 +108,8 @@ $new_user = sql_query("INSERT INTO users (username, passhash, secret, passhint, 
     TIME_NOW,
     $time_offset,
     $dst_in_use['tm_isdst'],
-    $user_frees
+    $user_frees,
+    $ip
 ))) . ")");
 sql_query("INSERT INTO usersachiev (id, username) VALUES (" . sqlesc($id) . ", " . sqlesc($wantusername) . ")") or sqlerr(__FILE__, __LINE__);
 sql_query("UPDATE usersachiev SET invited=invited+1 WHERE id =" . sqlesc($assoc['sender'])) or sqlerr(__FILE__, __LINE__);
