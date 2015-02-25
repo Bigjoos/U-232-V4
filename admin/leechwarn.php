@@ -60,12 +60,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
     $act = isset($_POST["action"]) && in_array($_POST["action"], $valid) ? $_POST["action"] : false;
     if (!$act) stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong']);
-    if ($act == "delete") {
-        if (sql_query("DELETE FROM users WHERE id IN (" . join(",", $_uids) . ")")) {
-            $c = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
-            header("Refresh: 2; url=" . $r);
-            stderr($lang['leechwarn_success'], $c . $lang['leechwarn_user'] . ($c > 1 ? $lang['leechwarn_s'] : "") . $lang['leechwarn_deleted']);
-        } else stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong2']);
+    if ($act == "delete" && $CURUSER["class"] >= UC_SYSOP) {
+        $res_del = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE id IN (" . join(",", $_uids) . ") ORDER BY username DESC");
+        if (mysqli_num_rows($res_del) != 0) {
+        $count = mysqli_num_rows($res_del);
+        while ($arr_del = mysqli_fetch_assoc($res_del)) {
+            $userid = $arr_del['id'];
+            $res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+            $mc1->delete_value('MyUser_' . $userid);
+            $mc1->delete_value('user' . $userid);
+            write_log("User: {$arr_del['username']} Was deleted by ".$CURUSER['username']." Via Leech Warn Page");
+            }
+        }
+        else stderr($lang['leechwarn_stderror'], $lang['leechwarn_wrong2']);
     }
     if ($act == "disable") {
         if (sql_query("UPDATE users set enabled='no', modcomment=CONCAT(" . sqlesc(get_date(TIME_NOW, 'DATE', 1) . $lang['leechwarn_disabled_by'] . $CURUSER['username'] . "\n") . ",modcomment) WHERE id IN (" . join(",", $_uids) . ")")) {
@@ -154,7 +161,7 @@ else {
 				<select name='action'>
 					<option value='unwarn'>{$lang['leechwarn_unwarn']}</option>
 					<option value='disable'>{$lang['leechwarn_disable']}</option>
-					<option value='delete'>{$lang['leechwarn_delete']}</option>
+					<option value='delete' " . ($CURUSER["class"] < UC_SYSOP ? "disabled" : "") . ">{$lang['leechwarn_delete']}</option>
 				</select>
 				&raquo;
 				<input type='submit' value='{$lang['leechwarn_apply']}' />

@@ -47,8 +47,19 @@ $days = 50; //number of days of inactivity
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = isset($_POST["action"]) ? htmlsafechars(trim($_POST["action"])) : '';
     if (empty($_POST["userid"]) && (($action == "deluser") || ($action == "mail"))) stderr($lang['inactive_error'], "{$lang['inactive_selectuser']}");
-    if ($action == "deluser" && (!empty($_POST["userid"]))) {
-        sql_query("DELETE FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ");
+    if ($action == "deluser" && (!empty($_POST["userid"])) && $CURUSER["class"] >= UC_SYSOP) {
+
+        $res_del = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ORDER BY username DESC");
+        if (mysqli_num_rows($res_del) != 0) {
+        $count = mysqli_num_rows($res_del);
+        while ($arr_del = mysqli_fetch_assoc($res_del)) {
+            $userid = $arr_del['id'];
+            $res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+            $mc1->delete_value('MyUser_' . $userid);
+            $mc1->delete_value('user' . $userid);
+            write_log("User: {$arr_del['username']} Was deleted by ".$CURUSER['username']." Via In-Active Members Page");
+            }
+        }
         stderr($lang['inactive_success'], "{$lang['inactive_deleted']} <a href='" . $INSTALLER09['baseurl'] . "/staffpanel.php?tool=inactive>{$lang['inactive_back']}</a>");
     }
     if ($action == "disable" && (!empty($_POST["userid"]))) {
@@ -140,7 +151,7 @@ if ($count_inactive > 0) {
     <td colspan='6' class='colhead' align='center'>
     <select name='action'>
     <option value='mail'>{$lang['inactive_sendmail']}</option>
-    <option value='deluser' " . ($CURUSER["class"] < UC_ADMINISTRATOR ? "disabled" : "") . ">{$lang['inactive_deleteusers']}</option>
+    <option value='deluser' " . ($CURUSER["class"] < UC_SYSOP ? "disabled" : "") . ">{$lang['inactive_deleteusers']}</option>
     <option value='disable'>{$lang['inactive_disaccounts']}</option>
     </select>&nbsp;&nbsp;<input type='submit' name='submit' value='{$lang['inactive_apchanges']}' />&nbsp;&nbsp;<input type='button' value='Check all' onclick='this.value=check(form)' /></td></tr>";
     if ($record_mail) {

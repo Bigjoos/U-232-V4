@@ -87,10 +87,9 @@ if ($sanity_check > 0) {
         sql_query('UPDATE topics SET last_post = ' . sqlesc($arr['id']) . ', post_count = post_count - 1 WHERE id = ' . sqlesc($topic_id));
         sql_query('UPDATE forums SET post_count = post_count - 1 WHERE id = ' . sqlesc($arr['forum_id']));
         sql_query('DELETE FROM posts WHERE id = ' . sqlesc($post_id));
-        sql_query("UPDATE usersachiev SET forumposts=forumposts-1 WHERE id=" . sqlesc($arr_post['userid'])) or sqlerr(__FILE__, __LINE__);
-        $mc1->delete_value('last_post_' . $post_id . '_' . $CURUSER['class']);
-        $mc1->delete_value('sv_last_post_' . $post_id . '_' . $CURUSER['class']);
-        $mc1->delete_value('last_posts_' . $CURUSER['class']);
+        sql_query("UPDATE usersachiev SET forumposts=forumposts-1 WHERE id=" . sqlesc($arr_post['user_id'])) or sqlerr(__FILE__, __LINE__);
+        clr_forums_cache($arr['forum_id']);
+        clr_forums_cache($post_id);
     } else {
         sql_query('UPDATE posts SET status = \'deleted\'  WHERE id = ' . sqlesc($post_id) . ' AND topic_id = ' . sqlesc($topic_id));
     }

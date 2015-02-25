@@ -104,9 +104,7 @@ case 'delete_posts':
             } else {
                 //=== if you just want the damned things deleted
                 sql_query('DELETE FROM posts WHERE id IN (' . implode(', ', $post_to_mess_with) . ') AND topic_id = ' . sqlesc($topic_id));
-                $mc1->delete_value('last_posts_' . $CURUSER['class']);
-                $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-                $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+                clr_forums_cache($topic_id);
                 //=== re-do that last post thing ;)
                 $res = sql_query('SELECT p.id, t.forum_id FROM posts AS p LEFT JOIN topics as t ON p.topic_id = t.id WHERE p.topic_id = ' . sqlesc($topic_id) . ' ORDER BY p.id DESC LIMIT 1');
                 $arr = mysqli_fetch_assoc($res);
@@ -130,9 +128,7 @@ case 'un_delete_posts': //=== only if you don't actually delete posts in delete_
         $posts_count = count($post_to_mess_with);
         if ($posts_count > 0) {
             sql_query('UPDATE posts SET status = \'ok\' WHERE id IN (' . implode(', ', $post_to_mess_with) . ') AND topic_id = ' . sqlesc($topic_id));
-            $mc1->delete_value('last_posts_' . $CURUSER['class']);
-            $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-            $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+            clr_forums_cache($topic_id);
         } else {
             stderr($lang['gl_error'], $lang['fe_nothing_removed_from_the_trash']);
         }
@@ -162,8 +158,8 @@ case 'split_topic':
         if ($posts_count > 0) {
             //=== move posts to new topic
             sql_query('UPDATE posts SET topic_id = ' . $new_topic_id . ' WHERE id IN (' . implode(', ', $post_to_mess_with) . ') AND topic_id = ' . sqlesc($topic_id));
-            $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-            $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+            clr_forums_cache($topic_id);
+            
             //=== update post counts... topic split FROM
             $res_split_from = sql_query('SELECT p.id FROM posts AS p LEFT JOIN topics as t ON p.topic_id = t.id WHERE p.topic_id = ' . sqlesc($topic_id) . ' ORDER BY p.id DESC LIMIT 1');
             $arr_split_from = mysqli_fetch_row($res_split_from);
@@ -199,8 +195,8 @@ case 'merge_posts':
         $posts_count = count($post_to_mess_with);
         if ($posts_count > 0) {
             sql_query('UPDATE posts SET topic_id = ' . $topic_to_merge_with . ' WHERE id IN (' . implode(', ', $post_to_mess_with) . ') AND topic_id = ' . sqlesc($topic_id));
-            $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-            $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+            clr_forums_cache($topic_id);
+            
             //=== update post counts... topic merged FROM
             $res_from = sql_query('SELECT p.id, t.forum_id FROM posts AS p LEFT JOIN topics as t ON p.topic_id = t.id WHERE p.topic_id = ' . sqlesc($topic_id) . ' ORDER BY p.id DESC LIMIT 1');
             $arr_from = mysqli_fetch_assoc($res_from);
@@ -242,8 +238,8 @@ case 'append_posts':
 						' . sqlesc($post_arr['edit_reason']) . ', ' . sqlesc($post_arr['ip']) . ', ' . sqlesc($post_arr['status']) . ', ' . sqlesc($post_arr['anonymous']) . ')');
             $count = $count + 1;
             sql_query('DELETE FROM posts WHERE id = ' . sqlesc($post_to_mess_with) . ' AND topic_id = ' . sqlesc($topic_id));
-            $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-            $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+            clr_forums_cache($topic_id);    
+            
         }
         //=== and delete post and update counts and boum! done \o/
         if ($count > 0) {
@@ -272,8 +268,7 @@ case 'send_to_recycle_bin':
         $posts_count = count($post_to_mess_with);
         if ($posts_count > 0) {
             sql_query('UPDATE posts SET status = \'recycled\' WHERE id IN (' . implode(', ', $post_to_mess_with) . ') AND topic_id = ' . sqlesc($topic_id));
-            $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-            $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+            clr_forums_cache($topic_id);
         } else {
             stderr($lang['gl_error'], $lang['fe_nothing_sent_to_recy']);
         }
@@ -291,8 +286,7 @@ case 'remove_from_recycle_bin':
         $posts_count = count($post_to_mess_with);
         if ($posts_count > 0) {
             sql_query('UPDATE posts SET status = \'ok\' WHERE id IN (' . implode(', ', $post_to_mess_with) . ') AND topic_id = ' . sqlesc($topic_id));
-            $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-            $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+            clr_forums_cache($topic_id);
         } else {
             stderr($lang['gl_error'], $lang['fe_nothing_removed_from_the_recy']);
         }
@@ -335,8 +329,7 @@ case 'set_pinned':
         stderr($lang['gl_error'], $lang['gl_bad_id']);
     }
     sql_query('UPDATE topics SET sticky = \'' . ($_POST['pinned'] === 'yes' ? 'yes' : 'no') . '\' WHERE id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+    clr_forums_cache($topic_id);
     header('Location: forums.php?action=view_topic&topic_id=' . $topic_id);
     die();
     break;
@@ -347,8 +340,7 @@ case 'set_locked':
         stderr($lang['gl_error'], $lang['gl_bad_id']);
     }
     sql_query('UPDATE topics SET locked = \'' . ($_POST['locked'] === 'yes' ? 'yes' : 'no') . '\' WHERE id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+    clr_forums_cache($topic_id);
     header('Location: forums.php?action=view_topic&topic_id=' . $topic_id);
     die();
     break;
@@ -363,8 +355,7 @@ case 'move_topic':
         stderr($lang['gl_error'], $lang['gl_bad_id']);
     }
     sql_query('UPDATE topics SET forum_id = ' . sqlesc($forum_id) . ' WHERE id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+    clr_forums_cache($topic_id);
     header('Location: forums.php?action=view_topic&topic_id=' . $topic_id);
     die();
     break;
@@ -376,9 +367,7 @@ case 'rename_topic':
         stderr($lang['gl_error'], $lang['fe_if_you_want_to_ren_topic_must_sup_a_name']);
     }
     sql_query('UPDATE topics SET topic_name = ' . sqlesc($new_topic_name) . ' WHERE id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_posts_' . $CURUSER['class']);
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+    clr_forums_cache($topic_id);
     header('Location: forums.php?action=view_topic&topic_id=' . $topic_id);
     die();
     break;
@@ -387,9 +376,7 @@ case 'rename_topic':
 case 'change_topic_desc':
     $new_topic_desc = strip_tags((isset($_POST['new_topic_desc']) ? trim($_POST['new_topic_desc']) : ''));
     sql_query('UPDATE topics SET topic_desc = ' . sqlesc($new_topic_desc) . ' WHERE id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_posts_' . $CURUSER['class']);
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+    clr_forums_cache($topic_id);
     header('Location: forums.php?action=view_topic&topic_id=' . $topic_id);
     die();
     break;
@@ -406,8 +393,6 @@ case 'merge_topic':
     }
     //=== change all posts to new topic
     sql_query('UPDATE posts SET topic_id = ' . sqlesc($topic_to_merge_with) . ' WHERE topic_id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
     //=== change any subscriptions to the new topic
     sql_query('UPDATE subscriptions SET topic_id = ' . sqlesc($topic_to_merge_with) . ' WHERE topic_id = ' . sqlesc($topic_id));
     //=== update post counts / last post
@@ -432,9 +417,7 @@ case 'move_to_recycle_bin':
     $status = ($_POST['status'] == 'yes' ? 'recycled' : 'ok');
     sql_query('UPDATE topics SET status = \'' . $status . '\' WHERE id = ' . sqlesc($topic_id));
     sql_query('DELETE FROM subscriptions WHERE topic_id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_posts_' . $CURUSER['class']);
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+    clr_forums_cache($topic_id);
     //=== perhaps redirect to the bin lol
     header('Location: forums.php' . ($_POST['status'] == 'yes' ? '?action=view_forum&forum_id=' . $forum_id : '?action=view_topic&topic_id=' . $topic_id));
     die();
@@ -469,9 +452,7 @@ case 'delete_topic':
         sql_query('DELETE FROM forum_poll_votes WHERE poll_id = ' . sqlesc($arr_count['poll_id']));
         sql_query('DELETE FROM topics WHERE id = ' . sqlesc($topic_id));
         sql_query('DELETE FROM posts WHERE topic_id = ' . sqlesc($topic_id));
-        $mc1->delete_value('last_posts_' . $CURUSER['class']);
-        $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-        $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
+        clr_forums_cache($topic_id);
         //=== should I delete attachments? or let the members have a management page? or do it in cleanup?
         sql_query('UPDATE forums SET post_count = post_count - ' . sqlesc($arr_count['post_count']) . ', topic_count = topic_count - 1 WHERE id = ' . sqlesc($arr_count['forum_id']));
         header('Location: forums.php');
@@ -482,14 +463,12 @@ case 'delete_topic':
     
 case 'un_delete_topic':
     sql_query('UPDATE topics SET status = \'ok\' WHERE id = ' . sqlesc($topic_id));
-    $mc1->delete_value('last_post_' . $topic_id . '_' . $CURUSER['class']);
-    $mc1->delete_value('sv_last_post_' . $topic_id . '_' . $CURUSER['class']);
     //=== get post count of topic
     $res_count = sql_query('SELECT post_count FROM topics WHERE id = ' . sqlesc($topic_id));
     $arr_count = mysqli_fetch_row($res_count);
     //=== should I delete attachments? or let the members have a management page? or do it in cleanup?
     sql_query('UPDATE forums SET post_count = post_count + ' . sqlesc($arr_count[0]) . ', topic_count = topic_count + 1 WHERE id = ' . sqlesc($arr_count['forum_id']));
-    $mc1->delete_value('last_posts_' . $CURUSER['class']);
+    clr_forums_cache($topic_id);
     header('Location: forums.php?action=view_topic&topic_id=' . $topic_id);
     die();
     break;

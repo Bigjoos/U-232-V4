@@ -72,8 +72,20 @@ if (isset($_POST['ids'])) {
     ));
     $mc1->commit_transaction($INSTALLER09['expires']['user_cache']);
     //else
-    if ($do == 'delete') sql_query("DELETE FROM users WHERE ID IN(" . join(', ', array_map('sqlesc',$ids)) . ") AND class < 3") or sqlerr(__FILE__, __LINE__);
-    else {
+    if ($do == 'delete' && ($CURUSER['class']>=UC_SYSOP)) {
+        $res_del = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE ID IN(" . join(', ', array_map('sqlesc',$ids)) . ") AND class < 3 ORDER BY username DESC");
+        if (mysqli_num_rows($res_del) != 0) {
+        while ($arr_del = mysqli_fetch_assoc($res_del)) {
+            $userid = $arr_del['id'];
+            $res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+            $mc1->delete_value('MyUser_' . $userid);
+            $mc1->delete_value('user' . $userid);
+            write_log("User: {$arr_del['username']} Was deleted by ".$CURUSER['username']);
+        }
+     } else {
+        header('Location: staffpanel.php?tool=acpmanage&amp;action=acpmanage');
+     }
+    } else {
         header('Location: staffpanel.php?tool=acpmanage&amp;action=acpmanage');
         exit;
     }
@@ -124,7 +136,11 @@ if (mysqli_num_rows($res) != 0) {
 		<td>{$enabled}</td>
 		</tr>\n";
     }
+    if(($CURUSER['class']>=UC_SYSOP))
     $HTMLOUT.= "<tr><td colspan='10' align='center'><select name='do'><option value='enabled' disabled='disabled' selected='selected'>{$lang['text_wtd']}</option><option value='enabled'>{$lang['text_es']}</option><option value='confirm'>{$lang['text_cs']}</option><option value='delete'>{$lang['text_ds']}</option></select><input type='submit' value='" . $lang['text_submit'] . "' /></td></tr>";
+    else
+    $HTMLOUT.= "<tr><td colspan='10' align='center'><select name='do'><option value='enabled' disabled='disabled' selected='selected'>{$lang['text_wtd']}</option><option value='enabled'>{$lang['text_es']}</option><option value='confirm'>{$lang['text_cs']}</option></select><input type='submit' value='" . $lang['text_submit'] . "' /></td></tr>";
+    
     $HTMLOUT.= end_table();
     $HTMLOUT.= "</form>";
     if ($count > $perpage) $HTMLOUT.= $pager['pagerbottom'];

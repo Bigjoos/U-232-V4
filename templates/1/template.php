@@ -44,7 +44,7 @@ function stdhead($title = "", $msgalert = true, $stdhead = false)
     }
     if (isset($INSTALLER09['xhtml_strict'])) { //== Use strict mime type/doctype
         //== Only if browser/user agent supports xhtml strict mode
-        if (isset($_SERVER['HTTP_ACCEPT']) && stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml') && ($INSTALLER09['xhtml_strict'] === 1 || $INSTALLER09['xhtml_strict'] == $CURUSER['username'])) {
+        if (isset($_SERVER['HTTP_ACCEPT']) && stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml') && ($INSTALLER09['xhtml_strict'] === 1 || ($INSTALLER09['xhtml_strict'] == $CURUSER['username'] && $CURUSER['username'] != ''))) {
             header('Content-type:application/xhtml+xml; charset=' . charset());
             $doctype = '<?xml version="1.0" encoding="' . charset() . '"?>' . '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">';
         }
