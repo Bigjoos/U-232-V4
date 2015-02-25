@@ -2806,7 +2806,7 @@ CREATE TABLE IF NOT EXISTS `torrents` (
   `username` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
   `thanks` int(10) NOT NULL DEFAULT '0',
   `description` varchar(120) CHARACTER SET utf8 DEFAULT NULL,
-  `youtube` varchar(42) CHARACTER SET utf8 DEFAULT NULL,
+  `youtube` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `tags` text CHARACTER SET utf8,
   `recommended` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `silver` int(11) unsigned NOT NULL DEFAULT '0',

@@ -21,13 +21,13 @@ require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'function_happyhour.php');
 require_once (CLASS_DIR . 'class.bencdec.php');
 dbconn();
+$lang = array_merge(load_language('global') , load_language('download'));
 $T_Pass = isset($_GET['torrent_pass']) && strlen($_GET['torrent_pass']) == 32 ? $_GET['torrent_pass'] : '';
 if (!empty($T_Pass)) {
     $q0 = sql_query("SELECT * FROM users where torrent_pass = " . sqlesc($T_Pass)) or sqlerr(__FILE__, __LINE__);
     if (mysqli_num_rows($q0) == 0) die($lang['download_passkey']);
     else $CURUSER = mysqli_fetch_assoc($q0);
 } else loggedinorreturn();
-$lang = array_merge(load_language('global') , load_language('download'));
 if (function_exists('parked')) parked();
 $id = isset($_GET['torrent']) ? (int)$_GET['torrent'] : 0;
 $ssluse = isset($_GET['ssl']) && $_GET['ssl'] == 1 || $CURUSER['ssluse'] == 3 ? 1 : 0;
