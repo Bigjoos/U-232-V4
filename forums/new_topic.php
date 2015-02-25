@@ -107,7 +107,8 @@ if (isset($_POST['button']) && $_POST['button'] == 'Post') {
       		(' . sqlesc($topic_id) . ', ' . $CURUSER['id'] . ', ' . TIME_NOW . ', ' . sqlesc($body) . ', ' . sqlesc($icon) . ',  ' . sqlesc($post_title) . ', ' . sqlesc($bb_code) . ', ' . sqlesc($ip) . ', ' . sqlesc($anonymous) . ')');
     $post_id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
     sql_query("UPDATE usersachiev SET forumtopics=forumtopics+1 WHERE id=" . sqlesc($CURUSER['id'])) or sqlerr(__FILE__, __LINE__);
-    $mc1->delete_value('last_posts_' . $CURUSER['class']);
+    clr_forums_cache($post_id);
+    clr_forums_cache($forum_id);
     $mc1->delete_value('forum_posts_' . $CURUSER['id']);
     sql_query('UPDATE `topics` SET first_post =  ' . sqlesc($post_id) . ', last_post = ' . sqlesc($post_id) . ', post_count = 1 WHERE id=' . sqlesc($topic_id));
     sql_query('UPDATE `forums` SET post_count = post_count +1, topic_count = topic_count + 1 WHERE id =' . sqlesc($forum_id));

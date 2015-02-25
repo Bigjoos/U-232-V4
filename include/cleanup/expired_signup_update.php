@@ -26,7 +26,7 @@ function docleanup($data)
     if (mysqli_num_rows($res) != 0) {
         while ($arr = mysqli_fetch_assoc($res)) {
             $userid = $arr['id'];
-            $res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
+            $res_del = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
             $mc1->delete_value('MyUser_' . $userid);
             $mc1->delete_value('user' . $userid);
             write_log("User: {$arr['username']} Was deleted by Expired Signup clean");
