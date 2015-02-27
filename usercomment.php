@@ -43,14 +43,14 @@ function usercommenttable($rows)
     $htmlout.= begin_frame();
     $count = 0;
     foreach ($rows as $row) {
-        $htmlout.= "<p class='sub'>#{$row['id']} by ";
+        $htmlout.= "<p class='sub'>#".(int)$row['id']." by ";
         if (isset($row["username"])) {
             $title = $row["title"];
             if ($title == "") $title = get_user_class_name($row["class"]);
             else $title = htmlsafechars($title);
             $htmlout.= "<a name='comm" . (int)$row['id'] . "' href='userdetails.php?id=" . (int)$row['user'] . "'><b>" . htmlsafechars($row["username"]) . "</b></a>" . ($row["donor"] == "yes" ? "<img src=\"{$INSTALLER09['pic_base_url']}star.gif\" alt='Donor' />" : "") . ($row["warned"] >= 1 ? "<img src=" . "\"{$INSTALLER09['pic_base_url']}warned.gif\" alt=\"Warned\" />" : "") . " ($title)\n";
         } else $htmlout.= "<a name=\"comm" . (int)$row["id"] . "\"><i>(orphaned)</i></a>\n";
-        $htmlout.= " " . get_date($row["added"], 'DATE', 0, 1) . "" . ($userid == $CURUSER["id"] || $row["user"] == $CURUSER["id"] || $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=edit&amp;cid={$row['id']}'>Edit</a>]" : "") . ($userid == $CURUSER["id"] || $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=delete&amp;cid=" . (int)$row['id'] . "'>Delete</a>]" : "") . ($row["editedby"] && $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=vieworiginal&amp;cid=" . (int)$row['id'] . "'>View original</a>]" : "") . "</p>\n";
+        $htmlout.= " " . get_date($row["added"], 'DATE', 0, 1) . "" . ($userid == $CURUSER["id"] || $row["user"] == $CURUSER["id"] || $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=edit&amp;cid=".(int)$row['id']."'>Edit</a>]" : "") . ($userid == $CURUSER["id"] || $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=delete&amp;cid=" . (int)$row['id'] . "'>Delete</a>]" : "") . ($row["editedby"] && $CURUSER['class'] >= UC_STAFF ? " - [<a href='usercomment.php?action=vieworiginal&amp;cid=" . (int)$row['id'] . "'>View original</a>]" : "") . "</p>\n";
         $avatar = ($CURUSER["avatars"] == "yes" ? htmlsafechars($row["avatar"]) : "");
         if (!$avatar) $avatar = "{$INSTALLER09['pic_base_url']}default_avatar.gif";
         $text = format_comment($row["text"]);
@@ -73,9 +73,9 @@ if ($action == "add") {
         $res = sql_query("SELECT username FROM users WHERE id =" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
         $arr = mysqli_fetch_array($res, MYSQLI_NUM);
         if (!$arr) stderr("Error", "No user with that ID.");
-        $text = trim($_POST["text"]);
-        if (!$text) stderr("Error", "Comment body cannot be empty!");
-        sql_query("INSERT INTO usercomments (user, userid, added, text, ori_text) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($userid) . ", '" . TIME_NOW . "', " . sqlesc($text) . "," . sqlesc($text) . ")");
+        $body = isset($_POST['body']) ? htmlsafechars($_POST['body']) : '';
+        if (!$body) stderr("Error", "Comment body cannot be empty!");
+        sql_query("INSERT INTO usercomments (user, userid, added, text, ori_text) VALUES (" . sqlesc($CURUSER['id']) . ", " . sqlesc($userid) . ", '" . TIME_NOW . "', " . sqlesc($body) . "," . sqlesc($body) . ")");
         $newid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
         sql_query("UPDATE users SET comments = comments + 1 WHERE id =" . sqlesc($userid));
         header("Refresh: 0; url=userdetails.php?id=$userid&viewcomm=$newid#comm$newid");
@@ -109,12 +109,11 @@ if ($action == "add") {
     if (!$arr) stderr("Error", "Invalid ID.");
     if ($arr["user"] != $CURUSER["id"] && $CURUSER['class'] < UC_STAFF) stderr("Error", "Permission denied.");
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $text = htmlsafechars($_POST["text"]);
+        $body = htmlsafechars($_POST["body"]);
         $returnto = htmlsafechars($_POST["returnto"]);
-        if ($text == "") stderr("Error", "Comment body cannot be empty!");
-        //$text = sqlesc($text);
+        if ($body == "") stderr("Error", "Comment body cannot be empty!");
         $editedat = sqlesc(TIME_NOW);
-        sql_query("UPDATE usercomments SET text=" . sqlesc($text) . ", editedat={$editedat}, edit_name=".sqlesc($CURUSER['username']).", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
+        sql_query("UPDATE usercomments SET text=" . sqlesc($body) . ", editedat={$editedat}, edit_name=".sqlesc($CURUSER['username']).", editedby=" . sqlesc($CURUSER['id']) . " WHERE id=" . sqlesc($commentid)) or sqlerr(__FILE__, __LINE__);
         if ($returnto) header("Location: $returnto");
         else header("Location: {$INSTALLER09['baseurl']}/userdetails.php?id={$userid}");
         die;
@@ -123,7 +122,7 @@ if ($action == "add") {
     <form method='post' action='usercomment.php?action=edit&amp;cid={$commentid}'>
     <input type='hidden' name='returnto' value='{$_SERVER["HTTP_REFERER"]}' />
     <input type=\"hidden\" name=\"cid\" value='" . (int)$commentid . "' />
-    <textarea name='text' rows='10' cols='60'>" . htmlsafechars($arr["text"]) . "</textarea>
+    <textarea name='body' rows='10' cols='60'>" . htmlsafechars($arr["text"]) . "</textarea>
     <input type='submit' class='btn' value='Do it!' /></form>";
     echo stdhead("Edit comment for \"" . htmlsafechars($arr["username"]) . "\"", true, $stdhead) . $HTMLOUT . stdfoot();
     stdfoot();

@@ -18,7 +18,7 @@ function usercommenttable($rows)
         $avatar = ($CURUSER["avatars"] == "yes" ? htmlsafechars($row["avatar"]) : "");
         if (!$avatar) $avatar = "{$INSTALLER09['pic_base_url']}default_avatar.gif";
         $text = format_comment($row["text"]);
-        if ($row["editedby"]) $text.= "<font size='1' class='small'><br /><br />{$lang['userdetails_comm_ledited']}<a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['edit_name']) . "</b></a> " . get_date($row['editedat'], 'DATE', 0, 1) . "</font>\n";
+        if ($row["editedby"]) $text.= "<font size='1' class='small'><br /><br />{$lang['userdetails_comm_ledited']}<a href='userdetails.php?id=" . (int)$row['editedby'] . "'><b>" . htmlsafechars($row['username']) . "</b></a> " . get_date($row['editedat'], 'DATE', 0, 1) . "</font>\n";
         $htmlout.= "<table width='100%' border='1' cellspacing='0' cellpadding='5'>";
         $htmlout.= "<tr valign='top'>\n";
         $htmlout.= "<td align='center' width='150' style='padding:0px'><img width='150' src=\"{$avatar}\" alt=\"Avatar\" /></td>\n";

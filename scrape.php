@@ -149,7 +149,7 @@ elseif ($numhash == 1) {
 $user = get_user_from_torrent_pass($torrent_pass);
 if (!$user || !count($torrents))
 	die('scrape user error');
-
+/*
 if (!$user['perms'] & bt_options::PERMS_BYPASS_BAN) {
 	$rip = $_SERVER['REMOTE_ADDR'];
 	$ip = getip();
@@ -160,7 +160,7 @@ if (!$user['perms'] & bt_options::PERMS_BYPASS_BAN) {
 			error('IP Banned');
 	}
 }
-
+*/
 $r = 'd5:filesd';
 foreach ($torrents as $info_hash => $torrent) $r.= '20:' . $info_hash . 'd8:completei' . $torrent['seeders'] . 'e10:downloadedi' . $torrent['times_completed'] . 'e10:incompletei' . $torrent['leechers'] . 'ee';
 $r.= 'ee';
