@@ -112,7 +112,7 @@ $ret = sql_query("INSERT INTO users (username, passhash, secret, editsecret, bir
     $email,
     (!$arr[0] || !EMAIL_CONFIRM ? 'confirmed' : 'pending'),
     $ip
-))) . ", " . (!$arr[0] ? UC_SYSOP . ", " : "") . "" . TIME_NOW . "," . TIME_NOW . " , $time_offset, {$dst_in_use['tm_isdst']}, $user_frees, {$ip})");
+))) . ", " . (!$arr[0] ? UC_SYSOP . ", " : "") . "" . TIME_NOW . "," . TIME_NOW . " , $time_offset, {$dst_in_use['tm_isdst']}, $user_frees)") or sqlerr(__FILE__, __LINE__);
 $mc1->delete_value('birthdayusers');
 $message = "Welcome New {$INSTALLER09['site_name']} Member : - " . htmlsafechars($wantusername) . "";
 if (!$arr[0]) {
@@ -120,6 +120,8 @@ if (!$arr[0]) {
 }
 if (!$ret) {
     if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1062) stderr($lang['takesignup_user_error'], $lang['takesignup_user_exists']);
+    sqlerr(__FILE__, __LINE__);
+    stderr("Error", "There has been an error some place, staff has been notified.");    
 }
 $id = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
 sql_query("INSERT INTO usersachiev (id, username) VALUES (" . sqlesc($id) . ", " . sqlesc($wantusername) . ")") or sqlerr(__FILE__, __LINE__);

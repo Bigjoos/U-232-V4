@@ -90,6 +90,8 @@ function getagent($httpagent, $peer_id = "")
     if (substr($peer_id, 0, 3) == '-TS') return StdDecodePeerId(substr($peer_id, 3, 7) , "TorrentStorm"); // Torrentstorm
     if (substr($peer_id, 0, 3) == '-UR') return StdDecodePeerId(substr($peer_id, 3, 7) , "UR Client"); // unidentified clients with versions
     if (substr($peer_id, 0, 3) == '-UT') return StdDecodePeerId(substr($peer_id, 3, 7) , "uTorrent"); // uTorrent
+    if (substr($peer_id, 0, 3) == '-UM') return StdDecodePeerId(substr($peer_id, 3, 7) , "uTorrent Mac"); // uTorrent
+    if (substr($peer_id, 0, 3) == '-DE') return StdDecodePeerId(substr($peer_id, 3, 7) , "Deluge"); // uTorrent
     if (substr($peer_id, 0, 3) == '-XT') return StdDecodePeerId(substr($peer_id, 3, 7) , "XanTorrent"); // XanTorrent
     if (substr($peer_id, 0, 3) == '-ZT') return StdDecodePeerId(substr($peer_id, 3, 7) , "ZipTorrent"); // ZipTorrent
     if (substr($peer_id, 0, 3) == '-bk') return StdDecodePeerId(substr($peer_id, 3, 7) , "BitKitten"); // BitKitten
