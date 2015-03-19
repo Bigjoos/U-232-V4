@@ -405,7 +405,27 @@ if (isset($self) && $event == "stopped") {
 } else {
     if ($user["parked"] == "yes") err("Your account is parked! (Read the FAQ)");
     elseif ($user["downloadpos"] == 0 || $user["downloadpos"] > 1 && $user['hnrwarn'] == 'yes') err("Your downloading privileges have been disabled! (Read the rules)");
-    ann_sql_query("INSERT LOW_PRIORITY INTO peers (torrent, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, started, last_action, seeder, agent, downloadoffset, uploadoffset, torrent_pass) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($uploaded) . ", " . ann_sqlesc($torrent_pass) . ")") or ann_sqlerr(__FILE__, __LINE__);
+    ann_sql_query("INSERT LOW_PRIORITY INTO peers"
+            ." (torrent, userid, peer_id, ip, port, connectable, uploaded, downloaded, "
+			." to_go, started, last_action, seeder, agent, downloadoffset, uploadoffset, torrent_pass"
+            .") VALUES (" 
+			. ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " 
+			. ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " 
+			. ann_sqlesc($uploaded) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " 
+			. ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " 
+			. ann_sqlesc($agent) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " 
+			. ann_sqlesc($uploaded) . ", " . ann_sqlesc($torrent_pass) . ")"
+            . " ON DUPLICATE KEY UPDATE "
+			. " userid = "      . ann_sqlesc($userid) . ", " 
+			. " ip = "          . ann_sqlesc($realip) . ", " 
+			. " port = "        . ann_sqlesc($port) . ", " 
+                        . " connectable = " . ann_sqlesc($connectable) . ", "
+			. " uploaded = "    . ann_sqlesc($uploaded) . ", " 
+			. " downloaded = "  . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", "
+			. " to_go = "       . ann_sqlesc($left) . ", "
+			. " last_action = "   . TIME_NOW . ", "
+			. " seeder = "      . ann_sqlesc($seeder) . ", " 
+			. " agent = "       . ann_sqlesc($agent) ."") or ann_sqlerr(__FILE__, __LINE__);
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])) {
         $torrent_updateset[] = ($seeder == "yes" ? "seeders = seeders + 1" : "leechers = leechers + 1");
         if ($seeder == "yes") adjust_torrent_peers($torrentid, 1, 0, 0);
