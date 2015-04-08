@@ -180,7 +180,7 @@ function userlogin()
     $ipf = $_SERVER['REMOTE_ADDR'];
     if (isset($CURUSER)) return;
     if (!$INSTALLER09['site_online'] || !get_mycookie('uid') || !get_mycookie('pass') || !get_mycookie('hashv')) return;
-    $id = 0 + get_mycookie('uid');
+    $id = (int)get_mycookie('uid');
     if (!$id OR (strlen(get_mycookie('pass')) != 32) OR (get_mycookie('hashv') != hashit($id, get_mycookie('pass')))) return;
     // let's cache $CURUSER - pdq - *Updated*
     if (($row = $mc1->get_value('MyUser_' . $id)) === false) { // $row not found
