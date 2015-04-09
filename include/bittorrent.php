@@ -333,6 +333,7 @@ function userlogin()
             'watched_user_reason',
             'staff_notes',
             'where_is',
+            'forum_sort',
             'browse_icons'
         );
         $user_fields = implode(', ', array_merge($user_fields_ar_int, $user_fields_ar_float, $user_fields_ar_str));

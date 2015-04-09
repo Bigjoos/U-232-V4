@@ -2933,6 +2933,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `signatures` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
   `signature` varchar(225) CHARACTER SET utf8 DEFAULT NULL,
   `forum_access` int(11) NOT NULL DEFAULT '0',
+  `forum_sort` enum('ASC', 'DESC') NOT NULL DEFAULT 'DESC',
   `highspeed` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `hnrwarn` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `hit_and_run_total` int(9) DEFAULT '0',
