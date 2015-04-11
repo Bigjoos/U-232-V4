@@ -45,7 +45,7 @@ $formats = array(
 );
 // path to bucket/avatar directories
 $bucketdir = (isset($_POST["avy"]) ? AVATAR_DIR.'/' : BITBUCKET_DIR.'/'.$folders.'/');
-$bucketlink = ((isset($_POST["avy"]) || (isset($_GET['images']) && $_GET['images'] == 2)) ? 'avatars/' : $folders.'/');
+$bucketlink = ((isset($_POST["avy"]) || (isset($_GET['images']) && $_GET['images'] == 2)) ? 'avatar/' : $folders.'/');
 $address = $INSTALLER09['baseurl'].'/';
 $PICSALT = $SaLt.$CURUSER['username'];
 //rename files and obscufate uploader
