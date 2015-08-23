@@ -676,9 +676,11 @@ if (!empty($torrents_txt["descr"])) $HTMLOUT.= "
 				<td>
 					<div style='background-color:transparent;width:100%;height:150px;overflow: auto'>" . str_replace(array(
     "\n",
-    "  "
+    "\r\n",
+    "  ",
+    " "
 ) , array(
-    "<br />\n",
+    "<br />",
     "&nbsp; "
 ) , format_comment($torrents_txt["descr"])) . "
 					</div>

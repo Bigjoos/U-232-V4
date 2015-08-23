@@ -404,7 +404,7 @@ if (isset($self) && $event == "stopped") {
     }
 } else {
     if ($user["parked"] == "yes") err("Your account is parked! (Read the FAQ)");
-    elseif ($user["downloadpos"] == 0 || $user["downloadpos"] > 1 && $user['hnrwarn'] == 'yes') err("Your downloading privileges have been disabled! (Read the rules)");
+    elseif ($user['downloadpos'] != 1 || $user['hnrwarn'] == 'yes' AND $seeder != 'yes') err("Your downloading privileges have been disabled! (Read the rules)");
     ann_sql_query("INSERT LOW_PRIORITY INTO peers"
             ." (torrent, userid, peer_id, ip, port, connectable, uploaded, downloaded, "
 			." to_go, started, last_action, seeder, agent, downloadoffset, uploadoffset, torrent_pass"
