@@ -104,6 +104,7 @@ $res = sql_query("SELECT * from class_config WHERE name NOT IN ('UC_MIN','UC_MAX
     }
 //ADD CLASS
     if ($mode == 'add') {
+    	if (!empty($_POST['name']) && !empty($_POST['value']) && !empty($_POST['cname']) && !empty($_POST['color'])){
         $name = isset($_POST['name']) ? htmlsafechars($_POST['name']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_name']);
         $value = isset($_POST['value']) ? (int)$_POST['value'] : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
         $r_name = isset($_POST['cname']) ? htmlsafechars($_POST['cname']) : stderr($lang['classcfg_error'], $lang['classcfg_error_class_value']);
@@ -208,6 +209,7 @@ $color = str_replace("#","","$color");
             stderr($lang['classcfg_success'], $lang['classcfg_success_save']);
         } else stderr($lang['classcfg_error'], $lang['classcfg_error_query2']);
         exit;
+    }
     }
     // remove
     if ($mode == 'remove') {
