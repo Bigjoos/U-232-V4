@@ -455,6 +455,13 @@ function stdfoot($stdfoot = false)
     <script type='text/javascript' src='templates/1/js/general.js'></script>
 <script type='text/javascript' src='scripts/bootstrap.js'></script>
 
+    <script src='https://www.anonymiz.com/js/anonymize.js' type='text/javascript'></script>
+
+    <script type='text/javascript'><!--
+    protected_links = '';
+
+    auto_anonymize();
+    //--></script>
     </body></html>\n";
     return $htmlfoot;
 }
