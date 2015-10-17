@@ -42,10 +42,10 @@ function tvmaze(&$torrents)
     $tvmaze_data = '';
     $row_update = array();
     if (preg_match("/^(.*)S\d+(E\d+)?/i", $torrents['name'], $tmp)) $tvmaze = array(
-        'name' => str_replace('.', ' ', $tmp[1]) ,
+        'name' => str_replace(array('.','_'), ' ', $tmp[1])
     );
     else $tvmaze = array(
-        'name' => str_replace('.', ' ', $torrents['name']) ,
+        'name' => str_replace(array('.','_'), ' ', $torrents['name']) ,
     );
     $memkey = 'tvmaze::' . strtolower($tvmaze['name']);
     if (($tvmaze_id = $mc1->get_value($memkey)) === false) {
@@ -63,10 +63,11 @@ function tvmaze(&$torrents)
     if ($force_update || ($tvmaze_showinfo = $mc1->get_value($memkey)) === false) {
         //var_dump('Show from tvrage'); //debug
         //get tvrage show info
+        $tvmaze['name'] = preg_replace('/\d{4}.$/', '', $tvmaze['name']);
         $tvmaze_link = sprintf('http://api.tvmaze.com/shows/%d', $tvmaze_id);
         $tvmaze_array = json_decode(file_get_contents($tvmaze_link), true);
         $tvmaze_array['origin_country'] = $tvmaze_array['network']['country']['name'];
-        if (count($tvm_showinfo['genres']) > 0) $tvmaze_array['genres2'] = implode(", ", array_map('strtolower', $tvm_showinfo['genres']));
+        if (count($tvmaze_array['genres']) > 0) $tvmaze_array['genres2'] = implode(", ", array_map('strtolower', $tvmaze_array['genres']));
         if (empty($torrents['newgenre'])) $row_update[] = 'newgenre = ' . sqlesc(ucwords($tvmaze_showinfo['genres2']));
         //==The torrent cache
         $mc1->begin_transaction('torrent_details_' . $torrents['id']);
