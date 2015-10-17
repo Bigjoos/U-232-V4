@@ -54,7 +54,7 @@ $stdhead = array(
 );
 $lang = array_merge(load_language('global') , load_language('browse') , load_language('torrenttable_functions'));
 if (function_exists('parked')) parked();
-$HTMLOUT = $searchin = $select_searchin = $where = $addparam = $new_button = $search_help_boolean = '';
+$HTMLOUT = $searchin = $select_searchin = $where = $addparam = $new_button = $search_help_boolean = $vip_box = $only_free = '';
 $HTMLOUT .='<script type="text/javascript">
 /*<![CDATA[*/
 $(document).ready(function(){
@@ -156,6 +156,11 @@ if (isset($_GET['only_free']) && $_GET['only_free'] == 1) {
     if (XBT_TRACKER == true ? $wherea[] = "freetorrent >= '1'" : $wherea[] = "free >= '1'");
     //$wherea[] = "free >= '1'";
     $addparam.= "only_free=1&amp;";
+}
+//=== added an only VIP torrents option - TheGene
+if (isset($_GET['vip']) && $_GET['vip'] == 1) {
+    $wherea[] = "vip = '1'";
+    $addparam.= "vip=1&amp;";
 }
 $category = (isset($_GET["cat"])) ? (int)$_GET["cat"] : false;
 $all = isset($_GET["all"]) ? $_GET["all"] : false;
@@ -337,8 +342,12 @@ $HTMLOUT.= "<br />
     <input type='text' name='search' size='40' value='' />";
 //=== only free option :o)
 $only_free = ((isset($_GET['only_free'])) ? intval($_GET['only_free']) : '');
+//=== only vip option
+$vip = ((isset($_GET['vip'])) ? intval($_GET['vip']) : '');
 //=== checkbox for only free torrents
 $only_free_box = '<input type="checkbox" name="only_free" value="1"'.(isset($_GET['only_free']) ? ' checked="checked"' : '').' /> Only Free Torrents ';
+//=== checkbox for only VIP torrents
+$vip_box = '<input type="checkbox" name="vip" value="1"'.(isset($_GET['vip']) ? ' checked="checked"' : '').' /> VIP torrents ';
 $selected = (isset($_GET["incldead"])) ? (int)$_GET["incldead"] : "";
 $deadcheck = "";
 $deadcheck.= " in: <select name='incldead'>
@@ -354,8 +363,8 @@ foreach (array(
     'all' => 'All'
 ) as $k => $v) $searchin.= '<option value="' . $k . '" ' . ($select_searchin == $k ? 'selected=\'selected\'' : '') . '>' . $v . '</option>';
 $searchin.= '</select>';
-$HTMLOUT.= $searchin . '&nbsp;' . $deadcheck . '&nbsp;' . $only_free_box;
-$HTMLOUT.= "<input type='submit' value='{$lang['search_search_btn']}' class='btn' />
+$HTMLOUT.= $searchin . '&nbsp;' . $deadcheck . '&nbsp;' . $only_free_box.''.$vip_box;
+$HTMLOUT.= "<p align='center'><input type='submit' value='{$lang['search_search_btn']}' class='btn' /></p>
             </td></tr></table></form><br />";
 $HTMLOUT.= "{$new_button}";
 if (isset($cleansearchstr)) {

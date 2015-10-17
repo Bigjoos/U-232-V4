@@ -108,7 +108,13 @@ if (isset($_POST['half_length']) && ($half_length = 0 + $_POST['half_length'])) 
 //==Xbt freetorrent
 $freetorrent = (((isset($_POST['freetorrent']) && is_valid_id($_POST['freetorrent'])) ? intval($_POST['freetorrent']) : 0));
 $descr = strip_tags(isset($_POST['body']) ? trim($_POST['body']) : '');
-if (!$descr) stderr($lang['takeupload_failed'], $lang['takeupload_no_descr']);
+if (!$descr) {
+    if (isset($_FILES['nfo']) && !empty($_FILES['nfo']['name'])) {
+        $descr = preg_replace("/[^\\x20-\\x7e\\x0a\\x0d]/", " ", $nfo);
+    } else {
+        stderr($lang['takeupload_failed'], $lang['takeupload_no_descr']);
+    }
+}
 $description = strip_tags(isset($_POST['description']) ? trim($_POST['description']) : '');
 if (isset($_POST['strip']) && $_POST['strip']) {
     require_once (INCL_DIR . 'strip.php');

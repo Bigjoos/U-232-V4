@@ -45,7 +45,7 @@ $formats = array(
 );
 // path to bucket/avatar directories
 $bucketdir = (isset($_POST["avy"]) ? AVATAR_DIR.'/' : BITBUCKET_DIR.'/'.$folders.'/');
-$bucketlink = ((isset($_POST["avy"]) || (isset($_GET['images']) && $_GET['images'] == 2)) ? 'avatars/' : $folders.'/');
+$bucketlink = ((isset($_POST["avy"]) || (isset($_GET['images']) && $_GET['images'] == 2)) ? 'avatar/' : $folders.'/');
 $address = $INSTALLER09['baseurl'].'/';
 $PICSALT = $SaLt.$CURUSER['username'];
 //rename files and obscufate uploader
@@ -238,15 +238,16 @@ function bucketrand()
     for ($i = 0; $i < 6; $i++) $out.= $chars[mt_rand(0, 61) ];
     return $out;
 }
+//== Update by Diablo999
 function encrypt($text)
 {
     global $PICSALT;
-    return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $PICSALT, $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB) , MCRYPT_RAND))));
+    return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, str_pad($PICSALT, 32), $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB) , MCRYPT_RAND))));
 }
 function decrypt($text)
 {
     global $PICSALT;
-    return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $PICSALT, base64_decode($text) , MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB) , MCRYPT_RAND)));
+    return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, str_pad($PICSALT, 32), base64_decode($text) , MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB) , MCRYPT_RAND)));
 }
 /* Sanity checking by pdq */
 function valid_path($root, $input)

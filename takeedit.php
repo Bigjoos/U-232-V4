@@ -49,7 +49,7 @@ if (!is_valid_id($id)) stderr($lang['takedit_failed'], $lang['takedit_no_data'])
  */
 function valid_torrent_name($torrent_name)
 {
-    $allowedchars = 'abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_';
+    $allowedchars = 'abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_[]*()';
     for ($i = 0; $i < strlen($torrent_name); ++$i) if (strpos($allowedchars, $torrent_name[$i]) === false) return false;
     return true;
 }

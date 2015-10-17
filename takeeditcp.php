@@ -379,6 +379,11 @@ elseif ($action == "personal") {
     if (isset($_POST["postsperpage"]) && (($postspp = min(100, 0 + $_POST["postsperpage"])) != $CURUSER["postsperpage"])) $updateset[] = "postsperpage = $postspp";
     $curuser_cache['postsperpage'] = $postspp;
     $user_cache['postsperpage'] = $postspp;
+    if (isset($_POST["forum_sort"]) && ($forum_sort = $_POST["forum_sort"]) != $CURUSER["forum_sort"]) {
+        $updateset[] = "forum_sort= ".sqlesc($forum_sort);
+        $curuser_cache['forum_sort'] = $forum_sort;
+        $user_cache['forum_sort'] = $forum_sort;
+    }
     if (isset($_POST["gender"]) && ($gender = $_POST["gender"]) != $CURUSER["gender"]) {
         $updateset[] = "gender = " . sqlesc($gender);
         $curuser_cache['gender'] = $gender;
