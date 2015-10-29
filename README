@@ -94,8 +94,8 @@ yum install boost-devel gcc-c++ mysql-devel subversion
 
 Enter the following commands in a terminal. Be patient while g++ is running, it'll take a few minutes.
 
-svn co http://xbt.googlecode.com/svn/trunk/xbt/misc xbt/misc
-svn co http://xbt.googlecode.com/svn/trunk/xbt/Tracker xbt/Tracker
+svn co -r 2466 http://xbt.googlecode.com/svn/trunk/xbt/misc xbt/misc
+svn co -r 2466 http://xbt.googlecode.com/svn/trunk/xbt/Tracker xbt/Tracker
 cd xbt/Tracker
 
 Replace server.h and server.cpp and add xbt_tracker.conf from the U-232 V4 XBT folder then run
