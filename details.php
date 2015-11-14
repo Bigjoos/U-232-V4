@@ -584,7 +584,7 @@ $HTMLOUT.= tr("Report Torrent", "<form action='report.php?type=Torrent&amp;id=$i
 //== Tor Reputation by pdq
 if ($torrent_cache['rep']) {
     $torrents = array_merge($torrents, $torrent_cache['rep']);
-    $member_reputation = get_reputation($torrents, 'torrents', $torrents['anonymous']);
+    $member_reputation = get_reputation($torrents, 'torrents', $torrents['anonymous'], $id);
     $HTMLOUT.= '<tr>
 		        <td class="heading" valign="top" align="right" width="1%">Reputation</td>
 			<td align="left" width="99%">' . $member_reputation . ' (counts towards uploaders Reputation)<br /></td>
