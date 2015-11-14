@@ -43,7 +43,7 @@ function parked()
     //if ($CURUSER['opt1'] & user_options::PARKED) stderr("Error", "<b>Your account is currently parked.</b>");
 }
 //== Get rep by CF
-function get_reputation($user, $mode = '', $rep_is_on = TRUE)
+function get_reputation($user, $mode = '', $rep_is_on = TRUE, $post_id = 0)
 {
     global $INSTALLER09, $CURUSER;
     $member_reputation = "";
@@ -134,7 +134,7 @@ function get_reputation($user, $mode = '', $rep_is_on = TRUE)
             }
         }
         // now decide the locale
-        if ($mode != '') return "Rep: " . $posneg . "<br /><br /><a href='javascript:;' onclick=\"PopUp('{$INSTALLER09['baseurl']}/reputation.php?pid=" . (int)$user['id'] . "&amp;locale=" . $mode . "','Reputation',400,241,1,1);\"><img src='{$INSTALLER09['pic_base_url']}forumicons/giverep.jpg' border='0' alt='Add reputation:: " . htmlsafechars($user['username']) . "' title='Add reputation:: " . htmlsafechars($user['username']) . "' /></a>";
+        if ($mode != '') return "Rep: " . $posneg . "<br /><br /><a href='javascript:;' onclick=\"PopUp('{$INSTALLER09['baseurl']}/reputation.php?pid=" . ($post_id != 0 ? (int)$post_id : (int)$user['id']) . "&amp;locale=" . $mode . "','Reputation',400,241,1,1);\"><img src='{$INSTALLER09['pic_base_url']}forumicons/giverep.jpg' border='0' alt='Add reputation:: " . htmlsafechars($user['username']) . "' title='Add reputation:: " . htmlsafechars($user['username']) . "' /></a>";
         else return " " . $posneg;
     } // END IF ONLINE
     // default
