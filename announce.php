@@ -336,6 +336,7 @@ if (mysqli_num_rows($res_snatch) > 0) {
 if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]) && $seeder == "no") ann_sql_query("INSERT LOW_PRIORITY INTO snatched (torrentid, userid, peer_id, ip, port, connectable, uploaded, downloaded, to_go, start_date, last_action, seeder, agent) VALUES (" . ann_sqlesc($torrentid) . ", " . ann_sqlesc($userid) . ", " . ann_sqlesc($peer_id) . ", " . ann_sqlesc($realip) . ", " . ann_sqlesc($port) . ", " . ann_sqlesc($connectable) . ", " . ann_sqlesc($uploaded) . ", " . ($INSTALLER09['ratio_free'] ? "0" : "" . ann_sqlesc($downloaded) . "") . ", " . ann_sqlesc($left) . ", " . TIME_NOW . ", " . TIME_NOW . ", " . ann_sqlesc($seeder) . ", " . ann_sqlesc($agent) . ")") or ann_sqlerr(__FILE__, __LINE__);
 $torrent_updateset = $snatch_updateset = array();
 if (isset($self) && $event == "stopped") {
+	$seeder = 'no';
     ann_sql_query("DELETE FROM peers WHERE $selfwhere") or ann_sqlerr(__FILE__, __LINE__);
     //=== only run the function if the ratio is below 1
     if (($a['uploaded'] + $upthis) < ($a['downloaded'] + $downthis) && $a['finished'] == 'yes') {
@@ -359,6 +360,11 @@ if (isset($self) && $event == "stopped") {
             $days_14 = $INSTALLER09['_14day_third'] * 3600; //== 12 hours
             $days_over_14 = $INSTALLER09['_14day_over_third'] * 3600; //== 12 hours
             break;
+        
+        default:
+            $days_3 = 0; //== 12 hours
+            $days_14 = 0; //== 12 hours
+            $days_over_14 = 0; //== 12 hours
         }
         switch (true) {
         case (($a['start_snatch'] - $torrent['ts']) < $INSTALLER09['torrentage1'] * 86400):
@@ -372,6 +378,9 @@ if (isset($self) && $event == "stopped") {
         case (($a['start_snatch'] - $torrent['ts']) >= $INSTALLER09['torrentage3'] * 86400):
             $minus_ratio = ($days_over_14 - $HnR_time_seeded);
             break;
+        
+        default:
+            $minus_ratio = 0;
         }
         $hit_and_run = (($INSTALLER09['hnr_online'] == 1 && $minus_ratio > 0 && ($a['uploaded'] + $upthis) < ($a['downloaded'] + $downthis)) ? "seeder='no', hit_and_run= '" . TIME_NOW . "'" : "hit_and_run = '0'");
     } //=== end if not 1:1 ratio
