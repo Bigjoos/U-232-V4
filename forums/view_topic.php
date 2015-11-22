@@ -303,7 +303,7 @@ while ($arr = mysqli_fetch_assoc($res)) {
     $post_title = ($arr['post_title'] !== '' ? ' <span style="font-weight: bold; font-size: x-small;">' . htmlsafechars($arr['post_title'], ENT_QUOTES) . '</span>' : '');
     $stafflocked = ( /*$CURUSER['class'] == UC_SYSOP && */
     $arr["staff_lock"] == 1 ? "<img src='{$INSTALLER09['pic_base_url']}locked.gif' border='0' alt='".$lang['fe_post_locked']."' title='".$lang['fe_post_locked']."' />" : "");
-    $member_reputation = $arr['username'] != '' ? get_reputation($arr, 'posts') : '';
+    $member_reputation = $arr['username'] != '' ? get_reputation($arr, 'posts', TRUE, (int)$arr['post_id']) : '';
     $edited_by = '';
     if ($arr['edit_date'] > 0) {
         $res_edited = sql_query('SELECT username FROM users WHERE id=' . sqlesc($arr['edited_by']));

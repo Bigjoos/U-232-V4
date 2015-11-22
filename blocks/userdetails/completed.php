@@ -35,18 +35,25 @@ if ($INSTALLER09['hnr_online'] == 1 && $user['paranoia'] < 2 || $CURUSER['id'] =
                 $days_14 = $INSTALLER09['_14day_first'] * 3600; //== 1 days
                 $days_over_14 = $INSTALLER09['_14day_over_first'] * 3600; //== 1 day
                 break;
- 
             case ($user['class'] < $INSTALLER09['secondclass']):
                 $days_3 = $INSTALLER09['_3day_second'] * 3600; //== 12 hours
                 $days_14 = $INSTALLER09['_14day_second'] * 3600; //== 12 hours
                 $days_over_14 = $INSTALLER09['_14day_over_second'] * 3600; //== 12 hours
                 break;
- 
+            case ($user['class'] >= $INSTALLER09['secondclass'] && $user['class'] < $INSTALLER09['thirdclass']):
+                $days_3 = $INSTALLER09['_3day_second'] * 3600; //== 12 hours
+                $days_14 = $INSTALLER09['_14day_second'] * 3600; //== 12 hours
+                $days_over_14 = $INSTALLER09['_14day_over_second'] * 3600; //== 12 hours
+                break;
             case ($user['class'] >= $INSTALLER09['thirdclass']):
                 $days_3 = $INSTALLER09['_3day_third'] * 3600; //== 12 hours
                 $days_14 = $INSTALLER09['_14day_third'] * 3600; //== 12 hours
                 $days_over_14 = $INSTALLER09['_14day_over_third'] * 3600; //== 12 hours
                 break;
+            default:
+            $days_3 = 0; //== 12 hours
+            $days_14 = 0; //== 12 hours
+            $days_over_14 = 0; //== 12 hours
             }
             //=== times per torrent based on age
             $foo = $a['downloaded'] > 0 ? $a['uploaded'] / $a['downloaded'] : 0;

@@ -23,7 +23,7 @@ require_once (INCL_DIR . 'pager_functions.php');
 require_once (INCL_DIR . 'comment_functions.php');
 require_once (INCL_DIR . 'html_functions.php');
 require_once (INCL_DIR . 'function_rating.php');
-require_once (INCL_DIR . 'tvrage_functions.php');
+require_once (INCL_DIR . 'tvmaze_functions.php');
 require_once (IMDB_DIR . 'imdb.class.php');
 dbconn(false);
 loggedinorreturn();
@@ -584,7 +584,7 @@ $HTMLOUT.= tr("Report Torrent", "<form action='report.php?type=Torrent&amp;id=$i
 //== Tor Reputation by pdq
 if ($torrent_cache['rep']) {
     $torrents = array_merge($torrents, $torrent_cache['rep']);
-    $member_reputation = get_reputation($torrents, 'torrents', $torrents['anonymous']);
+    $member_reputation = get_reputation($torrents, 'torrents', $torrents['anonymous'], $id);
     $HTMLOUT.= '<tr>
 		        <td class="heading" valign="top" align="right" width="1%">Reputation</td>
 			<td align="left" width="99%">' . $member_reputation . ' (counts towards uploaders Reputation)<br /></td>
@@ -676,9 +676,11 @@ if (!empty($torrents_txt["descr"])) $HTMLOUT.= "
 				<td>
 					<div style='background-color:transparent;width:100%;height:150px;overflow: auto'>" . str_replace(array(
     "\n",
-    "  "
+    "\r\n",
+    "  ",
+    " "
 ) , array(
-    "<br />\n",
+    "<br />",
     "&nbsp; "
 ) , format_comment($torrents_txt["descr"])) . "
 					</div>
@@ -697,14 +699,13 @@ $HTMLOUT.= "</table>
 <div>\n";
 $HTMLOUT.= "
 <table align='center' class='table table-bordered'>\n";
-//== tvrage by pdq/putyn
+//== tvmaze by whocares converted from former tvrage functions by pdq/putyn
 $torrents['tvcats'] = array(
     5
 ); // change these to match your TV categories
 if (in_array($torrents['category'], $torrents['tvcats'])) {
-    require_once (INCL_DIR . 'tvrage_functions.php');
-    $tvrage_info = tvrage($torrents);
-    if ($tvrage_info) $HTMLOUT.= tr($lang['details_tvrage'], $tvrage_info, 1);
+    $tvmaze_info = tvmaze($torrents);
+    if ($tvmaze_info) $HTMLOUT.= tr($lang['details_tvrage'], $tvmaze_info, 1);
 }
 //==auto imdb rewritten putyn 28/06/2011
 $imdb_html = "";
@@ -776,7 +777,7 @@ if (preg_match('/^http\:\/\/(.*?)imdb\.com\/title\/tt([\d]{7})/i', $torrents['ur
     }
     $HTMLOUT.= tr('Auto imdb', $imdb_html, 1);
 }
-if (empty($tvrage_info) && empty($imdb_html)) $HTMLOUT.= "<tr><td colspan='2'>No Imdb or Tvrage info.</td></tr>";
+if (empty($tvmaze_info) && empty($imdb_html)) $HTMLOUT.= "<tr><td colspan='2'>No Imdb or TVMaze info.</td></tr>";
 $HTMLOUT.= "</table></div><div align='center'>";
 $HTMLOUT.= "<h1>{$lang['details_comments']}<a href='details.php?id=$id'>" . htmlsafechars($torrents["name"], ENT_QUOTES) . "</a></h1>\n";
 //==

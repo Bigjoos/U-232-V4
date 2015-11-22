@@ -71,7 +71,7 @@ if ($rep_locale == 'posts') {
     ///////////////////////////////////////////////
     // check the post actually exists!
     ///////////////////////////////////////////////
-    $forum = sql_query("SELECT posts.topic_id AS locale, posts.user_id, forums.min_class_read,
+    $forum = sql_query("SELECT posts.topic_id AS locale, posts.user_id AS userid, forums.min_class_read,
 users.username, users.reputation
 FROM posts
 LEFT JOIN topics ON topic_id = topics.id
