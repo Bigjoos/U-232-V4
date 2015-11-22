@@ -369,16 +369,21 @@ elseif ($action == "personal") {
         $mc1->delete_value('user_status_' . $CURUSER['id']);
     }
     //end status update;
-    if (isset($_POST['stylesheet']) && (($stylesheet = (int)$_POST['stylesheet']) != $CURUSER['stylesheet']) && is_valid_id($stylesheet)) $updateset[] = 'stylesheet = ' . sqlesc($stylesheet);
-    $curuser_cache['stylesheet'] = $stylesheet;
-    $user_cache['stylesheet'] = $stylesheet;
-    
-    if (isset($_POST["topicsperpage"]) && (($topicspp = min(100, 0 + $_POST["topicsperpage"])) != $CURUSER["topicsperpage"])) $updateset[] = "topicsperpage = $topicspp";
-    $curuser_cache['topicsperpage'] = $topicspp;
-    $user_cache['topicsperpage'] = $topicspp;
-    if (isset($_POST["postsperpage"]) && (($postspp = min(100, 0 + $_POST["postsperpage"])) != $CURUSER["postsperpage"])) $updateset[] = "postsperpage = $postspp";
-    $curuser_cache['postsperpage'] = $postspp;
-    $user_cache['postsperpage'] = $postspp;
+    if (isset($_POST['stylesheet']) && (($stylesheet = (int)$_POST['stylesheet']) != $CURUSER['stylesheet']) && is_valid_id($stylesheet)) { 
+        $updateset[] = 'stylesheet = ' . sqlesc($stylesheet);
+        $curuser_cache['stylesheet'] = $stylesheet;
+        $user_cache['stylesheet'] = $stylesheet;
+    }    
+    if (isset($_POST["topicsperpage"]) && (($topicspp = min(100, 0 + $_POST["topicsperpage"])) != $CURUSER["topicsperpage"])) {
+        $updateset[] = "topicsperpage = $topicspp";
+        $curuser_cache['topicsperpage'] = $topicspp;
+        $user_cache['topicsperpage'] = $topicspp;
+    }           
+    if (isset($_POST["postsperpage"]) && (($postspp = min(100, 0 + $_POST["postsperpage"])) != $CURUSER["postsperpage"])) { 
+        $updateset[] = "postsperpage = $postspp";
+        $curuser_cache['postsperpage'] = $postspp;
+        $user_cache['postsperpage'] = $postspp;
+    }        
     if (isset($_POST["forum_sort"]) && ($forum_sort = $_POST["forum_sort"]) != $CURUSER["forum_sort"]) {
         $updateset[] = "forum_sort= ".sqlesc($forum_sort);
         $curuser_cache['forum_sort'] = $forum_sort;
@@ -444,19 +449,23 @@ if (isset($_POST["google_talk"]) && ($google_talk = $_POST["google_talk"]) != $C
    $action = "social";
 }
 elseif ($action == "location") {
-    if (isset($_POST["country"]) && (($country = $_POST["country"]) != $CURUSER["country"]) && is_valid_id($country)) $updateset[] = "country = $country";
-    $curuser_cache['country'] = $country;
-    $user_cache['country'] = $country;
+    if (isset($_POST["country"]) && (($country = $_POST["country"]) != $CURUSER["country"]) && is_valid_id($country)) {
+        $updateset[] = "country = $country";
+        $curuser_cache['country'] = $country;
+        $user_cache['country'] = $country;
+    }
     if (isset($_POST['language']) && (($language = (int)$_POST['language']) != $CURUSER['language'])) {
         $updateset[] = 'language = ' . sqlesc($language);
         $curuser_cache['language'] = $language;
         $user_cache['language'] = $language;
     }
-    if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) $updateset[] = "time_offset = " . sqlesc($_POST['user_timezone']);
+    if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#', $_POST['user_timezone'])) { 
+        $updateset[] = "time_offset = " . sqlesc($_POST['user_timezone']);
+        $curuser_cache['time_offset'] = $_POST['user_timezone'];
+        $user_cache['time_offset'] = $_POST['user_timezone'];
+    }
     $updateset[] = "auto_correct_dst = " . (isset($_POST['checkdst']) ? 1 : 0);
     $updateset[] = "dst_in_use = " . (isset($_POST['manualdst']) ? 1 : 0);
-    $curuser_cache['time_offset'] = $_POST['user_timezone'];
-    $user_cache['time_offset'] = $_POST['user_timezone'];
     $curuser_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
     $user_cache['auto_correct_dst'] = (isset($_POST['checkdst']) ? 1 : 0);
     $curuser_cache['dst_in_use'] = (isset($_POST['manualdst']) ? 1 : 0);
