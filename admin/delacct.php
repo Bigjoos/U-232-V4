@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mc1->delete_value('MyUser_' . $userid);
     $mc1->delete_value('user' . $userid);
     if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) != 1) stderr("{$lang['text_error']}", "{$lang['text_unable']}");
-    write_log("User: $username Was deleted by $CURUSER[username]");
+    write_log("User: $username Was deleted by {$CURUSER['username']}");
     stderr("{$lang['stderr_success']}", "{$lang['text_success']}");
 }
 $HTMLOUT = "
