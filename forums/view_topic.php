@@ -400,7 +400,7 @@ while ($arr = mysqli_fetch_assoc($res)) {
 			<ul class="makeMenu">
 				<li>' . htmlsafechars($arr['ip']) . '
 					<ul>
-					<li><a href="https://ws.arin.net/whois/?queryinput=' . htmlsafechars($arr['ip']) . '" title="'.$lang['vt_whois_to_find_isp_info'].'" target="_blank">'.$lang['vt_ip_whois'].'</a></li>
+					<li><a href="https://ws.arin.net/?queryinput=' . htmlsafechars($arr['ip']) . '" title="'.$lang['vt_whois_to_find_isp_info'].'" target="_blank">'.$lang['vt_ip_whois'].'</a></li>
 					<li><a href="http://www.infosniper.net/index.php?ip_address=' . htmlsafechars($arr['ip']) . '" title="'.$lang['vt_ip_to_map_using_infosniper'].'!" target="_blank">'.$lang['vt_ip_to_map'].'</a></li>
 				</ul>
 				</li>
