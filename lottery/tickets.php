@@ -29,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     for ($i = 1; $i <= $tickets; $i++) $t[] = '(' . $CURUSER['id'] . ')';
     if (sql_query('INSERT INTO tickets(user) VALUES ' . join(', ', $t))) {
         sql_query('UPDATE users SET seedbonus = seedbonus - ' . ($tickets * $lottery_config['ticket_amount']) . ' WHERE id = ' . $CURUSER['id']);
-        $mc1->delete_value('MyUser_' . $CURUSER['id']);
+        $What_Cache = (XBT_TRACKER == true ? 'userstats_xbt_' : 'userstats_');
+        $mc1->delete_value($What_Cache . $CURUSER['id']);
         stderr('Success', 'You bought <b>' . $tickets . '</b>, your new amount is <b>' . ($tickets + $user_tickets) . '</b>');
     } else stderr('Errr', 'There was an error with the update query, mysql error: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
     exit;
