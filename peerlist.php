@@ -39,7 +39,7 @@ function dltable($name, $arr, $torrent)
     foreach ($arr as $e) {
         $htmlout.= "<tr>\n";
         if ($e['username']) {
-            if (($e['tanonymous'] == 'yes' && $e['owner'] == $e['userid'] || $e['anonymous'] == 'yes' OR $e['paranoia'] >= 2 && $CURUSER['id'] != $e['userid']) && $CURUSER['class'] < UC_STAFF) $htmlout.= "<td><b>Kezer Soze</b></td>\n";
+            if ((($e['tanonymous'] == 'yes' && $e['owner'] == $e['userid'] || $e['anonymous'] == 'yes' OR $e['paranoia'] >= 2) && $CURUSER['id'] != $e['userid']) && $CURUSER['class'] < UC_STAFF) $htmlout.= "<td><b>Kezer Soze</b></td>\n";
             else $htmlout.= "<td><a href='userdetails.php?id=" . (int)$e['userid'] . "'><b>" . htmlsafechars($e['username']) . "</b></a></td>\n";
         } else $htmlout.= "<td>" . ($mod ? $e["ip"] : preg_replace('/\.\d+$/', ".xxx", $e["ip"])) . "</td>\n";
         $secs = max(1, ($now - $e["st"]) - ($now - $e["la"]));
