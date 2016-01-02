@@ -359,8 +359,8 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `added` int(11) NOT NULL,
   `addedby` int(10) unsigned NOT NULL DEFAULT '0',
   `comment` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `first` int(11) DEFAULT NULL,
-  `last` int(11) DEFAULT NULL,
+  `first` bigint(11) DEFAULT NULL,
+  `last` bigint(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `first_last` (`first`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
@@ -3355,3 +3355,17 @@ CREATE TABLE IF NOT EXISTS `wiki` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 INSERT INTO `wiki` (`id`, `name`, `body`, `userid`, `time`, `lastedit`, `lastedituser`) VALUES
 (1, 'index', '[align=center][size=6]Welcome to the [b]Wiki[/b][/size][/align]', 0, 1228076412, 1281610709, 1);
+
+CREATE TABLE IF NOT EXISTS `staffmessages_answers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `staff_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `sender` int(10) unsigned NOT NULL DEFAULT '0',
+  `answeredby` int(10) unsigned NOT NULL DEFAULT '0',
+  `answer` text CHARACTER SET utf8,
+  `added` int(11) NOT NULL,
+  `subject` varchar(30) CHARACTER SET utf8 DEFAULT NULL,
+  KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+ALTER TABLE `messages` ADD `staff_id` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `staffmessages` ADD `new`  enum('yes','no') NOT NULL default 'no';
