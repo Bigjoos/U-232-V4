@@ -18,6 +18,12 @@
  */
 //==Start execution time
 $start = microtime(true);
+
+if( !file_exists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.php' ) ) {
+    header('Location: /install');
+    die();
+}
+
 require_once (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.php');
 require_once (CACHE_DIR . 'free_cache.php');
 require_once (CACHE_DIR . 'site_settings.php');
