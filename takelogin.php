@@ -50,7 +50,7 @@ function failedloginscheck()
         stderr("Login Locked!", "You have been <b>Exceeded</b> the allowed maximum login attempts without successful login, therefore your ip address <b>(" . htmlsafechars($ip) . ")</b> has been locked for 24 hours.");
     }
 } // End
-if (!mkglobal('username:password' . ($INSTALLER09['captcha_on'] ? ":captchaSelection:" : ":") . 'submitme')) die('Something went wrong');
+if (!mkglobal('username:password' . ($INSTALLER09['captcha_on'] ? (!$gotkey ? ":captchaSelection:" : "") : ":") . 'submitme')) die('Something went wrong');
 if ($submitme != 'X') stderr('Ha Ha', 'You Missed, You plonker !');
 if ($INSTALLER09['captcha_on'] && !$gotkey) {
     if (empty($captchaSelection) || $_SESSION['simpleCaptchaAnswer'] != $captchaSelection) {
