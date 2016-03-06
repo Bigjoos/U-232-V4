@@ -1,6 +1,6 @@
 
 
-INSERT INTO `avps` (`arg`, `value_s`, `value_i`, `value_u`) VALUES
+INSERT IGNORE INTO `avps` (`arg`, `value_s`, `value_i`, `value_u`) VALUES
 ('bestfilmofweek', '0', 0, 0);
 
 -- --------------------------------------------------------
@@ -11,7 +11,7 @@ INSERT INTO `avps` (`arg`, `value_s`, `value_i`, `value_u`) VALUES
 CREATE TABLE IF NOT EXISTS `class_config` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `value` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `value` int(3) DEFAULT NULL,
   `classname` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `classcolor` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `classpic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `class_config` (
 -- Dumping data for table `class_config`
 --
 
-INSERT INTO `class_config` (`id`, `name`, `value`, `classname`, `classcolor`, `classpic`) VALUES
+INSERT IGNORE INTO `class_config` (`id`, `name`, `value`, `classname`, `classcolor`, `classpic`) VALUES
 (1, 'UC_USER', '0', 'USER', '8e35ef', 'user.gif'),
 (2, 'UC_POWER_USER', '1', 'POWER USER', 'f9a200', 'power.gif'),
 (3, 'UC_VIP', '2', 'VIP', '009f00', 'vip.gif'),
@@ -55,14 +55,14 @@ CREATE TABLE IF NOT EXISTS `class_promo` (
 -- Dumping data for table `class_promo`
 --
 
-INSERT INTO `class_promo` (`id`, `name`, `min_ratio`, `uploaded`, `time`, `low_ratio`) VALUES
+INSERT IGNORE INTO `class_promo` (`id`, `name`, `min_ratio`, `uploaded`, `time`, `low_ratio`) VALUES
 (6, '1', 1.20, 50, 20, 0.85);
 
 -- --------------------------------------------------------
 
 /*UPDATE `cleanup` SET `clean_on`='0'*/
 
-INSERT INTO `cleanup` (`clean_id`, `clean_title`, `clean_file`, `clean_time`, `clean_increment`, `clean_cron_key`, `clean_log`, `clean_desc`, `clean_on`) VALUES
+INSERT IGNORE INTO `cleanup` (`clean_id`, `clean_title`, `clean_file`, `clean_time`, `clean_increment`, `clean_cron_key`, `clean_log`, `clean_desc`, `clean_on`) VALUES
 (68, 'Referrer cleans', 'referrer_update.php', 1398091653, 86400, '36bc2469228c1e0c8269ee9d309be37f', 1, 'Referrer Autoclean - Removes expired referrer entrys', 0),
 (69, 'Snatch list admin', 'snatchclean_update.php', 1396631629, 86400, 'cfb8afef5b7a1c41e047dc791b0f1de0', 1, 'Clean old dead data', 0),
 (70, 'Normalize XBT', 'torrents_normalize_xbt.php', 1405720207, 900, 'bd4f4ae7d7499aefbce82971a3b1cbbd', 1, 'XBT normalize query updates', 0),
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `hit_and_run_settings` (
 -- Dumping data for table `hit_and_run_settings`
 --
 
-INSERT INTO `hit_and_run_settings` (`name`, `value`) VALUES
+INSERT IGNORE INTO `hit_and_run_settings` (`name`, `value`) VALUES
 ('firstclass', 'UC_POWER_USER'),
 ('secondclass', 'UC_VIP'),
 ('thirdclass', 'UC_MODERATOR'),
@@ -196,11 +196,11 @@ CREATE TABLE IF NOT EXISTS `modscredits` (
 -- Dumping data for table `modscredits`
 --
 
-INSERT INTO `modscredits` (`id`, `name`, `category`, `status`, `u232lnk`, `credit`, `description`) VALUES
+INSERT IGNORE INTO `modscredits` (`id`, `name`, `category`, `status`, `u232lnk`, `credit`, `description`) VALUES
 (1, 'Ratio Free', 'Addon', 'Complete', 'https://forum.u-232.com/index.php/topic,1060.0.html', 'Mindless', 'V3 Ratio free modification; A true ratio free system =]');
 -- --------------------------------------------------------
 
-INSERT INTO `paypal_config` (`name`, `value`) VALUES
+INSERT IGNORE INTO `paypal_config` (`name`, `value`) VALUES
 ('freeslots', '5'),
 ('freeleech', '1'),
 ('immunity', '1'),
@@ -293,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `referrers` (
 
 -- --------------------------------------------------------
 
-INSERT INTO `site_config` (`name`, `value`) VALUES
+INSERT IGNORE INTO `site_config` (`name`, `value`) VALUES
 ('bonus_per_duration', '0.225'),
 ('bonus_per_download', '20'),
 ('bonus_per_comment', '3'),
@@ -307,7 +307,7 @@ INSERT INTO `site_config` (`name`, `value`) VALUES
 -- --------------------------------------------------------
 
 ALTER TABLE `staffpanel` ADD `type` enum('user','settings','stats','other') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'user' AFTER description;
-INSERT INTO `staffpanel` (`id`, `page_name`, `file_name`, `description`, `type`, `av_class`, `added_by`, `added`) VALUES
+INSERT IGNORE INTO `staffpanel` (`id`, `page_name`, `file_name`, `description`, `type`, `av_class`, `added_by`, `added`) VALUES
 (67, 'Hit and run manager', 'staffpanel.php?tool=hit_and_run_settings', 'Manage all hit and run settings here', 'settings', 6, 1, 1373110790),
 (68, 'Deathrow', 'staffpanel.php?tool=deathrow', 'Torrents on Deathrow', 'user', 4, 1, 1394313792),
 (69, 'Referrers', 'staffpanel.php?tool=referrers', 'View referals here', 'stats', 4, 1, 1362000677),
@@ -384,7 +384,7 @@ CREATE TABLE IF NOT EXISTS `xbt_client_whitelist` (
 -- Dumping data for table `xbt_client_whitelist`
 --
 
-INSERT INTO `xbt_client_whitelist` (`id`, `peer_id`, `vstring`) VALUES
+INSERT IGNORE INTO `xbt_client_whitelist` (`id`, `peer_id`, `vstring`) VALUES
 (1, '-', 'all');
 
 -- --------------------------------------------------------
@@ -402,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `xbt_config` (
 -- Dumping data for table `xbt_config`
 --
 
-INSERT INTO `xbt_config` (`name`, `value`) VALUES
+INSERT IGNORE INTO `xbt_config` (`name`, `value`) VALUES
 ('torrent_pass_private_key', 'MG58LNj5LHHz49A9PKhAkxIH8Aa');
 
 -- --------------------------------------------------------
@@ -516,3 +516,54 @@ CREATE TABLE IF NOT EXISTS `xbt_users` (
   `uploaded` bigint(20) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+ALTER TABLE `bans` CHANGE `first` `first` bigint(11) NOT NULL;
+ALTER TABLE `bans` CHANGE `last` `last` bigint(11) NOT NULL;
+ALTER TABLE `cleanup_log` CHANGE `clog_ip` `clog_ip` char(60) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0';
+ALTER TABLE `comments` ADD `edit_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL;
+ALTER TABLE `comments` ADD `checked_by` varchar(40) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `comments` ADD `checked_when` int(11) NOT NULL;
+ALTER TABLE `comments` ADD `checked` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `failedlogins` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `forum_poll_votes` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `ips` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `peers` CHANGE `peer_id` `peer_id` binary(20) NOT NULL;
+ALTER TABLE `peers` DROP KEY `torrent_seeder`;
+ALTER TABLE `peers` DROP KEY `torrent_peer_id`;
+ALTER TABLE `peers` ADD UNIQUE KEY `torrent_peer_id` (`torrent`,`peer_id`,`ip`);
+ALTER TABLE `poll_voters` CHANGE `ip_address` `ip_address` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `posts` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `referrers` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `searchcloud` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `snatched` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `snatched` CHANGE `peer_id` `peer_id` binary(20) NOT NULL;
+ALTER TABLE `torrents` CHANGE `youtube` `youtube` varchar(45) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `users` CHANGE `ip` `ip` varchar(60) CHARACTER SET utf8 DEFAULT NULL;
+ALTER TABLE `users` ADD `forum_sort` enum('ASC', 'DESC') NOT NULL DEFAULT 'DESC' AFTER `acceptpms`;
+
+CREATE TABLE IF NOT EXISTS `wiki` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `body` longtext CHARACTER SET utf8,
+  `userid` int(10) unsigned DEFAULT '0',
+  `time` int(11) NOT NULL,
+  `lastedit` int(10) unsigned DEFAULT NULL,
+  `lastedituser` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+INSERT IGNORE INTO `wiki` (`id`, `name`, `body`, `userid`, `time`, `lastedit`, `lastedituser`) VALUES
+(1, 'index', '[align=center][size=6]Welcome to the [b]Wiki[/b][/size][/align]', 0, 1228076412, 1281610709, 1);
+ 
+CREATE TABLE IF NOT EXISTS `staffmessages_answers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `staff_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `sender` int(10) unsigned NOT NULL DEFAULT '0',
+  `answeredby` int(10) unsigned NOT NULL DEFAULT '0',
+  `answer` text CHARACTER SET utf8,
+  `added` int(11) NOT NULL,
+  `subject` varchar(30) CHARACTER SET utf8 DEFAULT NULL,
+  KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+ 
+ALTER TABLE `messages` ADD `staff_id` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `staffmessages` ADD `new`  enum('yes','no') NOT NULL default 'no';
