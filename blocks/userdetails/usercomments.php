@@ -44,7 +44,7 @@ if (!$count) {
     $pager = pager(5, $count, "userdetails.php?id=$id&amp;", array(
         'lastpagedefault' => 1
     ));
-    $subres = sql_query("SELECT usercomments.id, text, user, usercomments.added, editedby, editedat, edit_name, avatar, warned, username, title, class, leechwarn, chatpost, pirate, king, donor FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE userid = {$id} ORDER BY usercomments.id {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
+    $subres = sql_query("SELECT usercomments.id, text, user, usercomments.added, editedby, editedat, avatar, warned, username, title, class, leechwarn, chatpost, pirate, king, donor FROM usercomments LEFT JOIN users ON usercomments.user = users.id WHERE userid = {$id} ORDER BY usercomments.id {$pager['limit']}") or sqlerr(__FILE__, __LINE__);
     $allrows = array();
     while ($subrow = mysqli_fetch_assoc($subres)) $allrows[] = $subrow;
     $HTMLOUT.= ($commentbar);
