@@ -236,13 +236,15 @@ if ($count > 0) {
         //==
         $last_post_id = (int)$arr_post_stuff['last_post_id'];
         //=== Get author / first post info
-        $first_post_res = sql_query('SELECT p.id AS first_post_id, p.added, p.icon, p.body, p.anonymous, p.user_id,
-												u.id, u.username, u.class, u.donor, u.suspended, u.warned, u.enabled, u.chatpost, u.leechwarn, u.pirate, u.king
-												FROM posts AS p 
-												LEFT JOIN users AS u ON p.user_id = u.id 
-												WHERE  ' . ($CURUSER['class'] < UC_STAFF ? ' p.status = \'ok\' AND' : ($CURUSER['class'] < $min_delete_view_class ? ' p.status != \'deleted\'  AND' : '')) . '  
-												topic_id=' . sqlesc($topic_id) . ' ORDER BY p.id ASC LIMIT 1');
-        $first_post_arr = mysqli_fetch_assoc($first_post_res);
+	$topic_res = sql_query('SELECT t.id as id, t.user_id as user_id, t.topic_name as topic_name, t.locked as locked, t.forum_id as forum_id, 
+				t.last_post as last_post,t.sticky as sticky, t.views as views,t.poll_id as poll_id,t.num_ratings as num_ratings,
+				t.rating_sum as rating_sum,t.topic_desc as topic_desc,t.post_count as post_count, t.first_post as first_post, 
+				t.status as status,t.main_forum_id as main_forum_id,t.anonymous as anonymous, p.id as post_id, p.added as post_added, p.topic_id as post_topic_id
+				FROM topics AS t 
+				LEFT JOIN posts AS p ON t.id = p.topic_id 
+				WHERE  ' . ($CURUSER['class'] < UC_STAFF ? ' status = \'ok\' AND' : ($CURUSER['class'] < $min_delete_view_class ? ' status != \'deleted\'  AND' : '')) . '  forum_id=' . $forum_id . ' GROUP BY p.topic_id ORDER BY sticky, post_added DESC ' . $LIMIT);
+
+	$first_post_arr = mysqli_fetch_assoc($first_post_res);
         //== Anonymous
         if ($first_post_arr['anonymous'] == 'yes') {
             if ($CURUSER['class'] < UC_STAFF && $first_post_arr['user_id'] != $CURUSER['id']) $thread_starter = ($first_post_arr['username'] !== '' ? '<i>'.$lang['fe_anonymous'].'</i>' : ''.$lang['fe_lost'].' [' . $topic_arr['user_id'] . ']') . '<br />' . get_date($first_post_arr['added'], '');
