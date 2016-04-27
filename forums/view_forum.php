@@ -171,7 +171,15 @@ $perpage = $CURUSER['topicsperpage'] !== 0 ? $CURUSER['topicsperpage'] : (isset(
 //$perpage = max(($CURUSER['topicsperpage'] !== 0 ? $CURUSER['topicsperpage'] :  (isset($_GET['perpage']) ? (int)$_GET['perpage'] : 15)), 15);
 list($menu, $LIMIT) = pager_new($count, $perpage, $page, 'forums.php?action=view_forum&amp;forum_id=' . $forum_id . (isset($_GET['perpage']) ? '&amp;perpage=' . $perpage : ''));
 //=== Get topics data
-$topic_res = sql_query('SELECT * FROM topics WHERE  ' . ($CURUSER['class'] < UC_STAFF ? ' status = \'ok\' AND' : ($CURUSER['class'] < $min_delete_view_class ? ' status != \'deleted\'  AND' : '')) . '  forum_id=' . $forum_id . ' ORDER BY sticky, last_post DESC ' . $LIMIT);
+$topic_res = sql_query('SELECT t.id as id, t.user_id as user_id, t.topic_name as topic_name, t.locked as locked, t.forum_id as forum_id, 
+			t.last_post as last_post,t.sticky as sticky, t.views as views,t.poll_id as poll_id,t.num_ratings as num_ratings,
+			t.rating_sum as rating_sum,t.topic_desc as topic_desc,t.post_count as post_count, t.first_post as first_post, 
+			t.status as status,t.main_forum_id as main_forum_id,t.anonymous as anonymous, p.id as post_id, p.added as post_added, 
+			p.topic_id as post_topic_id
+				FROM topics AS t 
+				LEFT JOIN posts AS p ON t.id = p.topic_id 
+				WHERE  ' . ($CURUSER['class'] < UC_STAFF ? ' status = \'ok\' AND' : ($CURUSER['class'] < $min_delete_view_class ? ' status != \'deleted\'  AND' : '')) . '  forum_id=' . $forum_id . ' GROUP BY p.topic_id ORDER BY sticky, post_added DESC ' . $LIMIT);
+
 $location_bar = '<h1><a class="altlink" href="index.php">' . $INSTALLER09['site_name'] . '</a>  <img src="' . $INSTALLER09['pic_base_url'] . 'arrow_next.gif" alt="&#9658;" title="&#9658;" /> 
 			<a class="altlink" href="' . $INSTALLER09['baseurl'] . '/forums.php">'.$lang['fe_forums'].'</a> ' . $parent_forum_name . ' <img src="' . $INSTALLER09['pic_base_url'] . 'arrow_next.gif" alt="&#9658;" title="&#9658;" />
 			<a class="altlink" href="' . $INSTALLER09['baseurl'] . '/forums.php?action=view_forum&amp;forum_id=' . $forum_id . '">' . $forum_name . $child . '</a></h1>
