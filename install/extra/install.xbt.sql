@@ -791,7 +791,7 @@ INSERT INTO `cleanup` (`clean_id`, `clean_title`, `clean_file`, `clean_time`, `c
 (14, 'Ips', 'ip_update.php', 1405725772, 86400, '0b4f34774259b5069d220c485aa10eba', 1, 'Ip clean', 1),
 (15, 'Signups', 'expired_signup_update.php', 1405801239, 259200, 'bdde41096f769d1a01251813cc2c1353', 1, 'Expired signups update', 1),
 (16, 'Peers', 'peer_update.php', 1394919107, 900, '72181fc6214ddc556d71066df031d424', 1, 'Peers update', 0),
-(17, 'Visible', 'visible_update.php', 1405719080, 900, '77c523eab12be5d0342e4606188cd2ca', 0, 'Torrents visible update', 1),
+(17, 'Visible', 'visible_update.php', 1405719080, 900, '77c523eab12be5d0342e4606188cd2ca', 1, 'Torrents visible update', 1),
 (18, 'Announcements', 'announcement_update.php', 1405770206, 86400, 'b73c139b4defbc031e201b91fef29a4c', 1, 'Old announcement updates', 1),
 (19, 'Readposts', 'readpost_update.php', 1405793882, 86400, '3e0c8bc6b6e6cc61fdfe8b26f8268b77', 1, 'Old Readposts updates', 1),
 (20, 'Happyhour', 'happyhour_update.php', 1396565647, 43200, 'a7c422bc9f17b3fba5dab2d0129acd32', 1, 'HappyHour Updates', 0),

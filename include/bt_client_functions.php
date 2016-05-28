@@ -98,6 +98,7 @@ function getagent($httpagent, $peer_id = "")
     if (substr($peer_id, 0, 2) == 'BG') return StdDecodePeerId(substr($peer_id, 2, 4) , "BTGetit"); // BTGetit
     if (substr($peer_id, 2, 2) == 'BM') return DecodeVersionString(substr($peer_id, 0, 2) , "BitMagnet"); // BitMagnet
     if (substr($peer_id, 0, 2) == 'OP') return StdDecodePeerId(substr($peer_id, 2, 4) , "Opera"); // Opera
+    if (substr($peer_id, 0, 3) == '-qB') return StdDecodePeerId(substr($peer_id, 3, 7) , "qBittorrent"); // libTorrent
     if (substr($peer_id, 0, 4) == '270-') return "GreedBT 2.7.0"; // GreedBT
     if (substr($peer_id, 0, 4) == '271-') return "GreedBT 2.7.1"; // GreedBT 2.7.1
     if (substr($peer_id, 0, 4) == '346-') return "TorrentTopia"; // TorrentTopia

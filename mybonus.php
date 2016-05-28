@@ -1392,12 +1392,12 @@ $fpoints = $dpoints = $hpoints = $freeleech_enabled = $double_upload_enabled = $
                         }
 //$mc1->delete_value('freecontribution_datas_');
 //=== freeleech contribution meter
-$target_fl = 30000;
+//$target_fl = 30000;
 //=== get total points
 if(($freeleech_counter = $mc1->get_value('freeleech_counter')) === false) {
-	$total_fl = sql_query('SELECT SUM(pointspool) AS points FROM bonus WHERE id =11');
-	$fl_total_row = mysqli_fetch_assoc($total_fl);
-    $percent_fl = number_format($fl_total_row['points'] / $target_fl * 100, 2);
+	$total_fl = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =11');
+    $fl_total_row = mysqli_fetch_assoc($total_fl);
+    $percent_fl = number_format($fl_total_row['pointspool'] / $fl_total_row['points'] * 100, 2);
     $mc1->cache_value('freeleech_counter', $percent_fl, 0);
     } else
     $percent_fl = $freeleech_counter;
@@ -1430,11 +1430,11 @@ if(($freeleech_counter = $mc1->get_value('freeleech_counter')) === false) {
 			}
 //$mc1->delete_value('freeleech_counter');
 //=== get total points
-$target_du = 30000;
+//$target_du = 30000;
 if(($doubleupload_counter = $mc1->get_value('doubleupload_counter')) === false) {
-	$total_du = sql_query('SELECT SUM(pointspool) AS points FROM bonus WHERE id =12');
-	$du_total_row = mysqli_fetch_assoc($total_du);
-    $percent_du = number_format($du_total_row['points'] / $target_du * 100, 2);
+	$total_du = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =12');
+    $du_total_row = mysqli_fetch_assoc($total_du);
+    $percent_du = number_format($du_total_row['pointspool'] / $du_total_row['points'] * 100, 2);
     $mc1->cache_value('doubleupload_counter', $percent_du, 0);
     } else
     $percent_du = $doubleupload_counter;
@@ -1466,11 +1466,11 @@ if(($doubleupload_counter = $mc1->get_value('doubleupload_counter')) === false) 
             break;
 			}
 //=== get total points
-$target_hd = 30000;
+//$target_hd = 30000;
 if(($halfdownload_counter = $mc1->get_value('halfdownload_counter')) === false) {
-	$total_hd = sql_query('SELECT SUM(pointspool) AS points FROM bonus WHERE id =13');
-	$hd_total_row = mysqli_fetch_assoc($total_hd);
-    $percent_hd = number_format($hd_total_row['points'] / $target_hd * 100, 2);
+	$total_hd = sql_query('SELECT SUM(pointspool) AS pointspool, points FROM bonus WHERE id =13');
+    $hd_total_row = mysqli_fetch_assoc($total_hd);
+    $percent_hd = number_format($hd_total_row['pointspool'] / $hd_total_row['points'] * 100, 2);
     $mc1->cache_value('halfdownload_counter', $percent_hd, 0);
     } else
     $percent_hd = $halfdownload_counter;

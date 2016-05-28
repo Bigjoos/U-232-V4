@@ -140,8 +140,10 @@ if ($replyto != 0) {
     //print $arr_old_message['sender'];
     //exit();
     if ($arr_old_message['sender'] == $CURUSER['id']) stderr($lang['pm_error'], $lang['pm_send_slander']);
-    $body.= "\n\n\n{$lang['pm_send_wrote0']}$arr_member[0]{$lang['pm_send_wrote']}\n$arr_old_message[msg]\n";
-    $subject = $lang['pm_send_re'] . htmlsafechars($arr_old_message['subject']);
+    if ($arr_old_message['receiver'] == $CURUSER['id']) {
+        $body .= "\n\n\n{$lang['pm_send_wrote0']}$arr_member[0]{$lang['pm_send_wrote']}\n$arr_old_message[msg]\n";
+        $subject = $lang['pm_send_re'] . htmlsafechars($arr_old_message['subject']);
+    }
 }
 //=== if preview or not replying
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
