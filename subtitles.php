@@ -5,11 +5,11 @@
  |--------------------------------------------------------------------------|
  |   Licence Info: GPL			                                    |
  |--------------------------------------------------------------------------|
- |   Copyright (C) 2010 U-232 V4					    |
+ |   Copyright (C) 2010 U-232 V5					    |
  |--------------------------------------------------------------------------|
  |   A bittorrent tracker source based on TBDev.net/tbsource/bytemonsoon.   |
  |--------------------------------------------------------------------------|
- |   Project Leaders: Mindless,putyn.					    |
+ |   Project Leaders: Mindless, Autotron, whocares, Swizzles.					    |
  |--------------------------------------------------------------------------|
   _   _   _   _   _     _   _   _   _   _   _     _   _   _   _
  / \ / \ / \ / \ / \   / \ / \ / \ / \ / \ / \   / \ / \ / \ / \
@@ -17,7 +17,7 @@
  \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/
  */
 //== Made by putyn @tbdev
-require_once (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
+require_once (__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'bittorrent.php');
 require_once (INCL_DIR . 'user_functions.php');
 require_once (INCL_DIR . 'html_functions.php');
 require_once (INCL_DIR . 'pager_functions.php');
@@ -55,8 +55,7 @@ if (!function_exists('htmlsafechars')) {
         ) , $var));
     }
 }
-$INSTALLER09['sub_up_dir'] = "/var/www/uploads/";
-$INSTALLER09['sub_max_size'] = 500 * 1024;
+
 $action = (isset($_GET["action"]) ? htmlsafechars($_GET["action"]) : (isset($_POST["action"]) ? htmlsafechars($_POST["action"]) : ''));
 $mode = (isset($_GET["mode"]) ? htmlsafechars($_GET["mode"]) : "");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -105,10 +104,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
         } //end upload
         if ($action == "edit") {
-            $id = isset($_POST["id"]) ? 0 + $_POST["id"] : 0;
+            $id = isset($_POST["id"]) ? (int) $_POST["id"] : 0;
             if ($id == 0) stderr("Err", "Not a valid id");
             else {
-                $res = sql_query("SELECT * FROM subtitles WHERE id={$id} ") or sqlerr(__FILE__, __LINE__);
+                $res = sql_query("SELECT * FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
                 $arr = mysqli_fetch_assoc($res);
                 if (mysqli_num_rows($res) == 0) stderr("Sorry", "There is no subtitle with that id");
                 if ($CURUSER["id"] != $arr["owner"] && $CURUSER['class'] < UC_MODERATOR) bark("You're not the owner! How did that happen?\n");
@@ -120,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($arr["fps"] != $fps) $updateset[] = "fps = " . sqlesc($fps);
                 if ($arr["cds"] != $cd) $updateset[] = "cds = " . sqlesc($cd);
                 if ($arr["comment"] != $comment) $updateset[] = "comment = " . sqlesc($comment);
-                if (count($updateset) > 0) sql_query("UPDATE subtitles SET " . join(",", $updateset) . " WHERE id ={$id} ") or sqlerr(__FILE__, __LINE__);
+                if (count($updateset) > 0) sql_query("UPDATE subtitles SET " . join(",", $updateset) . " WHERE id =".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
                 header("Refresh: 0; url=subtitles.php?mode=details&id=$id");
             }
         } //end edit
@@ -130,16 +129,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } //end POST
 if ($mode == "upload" || $mode == "edit") {
     if ($mode == "edit") {
-        $id = isset($_GET["id"]) ? 0 + $_GET["id"] : 0;
+        $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
         if ($id == 0) stderr("Err", "Not a valid id");
         else {
-            $res = sql_query("SELECT id, name, imdb, poster, fps, comment, cds, lang FROM subtitles WHERE id={$id} ") or sqlerr(__FILE__, __LINE__);
+            $res = sql_query("SELECT id, name, imdb, poster, fps, comment, cds, lang FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
             $arr = mysqli_fetch_assoc($res);
             if (mysqli_num_rows($res) == 0) stderr("Sorry", "There is no subtitle with that id");
         }
     }
     $HTMLOUT.= begin_main_frame();
-    $HTMLOUT.= begin_frame("" . ($mode == "upload" ? "New Subtitle" : "Edit subtitle " . $arr["name"] . "") . "");
+    $HTMLOUT.= begin_frame("" . ($mode == "upload" ? "New Subtitle" : "Edit subtitle " . htmlsafechars($arr["name"]) . "") . "");
     $HTMLOUT.= "<script type='text/javascript'>
 function checkext(upload_field)
 {
@@ -177,7 +176,7 @@ function checkext(upload_field)
         $HTMLOUT.= "<tr><td class='rowhead' style='border:none'>SubFile&nbsp;<font color='red'>*</font></td><td style='border:none'><input type='file' name='sub' size='36' onchange=\"checkext(this)\" title='Only .rar and .zip file allowed'/></td></tr>";
     }
     $HTMLOUT.= "<tr><td class='rowhead' style='border:none'>Poster</td><td style='border:none'><input type='text' name='poster' size='50' value='" . ($mode == "edit" ? $arr["poster"] : "") . "' title='Direct link to a picture'/></td></tr>
-<tr><td class='rowhead' style='border:none'>Comments</td><td style='border:none'><textarea rows='5' cols='45' name='comment' title='Any specific details about this subtitle we need to know'>" . ($mode == "edit" ? $arr["comment"] : "") . "</textarea></td></tr>
+<tr><td class='rowhead' style='border:none'>Comments</td><td style='border:none'><textarea rows='5' cols='45' name='comment' title='Any specific details about this subtitle we need to know'>" . ($mode == "edit" ? htmlsafechars($arr["comment"]) : "") . "</textarea></td></tr>
 <tr><td class='rowhead' style='border:none'>FPS</td><td style='border:none'><select name='fps'>
 <option value='0'>- Select -</option>
 <option value='23.976' " . ($mode == "edit" && $arr["fps"] == "23.976" ? "selected=\"selected\"" : "") . ">23.976</option>
@@ -205,27 +204,27 @@ function checkext(upload_field)
     } else {
         $HTMLOUT.= "<input type='submit' value='Edit it'/>
 <input type='hidden' name='action' value='edit' />
-<input type='hidden' name='id' value='" . $arr["id"] . "' />";
+<input type='hidden' name='id' value='" . (int)$arr["id"] . "' />";
     }
     $HTMLOUT.= "</td></tr>
 </table>
 </form>";
     $HTMLOUT.= end_frame();
     $HTMLOUT.= end_main_frame();
-    echo stdhead("" . ($mode == "upload" ? "Upload new Subtitle" : "Edit subtitle " . $arr["name"] . "") . "") . $HTMLOUT . stdfoot();
+    echo stdhead("" . ($mode == "upload" ? "Upload new Subtitle" : "Edit subtitle " . htmlsafechars($arr["name"]) . "") . "") . $HTMLOUT . stdfoot();
 }
 //==Delete subtitle
 elseif ($mode == "delete") {
-    $id = isset($_GET["id"]) ? 0 + $_GET["id"] : 0;
+    $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
     if ($id == 0) stderr("Err", "Not a valid id");
     else {
-        $res = sql_query("SELECT id, name, filename FROM subtitles WHERE id={$id} ") or sqlerr(__FILE__, __LINE__);
+        $res = sql_query("SELECT id, name, filename FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = mysqli_fetch_assoc($res);
         if (mysqli_num_rows($res) == 0) stderr("Sorry", "There is no subtitle with that id");
         $sure = (isset($_GET["sure"]) && $_GET["sure"] == "yes") ? "yes" : "no";
         if ($sure == "no") stderr("Sanity check...", "Your are about to delete subtitile <b>" . htmlsafechars($arr["name"]) . "</b> . Click <a href='subtitles.php?mode=delete&amp;id=$id&amp;sure=yes'>here</a> if you are sure.", false);
         else {
-            sql_query("DELETE FROM subtitles WHERE id={$id} ") or sqlerr(__FILE__, __LINE__);
+            sql_query("DELETE FROM subtitles WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
             $file = $INSTALLER09['sub_up_dir'] . '/' . $arr["filename"];
             @unlink($file);
             header("Refresh: 0; url=subtitles.php");
@@ -234,10 +233,10 @@ elseif ($mode == "delete") {
 }
 //==End delete subtitle
 elseif ($mode == "details") {
-    $id = isset($_GET["id"]) ? 0 + $_GET["id"] : 0;
+    $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
     if ($id == 0) stderr("Err", "Not a valid id");
     else {
-        $res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id  WHERE s.id={$id} ") or sqlerr(__FILE__, __LINE__);
+        $res = sql_query("SELECT s.id, s.name,s.lang, s.imdb,s.fps,s.poster,s.cds,s.hits,s.added,s.owner,s.comment, u.username FROM subtitles AS s LEFT JOIN users AS u ON s.owner=u.id  WHERE s.id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = mysqli_fetch_assoc($res);
         if (mysqli_num_rows($res) == 0) stderr("Sorry", "There is no subtitle with that id");
         if ($arr["lang"] == "eng") $langs = "<img src=\"pic/flag/england.gif\" border=\"0\" alt=\"English\" title=\"English\" />";
@@ -258,7 +257,7 @@ elseif ($mode == "details") {
 <input type='submit' value='' style='background:url(pic/down.png) no-repeat; width:124px;height:25px;border:none;' />
 <input type='hidden' name='action' value='download' />
 </form><br />
-<a href='#' onclick=\"window.open('subtitles.php?mode=preview&amp;id={$arr["id"]}','','height=500,width=400,resizable=yes,scrollbars=yes')\" ><img src='pic/preview.png' width='124' height='25' border='0' alt='Preview' title='Preview'  /></a>
+<a href='#' onclick=\"window.open('subtitles.php?mode=preview&amp;id=".(int)$arr["id"]."','','height=500,width=400,resizable=yes,scrollbars=yes')\" ><img src='pic/preview.png' width='124' height='25' border='0' alt='Preview' title='Preview'  /></a>
 </td></tr>
 <tr><td align='left'>Name :&nbsp;<b>" . htmlsafechars($arr['name']) . "</b></td></tr>
 <tr><td align='left'>IMDb :&nbsp;<a href='" . htmlsafechars($arr['imdb']) . "' target='_blank'>" . htmlsafechars($arr['imdb']) . "</a></td></tr>
@@ -268,10 +267,10 @@ elseif ($mode == "details") {
         }
         $HTMLOUT.= "<tr><td align='left'>FPS :&nbsp;<b>" . ($arr["fps"] == 0 ? "Unknown" : htmlsafechars($arr["fps"])) . "</b></td></tr>
 <tr><td align='left'>Cd# :&nbsp;<b>" . ($arr["cds"] == 0 ? "Unknown" : ($arr["cds"] == 255 ? "More than 5 " : htmlsafechars($arr["cds"]))) . "</b></td></tr>
-<tr><td align='left'>Hits :&nbsp;<b>{$arr["hits"]}</b></td></tr>
+<tr><td align='left'>Hits :&nbsp;<b>".(int)$arr["hits"]."</b></td></tr>
 <tr><td align='left'>Uploader :&nbsp;<b><a href='userdetails.php?id=" . (int)$arr["owner"] . "' target='_blank'>" . htmlsafechars($arr["username"]) . "</a></b>&nbsp;&nbsp;";
         if ($arr["owner"] == $CURUSER["id"] || $CURUSER['class'] > UC_MODERATOR) {
-            $HTMLOUT.= "<a href='subtitles.php?mode=edit&amp;id=" . $arr["id"] . "'><img src='pic/edit.png' alt='Edit Sub' title='Edit Sub' style='border:none;padding:2px;' /></a>
+            $HTMLOUT.= "<a href='subtitles.php?mode=edit&amp;id=" . (int)$arr["id"] . "'><img src='pic/edit.png' alt='Edit Sub' title='Edit Sub' style='border:none;padding:2px;' /></a>
 <a href='subtitles.php?mode=delete&amp;id=" . (int)$arr["id"] . "'><img src='pic/drop.png' alt='Delete Sub' title='Delete Sub' style='border:none;padding:2px;' /></a>";
         }
         $HTMLOUT.= "</td></tr>
@@ -281,10 +280,10 @@ elseif ($mode == "details") {
         echo stdhead("Details for " . htmlsafechars($arr["name"]) . "") . $HTMLOUT . stdfoot();
     }
 } elseif ($mode == "preview") {
-    $id = isset($_GET["id"]) ? 0 + $_GET["id"] : 0;
+    $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
     if ($id == 0) stderr("Err", "Not a valid id");
     else {
-        $res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id={$id} ") or sqlerr(__FILE__, __LINE__);
+        $res = sql_query("SELECT id, name,filename FROM subtitles  WHERE id=".sqlesc($id)) or sqlerr(__FILE__, __LINE__);
         $arr = mysqli_fetch_assoc($res);
         if (mysqli_num_rows($res) == 0) stderr("Sorry", "There is no subtitle with that id");
         $file = $INSTALLER09['sub_up_dir'] . "/" . $arr["filename"];
@@ -366,8 +365,8 @@ elseif ($mode == "details") {
 <td align='center'>" . ($arr["cds"] == 0 ? "Unknow" : ($arr["cds"] == 255 ? "More than 5 " : htmlsafechars($arr["cds"]))) . "</td>";
             if ($arr["owner"] == $CURUSER["id"] || $CURUSER['class'] > UC_STAFF) {
                 $HTMLOUT.= "<td align='center' nowrap='nowrap'>
-<a href='subtitles.php?mode=edit&amp;id=" . $arr["id"] . "'><img src='pic/edit.png' alt='Edit Sub' title='Edit Sub' style='border:none;padding:2px;' /></a>
-<a href='subtitles.php?mode=delete&amp;id=" . $arr["id"] . "'><img src='pic/drop.png' alt='Delete Sub' title='Delete Sub' style='border:none;padding:2px;' /></a>
+<a href='subtitles.php?mode=edit&amp;id=" . (int)$arr["id"] . "'><img src='pic/edit.png' alt='Edit Sub' title='Edit Sub' style='border:none;padding:2px;' /></a>
+<a href='subtitles.php?mode=delete&amp;id=" . (int)$arr["id"] . "'><img src='pic/drop.png' alt='Delete Sub' title='Delete Sub' style='border:none;padding:2px;' /></a>
 </td>";
             }
             $HTMLOUT.= "<td align='center'><a href='userdetails.php?id=" . (int)$arr["owner"] . "'>" . htmlsafechars($arr["username"]) . "</a></td></tr>";
