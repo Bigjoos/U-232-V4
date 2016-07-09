@@ -23,7 +23,7 @@ dbconn();
 loggedinorreturn();
 $lang = array_merge(load_language('global'));
 
-$action = (isset($_POST["action"]) ? htmlsafehcars($_POST["action"]) : "");
+$action = (isset($_POST["action"]) ? htmlsafechars($_POST["action"]) : "");
 if ($action == "download") {
     $id = isset($_POST["sid"]) ? (int) $_POST["sid"] : 0;
     if ($id == 0) stderr($lang['gl_error'], $lang['gl_not_a_valid_id']);
