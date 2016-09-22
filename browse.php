@@ -223,7 +223,6 @@ if (isset($cleansearchstr)) {
         elseif (preg_match('/^[A-Za-z0-9][a-zA-Z0-9()._-]+-[A-Za-z0-9_]*[A-Za-z0-9]$/iD', $searchstr)) $wherea[] = '`name` = ' . sqlesc($searchstr);
         else $wherea[] = 'MATCH (`search_text`, `descr`) AGAINST (' . sqlesc($searchstr) . ' IN BOOLEAN MODE)';
         //......
-        $orderby = 'ORDER BY id DESC';
         $searcha = explode(' ', $cleansearchstr);
         //==Memcache search cloud by putyn
         searchcloud_insert($cleansearchstr);
