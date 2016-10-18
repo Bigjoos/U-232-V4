@@ -79,7 +79,7 @@ $search_help_boolean = '<table border="0" cellspacing="0" cellpadding="0" style=
      </tr></table>';
 $cats = genrelist();
 if (isset($_GET["search"])) {
-    $searchstr = sqlesc($_GET["search"]);
+    $searchstr = unesc($_GET["search"]);
     $cleansearchstr = searchfield($searchstr);
     if (empty($cleansearchstr)) unset($cleansearchstr);
 }
@@ -198,7 +198,7 @@ elseif (count($wherecatina) == 1) $wherea[] = 'category =' . $wherecatina[0];
 if (isset($cleansearchstr)) {
     //== boolean search by djgrr
     if ($searchstr != '') {
-        $addparam.= 'search=' . rawurlencode($searchstr) . '&amp;';
+        $addparam.= 'search=' . rawurlencode($searchstr) . '&amp;searchin='.htmlsafechars($_GET['searchin']).'&amp;incldead='.intval($_GET['incldead']).'&amp;';
         $searchstring = str_replace(array(
             '_',
             '.',
