@@ -5,11 +5,11 @@
  |--------------------------------------------------------------------------|
  |   Licence Info: GPL			                                    |
  |--------------------------------------------------------------------------|
- |   Copyright (C) 2010 U-232 V4					    |
+ |   Copyright (C) 2010 U-232 V5					    |
  |--------------------------------------------------------------------------|
  |   A bittorrent tracker source based on TBDev.net/tbsource/bytemonsoon.   |
  |--------------------------------------------------------------------------|
- |   Project Leaders: Mindless,putyn.					    |
+ |   Project Leaders: Mindless, Autotron, whocares, Swizzles.					    |
  |--------------------------------------------------------------------------|
   _   _   _   _   _     _   _   _   _   _   _     _   _   _   _
  / \ / \ / \ / \ / \   / \ / \ / \ / \ / \ / \   / \ / \ / \ / \
@@ -33,6 +33,7 @@ if (!defined('IN_INSTALLER09_ADMIN')) {
 require_once (INCL_DIR . 'pager_functions.php');
 require_once (INCL_DIR . 'user_functions.php');
 require_once (CLASS_DIR . 'class_check.php');
+require_once (INCL_DIR . 'function_account_delete.php');
 $class = get_access(basename($_SERVER['REQUEST_URI']));
 class_check($class);
 $HTMLOUT = "";
@@ -47,21 +48,21 @@ $days = 50; //number of days of inactivity
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = isset($_POST["action"]) ? htmlsafechars(trim($_POST["action"])) : '';
     if (empty($_POST["userid"]) && (($action == "deluser") || ($action == "mail"))) stderr($lang['inactive_error'], "{$lang['inactive_selectuser']}");
-    if ($action == "deluser" && (!empty($_POST["userid"])) && $CURUSER["class"] >= UC_SYSOP) {
-
-        $res_del = sql_query("SELECT id, username, added, downloaded, uploaded, last_access, class, donor, warned, enabled, status FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ORDER BY username DESC");
-        if (mysqli_num_rows($res_del) != 0) {
-        $count = mysqli_num_rows($res_del);
-        while ($arr_del = mysqli_fetch_assoc($res_del)) {
-            $userid = $arr_del['id'];
-            $res = sql_query("DELETE FROM users WHERE id=" . sqlesc($userid)) or sqlerr(__FILE__, __LINE__);
-            $mc1->delete_value('MyUser_' . $userid);
-            $mc1->delete_value('user' . $userid);
-            write_log("User: {$arr_del['username']} Was deleted by ".$CURUSER['username']." Via In-Active Members Page");
-            }
-        }
-        stderr($lang['inactive_success'], "{$lang['inactive_deleted']} <a href='" . $INSTALLER09['baseurl'] . "/staffpanel.php?tool=inactive>{$lang['inactive_back']}</a>");
-    }
+      if ($action == "deluser" && (!empty($_POST["userid"]))) {
+          $res   = sql_query("SELECT id, email, modcomment, username, added, last_access FROM users WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ORDER BY last_access DESC ");
+          $count = mysqli_num_rows($res);
+          while ($arr = mysqli_fetch_array($res)) {
+              $userid   = (int) $arr["id"];
+              $username = htmlsafechars($arr["username"]);
+              $res_del = sql_query(account_delete($userid)) or sqlerr(__FILE__, __LINE__);
+              if (mysqli_affected_rows($GLOBALS["___mysqli_ston"]) !== false) {
+                  $mc1->delete_value('MyUser_' . $userid);
+                  $mc1->delete_value('user' . $userid);
+                  write_log("User: $username Was deleted by {$CURUSER['username']}");
+              }
+          }
+          stderr($lang['inactive_success'], "{$lang['inactive_deleted']} <a href='" . $INSTALLER09['baseurl'] . "/staffpanel.php?tool=inactive>{$lang['inactive_back']}</a>");
+      }
     if ($action == "disable" && (!empty($_POST["userid"]))) {
         sql_query("UPDATE users SET enabled='no' WHERE id IN (" . implode(", ", array_map("sqlesc", $_POST['userid'])) . ") ");
         stderr($lang['inactive_success'], "{$lang['inactive_disabled']} <a href='" . $INSTALLER09['baseurl'] . "/staffpanel.php?tool=inactive>{$lang['inactive_back']}</a>");
@@ -124,9 +125,10 @@ if ($count_inactive > 0) {
     }
     /*]]>*/
     </script>";
+	$HTMLOUT.= "<div class='row'><div class='col-md-12'>";
     $HTMLOUT.= "<h2>" . htmlsafechars($count) . "{$lang['inactive_accounts']} " . htmlsafechars($days) . " {$lang['inactive_days']}</h2>
     <form method='post' action='staffpanel.php?tool=inactive&amp;action=inactive'>
-    <table class='main' border='1' cellspacing='0' cellpadding='5'>
+    <table class='table table-bordered'>
     <tr>
     <td class='colhead'>{$lang['inactive_username']}</td>
     <td class='colhead'>{$lang['inactive_class']}</td>
@@ -141,7 +143,7 @@ if ($count_inactive > 0) {
         $HTMLOUT.= "<tr>
         <td><a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . (int)$arr["id"] . "'>" . htmlsafechars($arr["username"]) . "</a></td>
         <td>" . $class . "</td>
-        <td><a href='mailto:" . htmlsafechars($arr["email"]) . "'>" . htmlsafechars($arr["email"]) . "</a></td>
+        <td style='max-width:130px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'><a href='mailto:" . htmlsafechars($arr["email"]) . "'>" . htmlsafechars($arr["email"]) . "</a></td>
         <td>" . $ratio . "</td>
         <td>" . $last_seen . "</td>
         <td align='center' bgcolor='#FF0000'><input type='checkbox' name='userid[]' value='" . (int)$arr["id"] . "' /></td></tr>
@@ -151,7 +153,7 @@ if ($count_inactive > 0) {
     <td colspan='6' class='colhead' align='center'>
     <select name='action'>
     <option value='mail'>{$lang['inactive_sendmail']}</option>
-    <option value='deluser' " . ($CURUSER["class"] < UC_SYSOP ? "disabled" : "") . ">{$lang['inactive_deleteusers']}</option>
+    <option value='deluser' " . ($CURUSER["class"] < UC_ADMINISTRATOR ? "disabled" : "") . ">{$lang['inactive_deleteusers']}</option>
     <option value='disable'>{$lang['inactive_disaccounts']}</option>
     </select>&nbsp;&nbsp;<input type='submit' name='submit' value='{$lang['inactive_apchanges']}' />&nbsp;&nbsp;<input type='button' value='Check all' onclick='this.value=check(form)' /></td></tr>";
     if ($record_mail) {
@@ -160,6 +162,7 @@ if ($count_inactive > 0) {
         if ($date["last_mail"] > 0) $HTMLOUT.= "<tr><td colspan='6' class='colhead' align='center' style='color:red;'>{$lang['inactive_lastmail']} <a href='{$INSTALLER09['baseurl']}/userdetails.php?id=" . htmlsafechars($date["userid"]) . "'>" . htmlsafechars($date["username"]) . "</a> {$lang['inactive_on']} <b>" . get_date($date["last_mail"], 'DATE') . " -  " . $date["mails"] . "</b>{$lang['inactive_email']} " . ($date["mails"] > 1 ? "s" : "") . "  {$lang['inactive_sent']}</td></tr>";
     }
     $HTMLOUT.= "</table></form>";
+	$HTMLOUT.= "</div></div>";
 } else {
     $HTMLOUT.= "<h2>{$lang['inactive_noaccounts']} " . $days . " {$lang['inactive_days']}</h2>";
 }
