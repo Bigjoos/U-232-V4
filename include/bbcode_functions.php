@@ -189,7 +189,7 @@ function _strlastpos($haystack, $needle, $offset = 0)
     return ($endPos >= 0) ? $endPos : false;
 }
 function validate_imgs($s){
-    $start = "http://";
+    $start = "(http|https)://";
     $end = "+\.(?:jpe?g|png|gif)";
     preg_match_all("!" . $start . "(.*)" . $end . "!Ui", $s, $result);
     $array = $result[0];
@@ -271,8 +271,7 @@ function islocal($link)
         $l[1] = substr($title, strlen($title) - round($limit / 3));
         $lshort = $l[0] . "..." . $l[1];
     } else $lshort = $title;
-    return "&nbsp;<a href=\"" . ((stristr($url, $INSTALLER09['url']) !== false) ? "" : "http://www.redirect.am/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
-    //return "&nbsp;<a href=\"".((stristr($url, $INSTALLER09['url']) !== false) ? "" : "http://anonym.to?").$url."\" target=\"_blank\">".$lshort."</a>";
+    return "&nbsp;<a href=\"" . ((stristr($url, $INSTALLER09['url']) !== false) ? "" : "http://nullrefer.com/?") . $url . "\" target=\"_blank\">" . $lshort . "</a>";
 }
 function format_urls($s)
 {
@@ -285,8 +284,10 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     unset($text);
     $s = validate_imgs($s);
     $INSTALLER09['url'] = str_replace(array('http://', 'www', 'http://www', 'https://', 'https://www'), '', $INSTALLER09['baseurl']);
-    if(isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) $s = preg_replace('/http:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'https://$1', $s);
-    else $s = preg_replace('/https:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'http://$1', $s);
+    if(isset($_SERVER['HTTPS']) && (bool)$_SERVER['HTTPS'] == true) 
+    $s = preg_replace('/http:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'https://$1', $s);
+    else 
+    $s = preg_replace('/https:\/\/((?:www\.)?'.$INSTALLER09['url'].')/i', 'http://$1', $s);
     // This fixes the extraneous ;) smilies problem. When there was an html escaped
     // char before a closing bracket - like >), "), ... - this would be encoded
     // to &xxx;), hence all the extra smilies. I created a new :wink: label, removed
@@ -389,7 +390,10 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     if (stripos($s, '[mcom]') !== false) $s = preg_replace("/\[mcom\](.+?)\[\/mcom\]/is", "<div style=\"font-size: 18pt; line-height: 50%;\">
    <div style=\"border-color: red; background-color: red; color: white; text-align: center; font-weight: bold; font-size: large;\"><b>\\1</b></div></div>", $s);
     // the [you] tag
-    if (stripos($s, '[you]') !== false) $s = preg_replace("/\[you\]/i", $CURUSER['username'], $s);
+    if (stripos($s, '[you]') !== false) {
+    $s = preg_replace("/https?:\/\/[^\s'\"<>]*\[you\][^\s'\"<>]*/i", " ", $s);
+    $s = preg_replace("/\[you\]/i", $CURUSER['username'], $s);
+    }
     // [php]code[/php]
     if (stripos($s, '[php]') !== false) $s = preg_replace("#\[(php|sql|html)\](.+?)\[\/\\1\]#ise", "source_highlighter('\\2','\\1')", $s);
     // Maintain spacing
@@ -436,7 +440,6 @@ function format_comment_no_bbcode($text, $strip_html = true)
         '/\[s\]\s*((\s|.)+?)\s*\[\/s\]/i',
         '/\[pre\]\s*((\s|.)+?)\s*\[\/pre\]/i',
         '/\[marquee\](.*?)\[\/marquee\]/i',
-        '/\[url\="?(.*?)"?\]\s*((\s|.)+?)\s*\[\/url\]/i',
         '/\[url\]\s*((\s|.)+?)\s*\[\/url\]/i',
         '/\[collapse=(.*?)\]\s*((\s|.)+?)\s*\[\/collapse\]/i',
         '/\[size=([1-7])\]\s*((\s|.)+?)\s*\[\/size\]/i',
@@ -456,7 +459,6 @@ function format_comment_no_bbcode($text, $strip_html = true)
     );
     // And replace them by...
     $bb_code_out = array(
-        '\1',
         '\1',
         '\1',
         '\1',
