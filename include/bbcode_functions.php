@@ -400,17 +400,13 @@ function format_comment($text, $strip_html = true, $urls = true, $images = true)
     $s = str_replace('  ', ' &nbsp;', $s);
     if (isset($smilies)) foreach ($smilies as $code => $url) {
         $s = str_replace($code, "<img border='0' src=\"{$INSTALLER09['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
-        //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
-        
     }
     if (isset($staff_smilies)) foreach ($staff_smilies as $code => $url) {
         $s = str_replace($code, "<img border='0' src=\"{$INSTALLER09['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
-        //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
         
     }
     if (isset($customsmilies)) foreach ($customsmilies as $code => $url) {
         $s = str_replace($code, "<img border='0' src=\"{$INSTALLER09['pic_base_url']}smilies/{$url}\" alt=\"\" />", $s);
-        //$s = str_replace($code, '<span id="'.$attr.'"></span>', $s);
         
     }
     $s = format_quotes($s);
@@ -440,7 +436,6 @@ function format_comment_no_bbcode($text, $strip_html = true)
         '/\[s\]\s*((\s|.)+?)\s*\[\/s\]/i',
         '/\[pre\]\s*((\s|.)+?)\s*\[\/pre\]/i',
         '/\[marquee\](.*?)\[\/marquee\]/i',
-        '/\[url\]\s*((\s|.)+?)\s*\[\/url\]/i',
         '/\[collapse=(.*?)\]\s*((\s|.)+?)\s*\[\/collapse\]/i',
         '/\[size=([1-7])\]\s*((\s|.)+?)\s*\[\/size\]/i',
         '/\[color=([a-zA-Z]+)\]\s*((\s|.)+?)\s*\[\/color\]/i',
@@ -459,7 +454,6 @@ function format_comment_no_bbcode($text, $strip_html = true)
     );
     // And replace them by...
     $bb_code_out = array(
-        '\1',
         '\1',
         '\1',
         '\1',
