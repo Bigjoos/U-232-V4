@@ -42,7 +42,8 @@ $stdhead = array(
         'forums',
         'style',
         'style2',
-        'jquery.lightbox-0.5'
+        'jquery.lightbox-0.5',
+        'bbcode'
     )
 );
 $stdfoot = array(
